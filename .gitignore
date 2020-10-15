@@ -17,3 +17,6 @@ mvnw*
 *.iml
 .factorypath
 .project
+
+database.properties
+jwt.properties
