@@ -1,0 +1,1 @@
+export const forgetPwdUrl = `https://localhost:3000`;
