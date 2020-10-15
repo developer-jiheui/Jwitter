@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -14,12 +15,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public final class JwtProvider {
+public final class JwtProvider implements JwtGenerator {
 
-    @Value("${bezkoder.app.jwtSecret}")
     private final String jwtSecret;
 
-    @Value("${bezkoder.app.jwtExpirationSec}")
     private final int jwtExpirationSec;
 
     public JwtProvider(
@@ -30,6 +29,16 @@ public final class JwtProvider {
         this.jwtExpirationSec = jwtExpirationSec;
     }
 
+    public String getJwt(final HttpServletRequest request) {
+        var authHeader = request.getHeader("Authorization");
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.replace("Bearer ", "");
+        }
+        return null;
+    }
+
+    @Override
     public String generateJwtToken(final Authentication authentication) {
 
         var userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
