@@ -26,10 +26,10 @@ public class AuthService {
     }
 
     @Transactional
-    public void signUp(final SignUpDto signInDto) {
-        this.repository.save(new User(
-            signInDto,
-            this.encoder.encode(signInDto.getPassword())
+    public User signUp(final SignUpDto signUpDto) {
+        return this.repository.save(new User(
+            signUpDto,
+            this.encoder.encode(signUpDto.getPassword())
         ));
     }
 }
