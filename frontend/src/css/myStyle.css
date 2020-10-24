@@ -1,0 +1,213 @@
+.sidebarOption{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  .sidebarOption:hover {
+    background-color: #e8f5fe;
+    border-radius: 30px;
+    color: var(--twitter-color);
+    /* transition: color 100ms ease-out; */
+  }
+  
+  .sidebarOption > .MuiSvgIcon-root {
+    padding: 20px;
+  }
+  
+  .sidebarOption > h2 {
+    font-weight: 800;
+    font-size: 20px;
+    margin-right: 20px;
+  }
+  
+  .sidebarOption--active {
+    color: var(--twitter-color);
+  }
+  
+  .tweet_btn {
+    background-color: var(--twitter-color) !important;   /* overwrite material-ui */
+    border: none !important;
+    color: white !important;
+    font-weight: 900 !important;
+    text-transform: inherit !important;/* Inherits this property from its parent element.*/
+    border-radius: 30px !important;
+    height: 50px !important;
+    margin-top: 20px !important;
+  }
+  .sidebar{
+    border-right: 1px solid var(--twitter-border);
+    margin-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    flex: 0.3;
+  }
+  .logo{
+      color: var(--twitter-color)!important; 
+      padding-left: 20px;
+      font-size: 30px !important;
+  }
+
+  .main{
+    flex:0.4;
+    border-right: 1px solid var(--twitter-border);
+    min-width: fit-content;
+    overflow-y: scroll;
+  }
+  .main_header{
+      position: sticky;
+      top: 0;
+      padding: 15px 20px;
+      z-index: 100;
+      border: 1px solid var(--twitter-border);
+      background-color:white;
+  }
+  .main_header > h1 {
+    font-size: 20px;
+    font-weight: 800;
+  }
+  .main::-webkit-scrollbar {
+    display: none;
+  }
+  .tweet {
+    padding-bottom: 10px;
+    border-bottom: 8px solid var(--twitter-border);
+    padding-right: 10px;
+  }
+  .tweet>form {
+      display: flex;
+      flex-direction: column;
+  }
+  .tweetInput{
+    display: flex;
+    padding: 20px;
+  }
+
+  .tweetInput > input {
+    flex: 1;
+    margin-left: 20px;
+    font-size: 20px;
+    border: none;
+    color: bisque;
+  }
+  .tweet_btn_box{
+    margin-left: auto !important;
+    width: 80px;
+    height: 40px !important;
+    margin-top: 20px !important;
+  }
+  .post {
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--twitter-background);
+    padding-bottom: 10px;
+  }
+  
+  .post_body {
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .post_body > img {
+    border-radius: 20px;
+  }
+  
+  .post_footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .post_headerDescription {
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  
+  .post_headerText > h3 {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  
+  .post_badge {
+    font-size: 14px !important;
+    color: var(--twitter-color);
+  }
+  
+  .post_headerSpecial {
+    font-weight: 600;
+    font-size: 12px;
+    color: gray;
+  }
+  
+  .post_avatar {
+    padding: 10px 20px;
+  }
+  .embed{
+    flex: 0.3;
+  }
+  .embed_input{
+    display: flex;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: var(--twitter-border);
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+  .embed_input >input{
+    border:none;
+    padding: 5px;
+    background-color: var(--twitter-background);
+  }
+
+  .embed_search {
+    color: gray;
+  }
+  
+  .embedContainer {
+    margin-top: 15px;
+    margin-left: 20px;
+    padding: 20px;
+    background-color: #f5f8fa;
+    border-radius: 20px;
+  }
+  
+  .embedContainer > h2 {
+    font-size: 18px;
+    font-weight: 800;
+  }
+  .container{
+    width: 100%;
+    display: flex;
+    max-width: 100vw;
+    background-color:var(--twitter-color);
+  }
+  .login{
+    background-color:var(--twitter-color);
+    width: 100vw;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .login_input > input {
+    margin:15px auto;
+    border: 3 solid red;
+    width: 400px;
+    height: 30px;
+  }
+
+.login_input>button{
+  width: 400px;
+  margin:15px auto;
+}
+.paper{
+  margin: auto;
+  width: 700px;
+}
+.login_sign, .login_input{
+  flex-direction: column;
+  display: flex;
+  margin:10px 60px;
+  padding: 30px 0px;
+  align-items: center;
+  justify-content: center;
+}
