@@ -9,6 +9,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Repository to work with credentials.
+ */
 @Repository
 public class CredentialsRepository {
 

@@ -4,6 +4,9 @@ import com.jwt.jwitter.web.dto.in.SignUpDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * Db user.
+ */
 @Data
 @AllArgsConstructor
 public final class User {

@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * Check jwt token during request.
+ */
 @AllArgsConstructor
 @Slf4j
 public final class AuthFilter extends OncePerRequestFilter {

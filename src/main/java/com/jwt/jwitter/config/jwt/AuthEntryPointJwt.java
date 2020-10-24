@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+/**
+ * Log auth error.
+ */
 @Slf4j
 public final class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
