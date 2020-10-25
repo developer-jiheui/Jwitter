@@ -31,8 +31,16 @@ function SignupModal(props) {
       birthday: user.birth,
       password: user.password
     }).then(res => {
-      alert("User was created");
-    }).catch(r=>{
+      //create an image
+      let createdUser = JSON.parse(JSON.stringify(res.data))
+      console.log(createdUser)
+      let fd = new FormData();
+      fd.append('file', user.avatar);
+      return axios.post('/api/avatars/upload/'+createdUser.id, fd)
+    }).then(resp => {
+        alert("User was created");
+    }).catch(r => {
+      console.log(r)
       alert(JSON.stringify(r.response.data));
     });
     /* axios.post('/sign-up', {

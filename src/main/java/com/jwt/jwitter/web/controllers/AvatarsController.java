@@ -8,16 +8,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController("/api/avatars")
+@RestController
+@RequestMapping("/api/avatars")
 public class AvatarsController {
 
     @Autowired
     private AvatarsService avatarsService;
 
+    /**
+     * Update avatar for user.
+     * @param file Avatar
+     * @param userId User id
+     * @return Response
+     */
     @PostMapping("/upload/{id}")
     public ResponseEntity<?> upload(
         @RequestParam("file") final MultipartFile file,

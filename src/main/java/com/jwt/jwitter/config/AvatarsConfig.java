@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class AvatarsConfig {
 
-    private final String host;
+    private String host;
 
-    private final int port;
+    private int port;
 
     @Bean
     public FileSource fileSource() throws IOException {
