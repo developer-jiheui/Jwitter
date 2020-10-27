@@ -1,6 +1,8 @@
 import React from 'react'
 import Tweet from '../middle/Tweet'
 import Post from '../middle/Post'
+import axios from 'axios';
+
 function Profile() {
     return (
         <div className="profile">

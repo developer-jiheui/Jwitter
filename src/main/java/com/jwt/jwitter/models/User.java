@@ -23,6 +23,13 @@ public final class User {
 
     private final String avatar;
 
+    private final String bio;
+
+    private final String location;
+
+    private final String website;
+
+
     public User(final SignUpDto signUpDto, final String encodedPassword) {
         this.id = -1;
         this.email = signUpDto.getEmail();
@@ -30,6 +37,10 @@ public final class User {
         this.username = signUpDto.getUsername();
         this.birthday = signUpDto.getBirthday();
         this.avatar = null;
+        this.bio = null;
+        this.location = null;
+        this.website = null;
+
     }
 
 }
