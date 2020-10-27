@@ -30,13 +30,6 @@ function SignupModal(props) {
       username: user.name,
       birthday: user.birth,
       password: user.password
-    }).then(res => {
-      //create an image
-      let createdUser = JSON.parse(JSON.stringify(res.data))
-      console.log(createdUser)
-      let fd = new FormData();
-      fd.append('file', user.avatar);
-      return axios.post('/api/avatars/upload/'+createdUser.id, fd)
     }).then(resp => {
         alert("User was created");
     }).catch(r => {

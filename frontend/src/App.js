@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import Login from './components/user/Login'
 import Sidebar from './components/left/Sidebar'
 import Main from './components/middle/Main'
+import Profile from './components/middle/Profile'
 import Embed from './components/right/Embed'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
@@ -54,7 +55,9 @@ function App() {
             <Login />
           </Route>
           <Route path="/profile">
-          <Login />
+            <Sidebar/>
+            <Profile/>
+            <Embed/>
           </Route>
           <Route path="/">
             <Login />
