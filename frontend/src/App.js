@@ -2,10 +2,12 @@ import React, {useEffect} from 'react';
 import Login from './components/user/Login'
 import Sidebar from './components/left/Sidebar'
 import Main from './components/middle/Main'
+import Profile from './components/middle/Profile'
 import Embed from './components/right/Embed'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 import { useStateValue } from "./utils/StateProvider";
+import SidebarOption from "./components/left/SidebarOption";
 
 
 function App() {
@@ -46,7 +48,7 @@ function App() {
       <div className="app">
         <Switch>
           <Route path="/home">
-          <Sidebar/>
+          <Sidebar activeOne="Home"/>
           <Main/>
           <Embed/>
           </Route>
@@ -54,7 +56,9 @@ function App() {
             <Login />
           </Route>
           <Route path="/profile">
-          <Login />
+            <Sidebar activeOne="Profile"/>
+            <Profile/>
+            <Embed/>
           </Route>
           <Route path="/">
             <Login />
