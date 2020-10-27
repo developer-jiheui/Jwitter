@@ -18,9 +18,12 @@ public class CredentialsRepository {
     @Autowired
     private JdbcTemplate template;
 
+    @Autowired
+    private UserMapper mapper;
+
     @Transactional(readOnly = true)
     public Optional<User> loadByEmail(final String email) {
-        final List<User> users = this.template.query("SELECT * from users where email = ? LIMIT 1", new Object[]{email}, new UserMapper());
+        final List<User> users = this.template.query("SELECT * from users where email = ? LIMIT 1", new Object[]{email}, this.mapper);
         return Optional.ofNullable(users.isEmpty() ? null : users.get(0));
     }
 }
