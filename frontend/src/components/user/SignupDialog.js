@@ -152,4 +152,3 @@ function SignupModal(props) {
   );
 }
 
-export default SignupModal
