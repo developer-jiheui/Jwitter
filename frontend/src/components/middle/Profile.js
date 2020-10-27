@@ -1,15 +1,14 @@
 import React from 'react'
 import Tweet from '../middle/Tweet'
 import Post from '../middle/Post'
+import ProfileTabs from "./ProfileTabs";
 
 import axios from 'axios';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import CalendarIcon from '@material-ui/icons/DateRange';
 import BdayIcon from '@material-ui/icons/CakeOutlined';
 
-
 import {Button} from "@material-ui/core";
-
 
 function Profile() {
     return (
@@ -49,21 +48,7 @@ function Profile() {
                     </span>
                 </div>
             </div>
-            <div className ="tweetType">
-                <span className="tweetTypeAlignment">Tweet</span>
-                <span className="tweetTypeAlignment">Tweets& replies</span>
-                <span className="tweetTypeAlignment">Media</span>
-                <span className="tweetTypeAlignment">Likes</span>
-
-            </div>
-            <div className="endOfProfileSubheader">
-            </div>
-            <div>
-                <Post/>
-                <Post/>
-                <Post/>
-                <Post/>
-            </div>
+            <ProfileTabs />
         </div>
     )
 }

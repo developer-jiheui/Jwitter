@@ -44,16 +44,15 @@
   .profileSubheader{
     margin-bottom: 0.3em;
   }
-  .endOfProfileSubheader{
-    margin-top: 1.5rem;
-    border-radius: 6px;
-    border: solid 1px rgb(225, 232, 237);
-    color: rgb(41, 47, 51);
-    display: block;
-    margin-bottom: 10px;
-    line-height: 16px;
-
-  }
+  /*.endOfProfileSubheader{*/
+  /*  margin-top: 1.5rem;*/
+  /*  border-radius: 6px;*/
+  /*  border: solid 1px rgb(225, 232, 237);*/
+  /*  color: rgb(41, 47, 51);*/
+  /*  display: block;*/
+  /*  margin-bottom: 10px;*/
+  /*  line-height: 16px;*/
+  /*}*/
   .profile-image{
     border-radius: 50%;
     background-color: black;
@@ -83,6 +82,7 @@
     height: 50px !important;
     margin-top: 20px !important;
   }
+
   .sidebar{
     border-right: 1px solid var(--twitter-border);
     margin-top: 20px;
@@ -188,6 +188,35 @@
     color: grey;
     font-size: 1.1rem;
     display: inline;
+  }
+
+  .user-profile-tabs {
+    flex-direction: row !important;
+    background: none !important;
+    box-shadow: none !important;
+    border-bottom: solid 1px rgb(225, 232, 237);
+    margin-bottom:5px;
+  }
+
+  .user-profile-tabs button {
+    font-weight: bold;
+  }
+
+  .user-profile-tabs button:hover {
+    cursor: pointer;
+    background-color: #e8f5fe;
+    color: var(--twitter-color);
+    border-bottom: solid 2px var(--twitter-color);
+  }
+
+    /*Overide default Material Ui color*/
+  .user-profile-tabs .MuiTab-textColorPrimary.Mui-selected {
+    color: var(--twitter-color);
+  }
+
+  /*Overide default Material Ui color*/
+  .user-profile-tabs .PrivateTabIndicator-colorPrimary-2 {
+    background-color: var(--twitter-color);
   }
 
   .logo{
