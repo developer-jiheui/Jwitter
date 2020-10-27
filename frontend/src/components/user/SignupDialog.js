@@ -25,24 +25,28 @@ function SignupModal(props) {
     onClose(open);
   };
   const submit = () => {
-    axios.post('/api/auth/sign-up', {
-      email: user.email,
-      username: user.name,
-      birthday: user.birth,
-      password: user.password
-    }).then(res => {
-      //create an image
-      let createdUser = JSON.parse(JSON.stringify(res.data))
-      console.log(createdUser)
-      let fd = new FormData();
-      fd.append('file', user.avatar);
-      return axios.post('/api/avatars/upload/'+createdUser.id, fd)
-    }).then(resp => {
+    if (user.avatar === null) {
+      alert("Uploda avatar");
+    } else {
+      axios.post('/api/auth/sign-up', {
+        email: user.email,
+        username: user.name,
+        birthday: user.birth,
+        password: user.password
+      }).then(res => {
+        //create an image
+        let createdUser = JSON.parse(JSON.stringify(res.data))
+        console.log(createdUser)
+        let fd = new FormData();
+        fd.append('file', user.avatar);
+        return axios.post('/api/avatars/upload/' + createdUser.id, fd)
+      }).then(resp => {
         alert("User was created");
-    }).catch(r => {
-      console.log(r)
-      alert(JSON.stringify(r.response.data));
-    });
+      }).catch(r => {
+        console.log(r)
+        alert(JSON.stringify(r.response.data));
+      });
+    }
     /* axios.post('/sign-up', {
       email: user.email,
       username: user.name,
