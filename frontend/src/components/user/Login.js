@@ -1,13 +1,15 @@
 
 import React, {useState} from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import SignupDialog from "../user/SignupDialog"
 import { useStateValue } from "../../utils/StateProvider";
 import axios from 'axios';
 function Login() {
+  
   const history = useHistory();
+  
   const [user, setUser] = useState({
       account:null,
       password:null
@@ -23,6 +25,7 @@ function Login() {
     }).then((resp)=>{
       console.log(resp.data);
       localStorage.setItem('jwt',resp.data);
+      history.push("/home")
       //todo go to home page
     }).catch(r=>{
       console.log(r);
