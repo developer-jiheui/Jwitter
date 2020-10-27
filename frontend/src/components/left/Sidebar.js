@@ -11,18 +11,18 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { Button } from "@material-ui/core";
 
-function Sidebar() {
+function Sidebar({activeOne}) {
     return (
         <div className="sidebar">
             <TwitterIcon className="logo"/>
-            <SidebarOption active text="Home" Icon={HomeIcon}/>
-            <SidebarOption text="Explore" Icon={SearchIcon}/>
-            <SidebarOption text="Notifications" Icon={NotificationsIcon}/>
-            <SidebarOption text="Messages" Icon={MailOutlineIcon}/>
-            <SidebarOption text="Bookmarks" Icon={BookmarkIcon}/>
-            <SidebarOption text="Lists" Icon={ListAltIcon}/>
-            <SidebarOption text="Profile" Icon={PermIdentityIcon}/>
-            <SidebarOption text="More" Icon={MoreHorizIcon}/>
+            <SidebarOption active ={activeOne=="Home"} text="Home" Icon={HomeIcon}/>
+            <SidebarOption active ={activeOne=="Explore"} text="Explore" Icon={SearchIcon}/>
+            <SidebarOption active ={activeOne=="Notifications"} text="Notifications" Icon={NotificationsIcon}/>
+            <SidebarOption active ={activeOne=="Messages"} text="Messages" Icon={MailOutlineIcon}/>
+            <SidebarOption active ={activeOne=="Bookmarks"} text="Bookmarks" Icon={BookmarkIcon}/>
+            <SidebarOption active ={activeOne=="Lists"} text="Lists" Icon={ListAltIcon}/>
+            <SidebarOption active ={activeOne=="Profile"} text="Profile" Icon={PermIdentityIcon}/>
+            <SidebarOption active ={activeOne=="More"} text="More" Icon={MoreHorizIcon}/>
             <Button variant="outlined" className="tweet_btn" fullWidth>Tweet</Button>
         </div>
     )
