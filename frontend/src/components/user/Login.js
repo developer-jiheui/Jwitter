@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-import SignupDialog from "../user/SignupDialog"
+import SignupDialog from "../user/SignupDialog";
 import { useStateValue } from "../../utils/StateProvider";
 import axios from 'axios';
 function Login() {
@@ -31,16 +31,6 @@ function Login() {
       console.log(r);
       alert("Bad credentials");
     });
-        //write ur fetch function in service.js
-    // userlogin(account,password)
-    // .then(auth =>{
-    //   if(auth.success){
-    //     history.push("/home");
-    //   }else {
-        
-    //   }
-    // })
-    // .catch(error => alert(error.message))
   }
   const handleClose=()=>{
     console.log(signDialog)
