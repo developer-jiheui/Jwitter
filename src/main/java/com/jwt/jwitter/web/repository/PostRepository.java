@@ -26,7 +26,6 @@ public class PostRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private PostMapper postMapper;
 
     public void updatePhoto(final int postId, final String fileId) {
         this.jdbcTemplate.update("UPDATE tweet set photo=? where id=?", fileId, postId);
@@ -41,10 +40,10 @@ public class PostRepository {
         });
         return post;
     }
-    
+
     public List<Post> get(final int user_id) {
         return this.jdbcTemplate.query(
-                "select * from tweet where user_id ="+user_id,
+                "select * from tweet where user_id =" + user_id,
                 new PostMapper());
     }
 }

@@ -40,7 +40,6 @@ public final class User {
         this.bio = null;
         this.location = null;
         this.website = null;
-
     }
 
 }

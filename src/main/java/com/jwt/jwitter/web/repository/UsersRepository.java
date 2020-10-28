@@ -1,14 +1,15 @@
 package com.jwt.jwitter.web.repository;
 
-import com.jwt.jwitter.models.User;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import com.jwt.jwitter.models.User;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 
 @Repository
 public class UsersRepository {
