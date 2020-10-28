@@ -56,7 +56,7 @@ function App() {
             <Login />
           </Route>
           <Route path="/profile">
-            <Sidebar activeOne="Profile"/>
+            <Sidebar/>
             <Profile/>
             <Embed/>
           </Route>

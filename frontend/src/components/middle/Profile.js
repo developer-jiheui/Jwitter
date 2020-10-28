@@ -13,7 +13,7 @@ import {Button} from "@material-ui/core";
 
 function Profile() {
     return (
-        <div className="profile">
+        <div className="main">
             <div className="profile_header">
                 <BackIcon className="backArrow"/>
                 <span className="userName">userName</span>
