@@ -4,7 +4,7 @@
     cursor: pointer;
   }
   .sidebarOption:hover {
-    background-color: #e8f5fe;
+    background-color: var(--twitter-color-lighter);
     border-radius: 30px;
     color: var(--twitter-color);
     /* transition: color 100ms ease-out; */
@@ -33,34 +33,43 @@
     margin-left: 20px;
   }
   .cover-photo{
-    background: #e6ecf0;
+    background: #c4c5c5;
     height: 250px;
     width: 100%;
-    display: block;
-    }
+    display: flex;
+  }
+
   .profile_header{
     margin-bottom: 5px;
   }
   .profileSubheader{
     margin-bottom: 0.3em;
   }
-  /*.endOfProfileSubheader{*/
-  /*  margin-top: 1.5rem;*/
-  /*  border-radius: 6px;*/
-  /*  border: solid 1px rgb(225, 232, 237);*/
-  /*  color: rgb(41, 47, 51);*/
-  /*  display: block;*/
-  /*  margin-bottom: 10px;*/
-  /*  line-height: 16px;*/
-  /*}*/
+
   .profile-image{
     border-radius: 50%;
-    background-color: black;
-    width:120px;
-    height:120px;
-    margin-top: -100px;
+    background: black;
+    width: 120px;
+    height: 120px;
+    margin-top: -74px;
     margin-left: 20px;
+    border: 6px solid white;
+    display: flex;
   }
+
+  .edit-photo-button {
+    color: white;
+    margin: auto;
+    display: block;
+    padding: 5px;
+    border-radius: 50%;
+  }
+
+  .edit-photo-button:hover {
+    cursor: pointer;
+    background-color: #c9cdd0;
+  }
+
   .edit_btn {
     background-color:  none !important;
     border: 2px solid var(--twitter-color) !important;
@@ -70,6 +79,10 @@
     border-radius: 30px !important;
     margin-top: -30px !important;
     float: right;
+  }
+
+  .edit_btn.MuiButton-root:hover {
+      background-color: var(twitter-color-lighter);
   }
 
   .tweet_btn {
@@ -98,10 +111,6 @@
     font-size: 25px;
     float: left;
     margin-right: 20px;
-  }
-  .cover-photo {
-    margin-bottom: 1rem;
-    cursor: pointer;
   }
 
   .userName{
@@ -204,7 +213,7 @@
 
   .user-profile-tabs button:hover {
     cursor: pointer;
-    background-color: #e8f5fe;
+    background-color: var(--twitter-color-lighter);
     color: var(--twitter-color);
     border-bottom: solid 2px var(--twitter-color);
   }
@@ -218,6 +227,76 @@
   .user-profile-tabs .PrivateTabIndicator-colorPrimary-2 {
     background-color: var(--twitter-color);
   }
+
+/*** PROFILE EDIT ***/
+#edit-profile-dialog-header{
+  padding:10px;
+}
+
+#edit-profile-dialog-content {
+  padding: 2px;
+  min-width: 500px;
+}
+
+.close-profile-dialog {
+  color: var(--twitter-color)!important;
+  position: relative;
+  top: 5px;
+  margin-right: 30px;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.close-profile-dialog:hover {
+  cursor: pointer;
+  background-color: var(--twitter-color-lighter);
+}
+
+.edit-profile-title {
+  font-size: large;
+  font-weight: bolder;
+  position:relative;
+  bottom: 6px;
+}
+
+.save-profile-button {
+  float: right;
+  background-color: var(--twitter-color) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: bolder !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  margin-top: 3px !important;
+}
+
+.save-profile-button:hover {
+  background-color: var(--twitter-color-darker) !important;
+}
+.input-form {
+  color: grey;
+  background-color: aliceblue;
+  margin-bottom: 40px;
+}
+.input-form label {
+  font-weight: bold;
+  margin-left: 5px;
+}
+.input-form .edit-profile-input {
+  color: grey;
+  padding: 5px 5px 0px 5px;
+}
+
+#editUserForm {
+  padding:20px;
+}
+
+
+
+.charcount-indicator {
+  float: right;
+}
+/*************/
 
   .logo{
       color: var(--twitter-color)!important; 
@@ -368,7 +447,7 @@
 
   .login_input > input {
     margin:15px auto;
-    border: 3 solid red;
+    border: 3px solid red;
     width: 400px;
     height: 30px;
   }
@@ -389,3 +468,5 @@
   align-items: center;
   justify-content: center;
 }
+
+

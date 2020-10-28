@@ -10,6 +10,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   --twitter-color: #50b7f5;
   --twitter-border: #e6ecf0;
+  --twitter-color-darker: #1B91DA;
+  --twitter-color-lighter: #e8f5fe;
 }
 
 code {
