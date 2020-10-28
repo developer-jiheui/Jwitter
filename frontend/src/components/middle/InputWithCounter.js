@@ -11,7 +11,7 @@ function InputWithCounter({name, inputType, placeHolder, maxChar, multiline, row
 
     return (
         <div>
-        <Input name="name"
+        <textarea name="name"
                type={inputType}
                placeholder={placeHolder}
                maxLength={maxChar}

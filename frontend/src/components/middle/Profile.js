@@ -134,7 +134,8 @@ function EditProfileDialogue(props) {
                         <InputWithCounter numChar="20"
                                           inputType="text"
                                           placeHolder="Add your name"
-                                          maxChar="50"/>
+                                          maxChar="50"
+                                          rows="1"/>
                     </div>
                     <div className="input-form">
                         <label for="bio">Bio</label>
@@ -150,14 +151,16 @@ function EditProfileDialogue(props) {
                         <InputWithCounter numChar="0"
                                           inputType="text"
                                           placeHolder="Add your location"
-                                          maxChar="30"/>
+                                          maxChar="30"
+                                          rows="1"/>
                     </div>
                     <div className="input-form">
                         <label for="website">Website</label>
                         <InputWithCounter numChar="0"
                                           inputType="text"
                                           placeHolder="Add your website"
-                                          maxChar="100"/>
+                                          maxChar="100"
+                                          rows="1"/>
                     </div>
                     <div className="input-form">
                         <label for="birthdate">Birth Date</label>

@@ -281,14 +281,25 @@
   color: grey;
   background-color: aliceblue;
   margin-bottom: 40px;
+  padding: 5px 5px 0px 5px;
+  border-bottom: 2px solid black;
 }
 .input-form label {
   font-weight: bold;
-  margin-left: 5px;
 }
 .input-form .edit-profile-input {
   color: grey;
-  padding: 5px 5px 0px 5px;
+  border: none;
+  background: transparent;
+  width: 100%;
+  padding: 10px 0px;
+  resize: none;
+  font-family: inherit;
+}
+
+.input-form .edit-profile-input:focus {
+  border: none;
+  outline: none;
 }
 
 #editUserForm {
@@ -299,6 +310,7 @@
 
 .charcount-indicator {
   float: right;
+  margin-top: 5px;
 }
 /*************/
 
