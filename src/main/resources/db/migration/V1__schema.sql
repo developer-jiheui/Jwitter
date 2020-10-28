@@ -7,12 +7,8 @@ CREATE table users
     password    varchar(255) not null,
     created_at  timestamptz  not null default now(),
     modified_at timestamptz  not null default now(),
-    avatar      varchar(255)          default null,
-    bio         varchar(255)          default null,
-    location    varchar(255)          default null,
-    website     varchar(255)          default null,
-
- );
+    avatar      varchar(255)          default null
+);
 
 create table tweet
 (
