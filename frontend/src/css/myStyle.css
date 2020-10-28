@@ -57,6 +57,10 @@
     display: flex;
   }
 
+  .hidden-input {
+    display:none;
+  }
+
   .edit-photo-button {
     color: white;
     margin: auto;

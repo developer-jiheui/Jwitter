@@ -15,6 +15,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import Input from '@material-ui/core/Input';
 import InputWithCounter from "./InputWithCounter";
+import Fab from "@material-ui/core/Fab";
 
 function Profile() {
     const [editProfileOpen, setEditProfileOpen] = React.useState(true);
@@ -104,10 +105,27 @@ function EditProfileDialogue(props) {
             <DialogContent id="edit-profile-dialog-content">
                 <div className ="profileSubheader">
                     <div className="cover-photo">
-                        <AddAPhotoIcon className="edit-photo-button" onClick={handleChangeCoverPhoto}/>
+                        <input
+                            accept="image/*"
+                            className="hidden-input"
+                            id="cover-photo-button-file"
+                            type="file"
+                            onChange={handleChangeCoverPhoto}
+                            />
+                        <label className="edit-photo-button" htmlFor="cover-photo-button-file">
+                            <AddAPhotoIcon />
+                        </label>
                     </div>
                     <div className="profile-image">
-                        <AddAPhotoIcon className="edit-photo-button" onClick={handleChangeProfilePhoto}/>
+                        <input
+                            accept="image/*"
+                            className="hidden-input"
+                            id="profile-photo-button-file"
+                            type="file"
+                            onClick={handleChangeProfilePhoto} />
+                        <label className="edit-photo-button" htmlFor="profile-photo-button-file">
+                                <AddAPhotoIcon  />
+                        </label>
                     </div>
                 </div>
                 <form action="/" method="" id="editUserForm">
