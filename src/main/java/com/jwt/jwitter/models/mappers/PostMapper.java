@@ -20,8 +20,11 @@ public final class PostMapper implements RowMapper<Post> {
     public Post mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         return new Post(
             rs.getInt("id"),
+            rs.getInt("user_id"),
             rs.getString("content"),
-            rs.getInt("user_id")
+            rs.getString("photo"),
+            rs.getInt("shares"),
+            rs.getInt("likes")
         );
     }
 }

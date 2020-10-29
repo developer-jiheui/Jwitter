@@ -1,12 +1,16 @@
 package com.jwt.jwitter.web.controllers;
 
+import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.dto.in.PostDto;
+import com.jwt.jwitter.web.service.AuthService;
 import com.jwt.jwitter.web.service.PostService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,10 +27,16 @@ public final class PostController {
 
     @Autowired
     private PostService postService;
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/tweet")
     public ResponseEntity<?> tweet(@RequestBody PostDto postDto) {
         try {
+            final UserDetails auth= (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            final String email=auth.getUsername();
+            User u =authService.getUserByEmail(email);
+            postDto.setUser_id(u.getId());
             return ResponseEntity.ok(this.postService.tweet(postDto));
         } catch (final Exception exc) {
             return ResponseEntity.badRequest().body(

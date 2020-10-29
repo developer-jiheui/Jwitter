@@ -32,4 +32,9 @@ public class AuthService {
             this.encoder.encode(signUpDto.getPassword())
         ));
     }
+
+    @Transactional
+    public User getUserByEmail(final String email) {
+        return this.repository.getUserByEmail(email);
+    }
 }

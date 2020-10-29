@@ -1,5 +1,6 @@
 package com.jwt.jwitter.web.controllers;
 
+import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.dto.in.SignInDto;
 import com.jwt.jwitter.web.dto.in.SignUpDto;
 import com.jwt.jwitter.web.service.AuthService;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +42,17 @@ public final class AuthController {
     public ResponseEntity<?> signIn(@RequestBody SignInDto signInDto) {
         try {
             return ResponseEntity.ok(this.authService.signIn(signInDto));
+        } catch (final AuthenticationException exc) {
+            return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @PostMapping("/userInfo")
+    public ResponseEntity<?> userInfo() {
+        try {
+            final UserDetails auth= (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            final String email=auth.getUsername();
+            return ResponseEntity.ok(this.authService.getUserByEmail(email));
         } catch (final AuthenticationException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
