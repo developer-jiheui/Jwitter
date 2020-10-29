@@ -4,6 +4,8 @@ import com.jwt.jwitter.models.User;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+
+import com.jwt.jwitter.models.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -36,5 +38,9 @@ public class UsersRepository {
         }, holder);
         user.setId(Integer.parseInt(holder.getKeys().get("id").toString()));
         return user;
+    }
+
+    public User getUser(String email) {
+        return this.jdbcTemplate.queryForObject("SELECT * from users where email='"+ email + "';", new UserMapper());
     }
 }
