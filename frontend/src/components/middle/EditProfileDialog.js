@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect, useHistory } from "react-router-dom";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -19,8 +18,6 @@ EditProfileDialogue.propTypes = {
 };
 
 function EditProfileDialogue(props) {
-    const history = useHistory();
-
     const {onClose, open, user} = props;
     const [updatedUser, setUpdatedUser ] = React.useState({
         username: user.username,
@@ -37,6 +34,8 @@ function EditProfileDialogue(props) {
     }
 
     function handleSaveProfile() {
+        let bday = new Date(updatedUser.birthday ? updatedUser.birthday : user.birthday);
+        bday.setDate(bday.getDate() + 1);
         axios({
             method: "put",
             url: '/api/auth/update-user',
@@ -46,7 +45,7 @@ function EditProfileDialogue(props) {
                 bio: updatedUser.bio ? updatedUser.bio : user.bio,
                 website: updatedUser.website ? updatedUser.website : user.website,
                 location: updatedUser.location ? updatedUser.location : user.location,
-                birthday: new Date(updatedUser.birthday ? updatedUser.birthday : user.birthday)
+                birthday: bday
             },
             headers: {
                     "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
