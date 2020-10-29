@@ -1,11 +1,9 @@
 import React from "react";
-import Input from "@material-ui/core/Input";
 
-function InputWithCounter({name, inputType, placeHolder, maxChar, multiline, rows}) {
-    const [ numChar, setNumChar ] = React.useState("0");
+function InputWithCounter({name, inputType, placeHolder, maxChar, multiline, rows, value}) {
+    const [ numChar, setNumChar ] = React.useState(value ? value.length : 0);
 
     function countChar(event){
-        console.log(event)
         setNumChar(event.target.value.length);
     }
 
@@ -15,13 +13,12 @@ function InputWithCounter({name, inputType, placeHolder, maxChar, multiline, row
                type={inputType}
                placeholder={placeHolder}
                maxLength={maxChar}
-               fullWidth
                className="edit-profile-input"
                onChange={countChar}
                multiline={multiline}
                rows={rows}
-        />
-        <span class="charcount-indicator">
+               defaultValue={value}/>
+        <span className="charcount-indicator">
            {numChar}/{maxChar}
         </span>
         </div>

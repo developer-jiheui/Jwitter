@@ -15,14 +15,14 @@ function Sidebar({activeOne}) {
     return (
         <div className="sidebar">
             <TwitterIcon className="logo"/>
-            <SidebarOption active ={activeOne=="Home"} text="Home" Icon={HomeIcon} href="/home"/>
-            <SidebarOption active ={activeOne=="Explore"} text="Explore" Icon={SearchIcon}/>
-            <SidebarOption active ={activeOne=="Notifications"} text="Notifications" Icon={NotificationsIcon}/>
-            <SidebarOption active ={activeOne=="Messages"} text="Messages" Icon={MailOutlineIcon}/>
-            <SidebarOption active ={activeOne=="Bookmarks"} text="Bookmarks" Icon={BookmarkIcon}/>
-            <SidebarOption active ={activeOne=="Lists"} text="Lists" Icon={ListAltIcon}/>
-            <SidebarOption active ={activeOne=="Profile"} text="Profile" Icon={PermIdentityIcon} href="/profile"/>
-            <SidebarOption active ={activeOne=="More"} text="More" Icon={MoreHorizIcon}/>
+            <SidebarOption active ={activeOne==="Home"} text="Home" Icon={HomeIcon} href="/home"/>
+            <SidebarOption active ={activeOne==="Explore"} text="Explore" Icon={SearchIcon}/>
+            <SidebarOption active ={activeOne==="Notifications"} text="Notifications" Icon={NotificationsIcon}/>
+            <SidebarOption active ={activeOne==="Messages"} text="Messages" Icon={MailOutlineIcon}/>
+            <SidebarOption active ={activeOne==="Bookmarks"} text="Bookmarks" Icon={BookmarkIcon}/>
+            <SidebarOption active ={activeOne==="Lists"} text="Lists" Icon={ListAltIcon}/>
+            <SidebarOption active ={activeOne==="Profile"} text="Profile" Icon={PermIdentityIcon} href="/profile"/>
+            <SidebarOption active ={activeOne==="More"} text="More" Icon={MoreHorizIcon}/>
             <Button variant="outlined" className="tweet_btn" fullWidth>Tweet</Button>
         </div>
     )

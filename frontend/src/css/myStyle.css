@@ -37,6 +37,9 @@
     height: 250px;
     width: 100%;
     display: flex;
+    position:relative;
+    z-index: 1;
+    background-size: cover;
   }
 
   .profile_header{
@@ -55,6 +58,9 @@
     margin-left: 20px;
     border: 6px solid white;
     display: flex;
+    background-size: cover;
+    position: relative;
+    z-index: 2;
   }
 
   .hidden-input {
