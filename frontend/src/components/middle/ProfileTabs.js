@@ -1,7 +1,6 @@
 import React from 'react'
-import {AppBar, Tab, Tabs} from "@material-ui/core";
+import { Tab, Tabs} from "@material-ui/core";
 import Post from "./Post";
-import Tweet from "./Tweet";
 
 function ProfileTabs(props) {
     const [value, setValue] = React.useState(0);

@@ -11,12 +11,12 @@ import axios from 'axios';
 import EditProfileDialogue from "./EditProfileDialog";
 
 function Profile(props) {
-    const currUser = async () => {
-        axios.get('/api/auth/profile', {
-            headers: { 'content-type': 'application/x-www-form-urlencoded',
+    let currUser = async () => {
+        axios.get('/api/auth/get-profile', {
+            headers: {
                 "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
         }).then((resp) => {
-            console.log(resp);
+            console.log("GET USER PROFILE ",resp.data);
             setUser(resp.data);
         }).catch(error => {
             console.log(error);
@@ -30,9 +30,20 @@ function Profile(props) {
         setEditProfileOpen(true);
     }
 
-    const handleClose = (value) => {
+    const onClose = (hasChanged) => {
         setEditProfileOpen(false);
-    };
+        if(hasChanged) {
+            axios.get('/api/auth/get-profile', {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
+            }).then((resp) => {
+                console.log("GET USER PROFILE ",resp.data);
+                setUser(resp.data);
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+    }
 
     const userAvatarURLCSS = {backgroundImage: "url('" + user.avatar + "')"};
 
@@ -44,7 +55,7 @@ function Profile(props) {
                 <span className="numOfTweets">{Math.floor(Math.random() * 9999)} Tweets</span>
             </div>
             <div className ="profileSubheader">
-                <img alt="cover photo" className="cover-photo" src={user.avatar}/>
+                <img alt="cover" className="cover-photo" src={user.avatar}/>
                 <div className="profile-image" style={userAvatarURLCSS}/>
                 <Button className="edit_btn" onClick={handleClickOpen}>Edit Profile</Button>
             </div>
@@ -54,12 +65,12 @@ function Profile(props) {
                 <div className ="bio">{user.bio}</div>
                 <div className ="profileInfoSection">
                     <span className="userProfileInfo">
-                        <BdayIcon></BdayIcon>
+                        <BdayIcon/>
                         Born {user.birthday}
                     </span>
                     <span className="userProfileInfo">
-                        <CalendarIcon className="iconAlignment"></CalendarIcon>
-                        Joined 2019-05-22
+                        <CalendarIcon className="iconAlignment"/>
+                        Joined {user.joinday}
                     </span>
                 </div>
                 <div className ="profileInfoSection">
@@ -74,7 +85,7 @@ function Profile(props) {
                 </div>
             </div>
             <ProfileTabs />
-            <EditProfileDialogue open={editProfileOpen} onClose={handleClose} user={user}/>
+            <EditProfileDialogue onClose={onClose} open={editProfileOpen} user={user} />
         </div>
     )
 }

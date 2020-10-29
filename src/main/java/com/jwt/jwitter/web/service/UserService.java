@@ -22,13 +22,18 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getCurrentUser() {
-        final UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final String username = userDetails.getUsername();
+        String username = "";
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
         return this.usersRepository.getUser(username);
     }
 
     @Transactional
-    public User saveUser(final User user) {
-        return this.usersRepository.save(user);
+    public User updateUser(final User user) {
+        return this.usersRepository.updateUser(user);
     }
 }

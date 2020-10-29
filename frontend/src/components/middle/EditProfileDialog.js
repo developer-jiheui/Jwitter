@@ -1,3 +1,6 @@
+import React from "react";
+import { Redirect, useHistory } from "react-router-dom";
+
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CloseIcon from "@material-ui/icons/Close";
@@ -6,34 +9,70 @@ import DialogContent from "@material-ui/core/DialogContent";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhotoOutlined";
 import InputWithCounter from "./InputWithCounter";
 import Input from "@material-ui/core/Input";
-import React from "react";
 import * as PropTypes from "prop-types";
+import axios from 'axios';
 
 EditProfileDialogue.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 function EditProfileDialogue(props) {
-    const {onClose, open} = props;
-    const {user, setUser} = props;
+    const history = useHistory();
+
+    const {onClose, open, user} = props;
+    const [updatedUser, setUpdatedUser ] = React.useState({
+        username: user.username,
+        avatar: user.avatar,
+        bio: user.bio,
+        website: user.website,
+        birthday: user.birthday,
+        location: user.location
+    });
 
     function handleClose() {
-        onClose();
-    };
+        onClose(true);
+        console.log("CLOSING", updatedUser);
+    }
 
     function handleSaveProfile() {
-        // todo: CRUD UPDATE user here
-        handleClose();
+        axios({
+            method: "put",
+            url: '/api/auth/update-user',
+            data: {
+                username: updatedUser.username ? updatedUser.username : user.username,
+                avatar: user.avatar ? user.avatar : user.avatar,
+                bio: updatedUser.bio ? updatedUser.bio : user.bio,
+                website: updatedUser.website ? updatedUser.website : user.website,
+                location: updatedUser.location ? updatedUser.location : user.location,
+                birthday: new Date(updatedUser.birthday ? updatedUser.birthday : user.birthday)
+            },
+            headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
+                    'content-type': 'application/json'
+            }).then(resp => {
+                console.log("DONE EDIT: ", resp.data);
+                setUpdatedUser(resp.data);
+                handleClose();
+
+        }).catch(error => {
+            // TODO: error handling for UI
+                console.log(error);
+            })
     }
 
     function handleChangeCoverPhoto(event) {
-        console.log(event.target.value);
+        // setUpdatedUser({...user, avatar: e.target.value});
+        console.log("changed cover photo");
     }
 
     function handleChangeProfilePhoto(event) {
-        console.log(event.target.value);
+        // setUpdatedUser({...user, avatar: e.target.value});
+        console.log("changed profile pic");
     }
+
+
 
     const userAvatarURLCSS = {backgroundImage: "url('" + user.avatar + "')"};
 
@@ -78,7 +117,9 @@ function EditProfileDialogue(props) {
                                           placeHolder="Add your name"
                                           maxChar="50"
                                           rows="1"
-                                          value={user.username}/>
+                                          value={user.username}
+                                          name="name"
+                                          updateMethod={e=> setUpdatedUser({...updatedUser, username: e.target.value}) }/>
                     </div>
                     <div className="input-form">
                         <label htmlFor="bio">Bio</label>
@@ -88,7 +129,9 @@ function EditProfileDialogue(props) {
                                           maxChar="160"
                                           multiline="true"
                                           rows="3"
-                                          value={user.bio}/>
+                                          value={user.bio}
+                                          name="bio"
+                                          updateMethod={e=> setUpdatedUser({...updatedUser, bio: e.target.value}) }/>
                     </div>
                     <div className="input-form">
                         <label htmlFor="location">Location</label>
@@ -97,7 +140,9 @@ function EditProfileDialogue(props) {
                                           placeHolder="Add your location"
                                           maxChar="30"
                                           rows="1"
-                                          value={user.location}/>
+                                          value={user.location}
+                                          name="location"
+                                          updateMethod={e=> setUpdatedUser({...updatedUser, location: e.target.value}) }/>
                     </div>
                     <div className="input-form">
                         <label htmlFor="website">Website</label>
@@ -106,14 +151,17 @@ function EditProfileDialogue(props) {
                                           placeHolder="Add your website"
                                           maxChar="100"
                                           rows="1"
-                                          value={user.website}/>
+                                          value={user.website}
+                                          name="website"
+                                          updateMethod={e=> setUpdatedUser({...updatedUser, website: e.target.value}) }/>
                     </div>
                     <div className="input-form">
                         <label htmlFor="birthdate">Birth Date</label>
-                        <Input name="name"
+                        <Input name="birthdate"
                                type="date"
                                fullWidth
-                               value={user.birthday}/>
+                               defaultValue={user.birthday}
+                               onChange={e=> setUpdatedUser({...updatedUser, birthday: e.target.value}) }/>
                     </div>
                 </div>
             </DialogContent>

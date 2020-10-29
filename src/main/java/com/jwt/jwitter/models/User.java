@@ -20,6 +20,7 @@ public final class User {
     private  String bio;
     private  String location;
     private  String website;
+    private  Date joinday;
 
     public User(final SignUpDto signUpDto, final String encodedPassword) {
         this.id = -1;
@@ -34,7 +35,7 @@ public final class User {
     }
 
     public String getAvatar() {return avatar; }
-    public void setAvatar() {this.avatar = avatar;}
+    public void setAvatar(String avatar) {this.avatar = avatar;}
 
     public String getEmail() {
         return this.email;
@@ -68,4 +69,9 @@ public final class User {
         return this.birthday;
     }
     public void setBirthday(Date bday) {this.birthday = bday;}
+
+    public Date getJoinday() {
+        return this.joinday;
+    }
+    public void setJoinday(Date jday) {this.joinday = jday;}
 }
