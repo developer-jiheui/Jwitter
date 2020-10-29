@@ -5,10 +5,10 @@ export const initialState = {
 
 const reducer =(state, action)=>{
     switch(action.type){
-        case 'SET_USER':
+        case 'USER_LOGIN':
             console.log(action)
             return {...state,
-            user:action.use,
+            user:action.user,
         }
         case 'SET_TOKEN':
             return {...state,

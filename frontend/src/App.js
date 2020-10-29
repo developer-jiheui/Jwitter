@@ -48,7 +48,7 @@ function App() {
       <div className="app">
         <Switch>
           <Route path="/home">
-          <Sidebar activeOne="Home"/>
+          <Sidebar ativeOne="Home"/>
           <Main/>
           <Embed/>
           </Route>
@@ -56,7 +56,7 @@ function App() {
             <Login />
           </Route>
           <Route path="/profile">
-            <Sidebar activeOne="Profile"/>
+          <Sidebar ativeOne="Profile"/>
             <Profile/>
             <Embed/>
           </Route>

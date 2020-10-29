@@ -53,13 +53,16 @@ function EditProfileDialogue(props) {
         }
 
         console.log(updatedData);
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
         axios({
             method: "put",
             url: '/api/auth/update-user',
+            headers: {
+                Authorization: bearer
+              },
             data: updatedData
         }).then(resp => {
             console.log(resp.data);
-            return axios.post("/api/avatars/upload/" + resp.data.id,  fd);
         }).catch(error => {
             // TODO: error handling for UI
             console.log(error);

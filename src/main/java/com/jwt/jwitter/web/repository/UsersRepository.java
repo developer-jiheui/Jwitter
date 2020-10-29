@@ -1,16 +1,11 @@
 package com.jwt.jwitter.web.repository;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
-import com.jwt.jwitter.config.jwt.JwtProvider;
 import com.jwt.jwitter.models.User;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-
-import com.jwt.jwitter.models.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -26,6 +21,23 @@ public class UsersRepository {
 
     public boolean exists(final int userId) {
         return this.jdbcTemplate.queryForObject("SELECT count(*) from users where id = ?", Integer.class, userId) != 0;
+    }
+
+    public User getUserByEmail(final String email) {
+        return jdbcTemplate.queryForObject("Select * from users where email =?", new Object[]{email}, (rs, rowNum) ->
+            new User(
+                rs.getInt("id"),
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getString("username"),
+                rs.getDate("birthday"),
+                this.avatarUrlProvider.normalizeUrl(rs.getString("avatar")),
+                rs.getString("bio"),
+                rs.getString("location"),
+                rs.getString("website"),
+                rs.getDate("created_at")
+            ));
+
     }
 
     public void updateAvatar(final int userId, final String fileId) {
@@ -61,17 +73,17 @@ public class UsersRepository {
 
     public User getUser(String email) {
         return this.jdbcTemplate.queryForObject("Select * from users where email = ?", new Object[]{email}, (rs, rowNum) ->
-                new User(
-                        rs.getInt("id"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("username"),
-                        rs.getDate("birthday"),
-                        this.avatarUrlProvider.normalizeUrl(rs.getString("avatar")),
-                        rs.getString("bio"),
-                        rs.getString("location"),
-                        rs.getString("website"),
-                        rs.getDate("created_at")
-                ));
+            new User(
+                rs.getInt("id"),
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getString("username"),
+                rs.getDate("birthday"),
+                this.avatarUrlProvider.normalizeUrl(rs.getString("avatar")),
+                rs.getString("bio"),
+                rs.getString("location"),
+                rs.getString("website"),
+                rs.getDate("created_at")
+            ));
     }
 }

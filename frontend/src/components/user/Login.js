@@ -4,12 +4,11 @@ import { Redirect, useHistory } from "react-router-dom";
 import { Button } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import SignupDialog from "../user/SignupDialog";
-import { useStateValue } from "../../utils/StateProvider";
+//import { useStateValue } from "../../utils/StateProvider";
 import axios from 'axios';
 function Login() {
   
   const history = useHistory();
-  
   const [user, setUser] = useState({
       account:null,
       password:null
@@ -25,6 +24,7 @@ function Login() {
     }).then((resp)=>{
       console.log(resp.data);
       localStorage.setItem('jwt',resp.data);
+      //userlogin(resp.data)
       history.push("/home")
       //todo go to home page
     }).catch(r=>{
@@ -36,6 +36,21 @@ function Login() {
     console.log(signDialog)
     setSignDialog(!signDialog)
   }
+  /*
+  const [{}, dispatch] = useStateValue();
+  const userlogin = (user) => {
+        //Add item to basket...
+        console.log(user)
+        dispatch({
+            type: "USER_LOGIN",
+            user: {
+                user_id:user.id,
+                avater:user.avater,
+                name:user.name
+            }
+        })
+    };
+    */
   return (
     <div className="login">
         <div className="paper">

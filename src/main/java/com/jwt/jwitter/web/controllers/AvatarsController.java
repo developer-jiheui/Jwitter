@@ -41,4 +41,15 @@ public class AvatarsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping("/photoUpload")
+    public ResponseEntity<?> photoUpload(
+            @RequestParam("file") final MultipartFile file
+    ) {
+        try {
+            return ResponseEntity.ok(this.avatarsService.photoUpload(file));
+        } catch (final IOException excp) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -9,7 +9,7 @@
     color: var(--twitter-color);
     /* transition: color 100ms ease-out; */
   }
-  
+
   .sidebarOption > .MuiSvgIcon-root {
     padding: 20px;
   }
@@ -24,7 +24,7 @@
     font-size: 20px;
     margin-right: 20px;
   }
-  
+
   .sidebarOption--active {
     color: var(--twitter-color);
   }
@@ -101,7 +101,6 @@
     text-transform: inherit !important;/* Inherits this property from its parent element.*/
     border-radius: 30px !important;
     height: 50px !important;
-    margin-top: 20px !important;
   }
 
   .sidebar{
@@ -109,7 +108,7 @@
     margin-top: 20px;
     padding-left: 20px;
     padding-right: 20px;
-    flex: 0.3;
+    flex: 0.2;
   }
 
   .backArrow{
@@ -317,7 +316,7 @@
 /*************/
 
   .logo{
-      color: var(--twitter-color)!important; 
+      color: var(--twitter-color)!important;
       padding-left: 20px;
       font-size: 30px !important;
   }
@@ -368,7 +367,6 @@
     margin-left: auto !important;
     width: 80px;
     height: 40px !important;
-    margin-top: 20px !important;
   }
   .post {
     display: flex;
@@ -376,43 +374,43 @@
     border-bottom: 1px solid var(--twitter-background);
     padding-bottom: 10px;
   }
-  
+
   .post_body {
     flex: 1;
     padding: 10px;
   }
-  
+
   .post_body > img {
     border-radius: 20px;
   }
-  
+
   .post_footer {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
   }
-  
+
   .post_headerDescription {
     margin-bottom: 10px;
     font-size: 15px;
   }
-  
+
   .post_headerText > h3 {
     font-size: 15px;
     margin-bottom: 5px;
   }
-  
+
   .post_badge {
     font-size: 14px !important;
     color: var(--twitter-color);
   }
-  
+
   .post_headerSpecial {
     font-weight: 600;
     font-size: 12px;
     color: gray;
   }
-  
+
   .post_avatar {
     padding: 10px 20px;
   }
@@ -436,7 +434,7 @@
   .embed_search {
     color: gray;
   }
-  
+
   .embedContainer {
     margin-top: 15px;
     margin-left: 20px;
@@ -444,7 +442,7 @@
     background-color: #f5f8fa;
     border-radius: 20px;
   }
-  
+
   .embedContainer > h2 {
     font-size: 18px;
     font-weight: 800;
@@ -487,4 +485,45 @@
   justify-content: center;
 }
 
+#tweet_box{
+  width: 100%;
+  height: 30%;
+  border-style: none;
+}
+.tweet_text{
+  width: 100%;
+  height: 30%;
+  margin: 10px;
+}
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active
+{
+    outline:0px !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
+}
 
+.tweet_btn_area>input {
+  display: none;
+}
+.tweet_btn_area > .MuiSvgIcon-root {
+  padding: 0px 20px;
+  flex-direction:row;
+  justify-content:flex-end;
+  font-size: 24px;
+}
+.tweet_btn_area{
+  display: flex;
+  padding: 0px 0px 0px 30rem;
+  width: fit-content;
+}

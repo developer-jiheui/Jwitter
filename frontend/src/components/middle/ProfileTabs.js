@@ -25,22 +25,12 @@ function ProfileTabs(props) {
                 </Tabs>
             </div>
             <TabPanel value={value} index={0}>
-                <Post />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <Post />
-                <Post />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <Post />
-                <Post />
-                <Post />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <Post />
-                <Post />
-                <Post />
-                <Post />
             </TabPanel>
         </div>
     );
