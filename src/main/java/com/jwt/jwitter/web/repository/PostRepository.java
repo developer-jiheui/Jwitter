@@ -33,9 +33,10 @@ public class PostRepository {
 
     public Post save(final Post post) {
         this.jdbcTemplate.update(con -> {
-            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO tweet (user_id,content) values (?,?)");
+            PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO tweet (user_id,content,photo) values (?,?,?)");
             preparedStatement.setInt(1, post.getUser_id());
             preparedStatement.setString(2, post.getContent());
+            preparedStatement.setString(3, post.getPhoto());
             return preparedStatement;
         });
         return post;

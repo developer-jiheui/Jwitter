@@ -26,4 +26,10 @@ public class AvatarsService {
         this.repository.updateAvatar(userId, fileId);
         return true;
     }
+
+    @Transactional
+    public String photoUpload(final MultipartFile file) throws IOException {
+       final String fileId = this.uploader.upload(file);
+       return  fileId;
+    }
 }
