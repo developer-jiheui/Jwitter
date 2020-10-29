@@ -4,13 +4,18 @@ import com.jwt.jwitter.web.dto.in.SignUpDto;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * Db user.
  */
 @Data
+@Entity
 @AllArgsConstructor
 public final class User {
+    @Id @GeneratedValue
     private int id;
 
     private final String email;

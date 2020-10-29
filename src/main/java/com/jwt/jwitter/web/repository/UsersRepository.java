@@ -9,9 +9,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+//import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+//import org.springframework.data.repository.PagingAndSortingRepository;
+
 
 @Repository
-public class UsersRepository {
+public class UsersRepository  {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -38,3 +41,8 @@ public class UsersRepository {
         return user;
     }
 }
+
+
+
+
+
