@@ -3,6 +3,7 @@ package com.jwt.jwitter.web.controllers;
 import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.dto.in.UserDto;
 import com.jwt.jwitter.web.service.UserService;
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +37,8 @@ public final class UserController {
     public ResponseEntity<?> saveUserProfile(@RequestBody @Valid UserDto userDto) {
         User user = this.userService.getCurrentUser();
 
+        user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getUsername());
-        user.setAvatar(userDto.getAvatar());
         user.setBio(userDto.getBio());
         user.setBirthday(userDto.getBirthday());
         user.setLocation(userDto.getLocation());
@@ -47,7 +48,7 @@ public final class UserController {
             return ResponseEntity.ok(this.userService.updateUser(user));
         } catch(Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(Map.of("message", "An error occurred saving your profile"), HttpStatus.SERVICE_UNAVAILABLE);
+            return new ResponseEntity<>(Map.of("message", "An error occurred saving your profile"), HttpStatus.I_AM_A_TEAPOT);
         }
     }
 }

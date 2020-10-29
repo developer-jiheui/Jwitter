@@ -19,61 +19,76 @@ EditProfileDialogue.propTypes = {
 
 function EditProfileDialogue(props) {
     const {onClose, open, user} = props;
+    const [avatar, setAvatar] = React.useState(user.avatar);
     const [updatedUser, setUpdatedUser ] = React.useState({
-        username: user.username,
-        avatar: user.avatar,
-        bio: user.bio,
-        website: user.website,
-        birthday: user.birthday,
-        location: user.location
+        username: "",
+        avatar: "",
+        bio: "",
+        website: "",
+        birthday: "",
+        location: ""
     });
 
     function handleClose() {
         onClose(true);
-        console.log("CLOSING", updatedUser);
     }
 
-    function handleSaveProfile() {
+    async function handleSaveProfile() {
+        console.log('UPDATED ', updatedUser);
+        console.log("CURR ", user);
+
         let bday = new Date(updatedUser.birthday ? updatedUser.birthday : user.birthday);
         bday.setDate(bday.getDate() + 1);
+
+        let fd = new FormData();
+        fd.append('file', avatar || user.avatar);
+
+        let updatedData = {
+            username: updatedUser.username ? updatedUser.username : user.username,
+            bio: updatedUser.bio ? updatedUser.bio : user.bio,
+            location: updatedUser.location ? updatedUser.location : user.location,
+            website: updatedUser.website ? updatedUser.website : user.website,
+            birthday: updatedUser.birthday ? updatedUser.birthday : user.birthday,
+            email: user.email
+        }
+
+        console.log(updatedData);
         axios({
             method: "put",
             url: '/api/auth/update-user',
-            data: {
-                username: updatedUser.username ? updatedUser.username : user.username,
-                avatar: user.avatar ? user.avatar : user.avatar,
-                bio: updatedUser.bio ? updatedUser.bio : user.bio,
-                website: updatedUser.website ? updatedUser.website : user.website,
-                location: updatedUser.location ? updatedUser.location : user.location,
-                birthday: bday
-            },
-            headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
-                    'content-type': 'application/json'
-            }).then(resp => {
-                console.log("DONE EDIT: ", resp.data);
-                setUpdatedUser(resp.data);
-                handleClose();
-
+            data: updatedData
+        }).then(resp => {
+            console.log(resp.data);
+            return axios.post("/api/avatars/upload/" + resp.data.id,  fd);
         }).catch(error => {
             // TODO: error handling for UI
-                console.log(error);
-            })
+            console.log(error);
+        });
+
+        handleClose();
     }
 
     function handleChangeCoverPhoto(event) {
-        // setUpdatedUser({...user, avatar: e.target.value});
-        console.log("changed cover photo");
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = function(e) {
+            setAvatar(reader.result);
+        }.bind(this);
+
+        reader.readAsDataURL(file);
     }
 
     function handleChangeProfilePhoto(event) {
-        // setUpdatedUser({...user, avatar: e.target.value});
-        console.log("changed profile pic");
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = function(e) {
+            setAvatar(reader.result);
+        }.bind(this);
+
+        reader.readAsDataURL(file);
     }
-
-
-
-    const userAvatarURLCSS = {backgroundImage: "url('" + user.avatar + "')"};
 
     return (
         <Dialog onClose={handleClose} className="edit-profile-dialog" aria-labelledby="edit-profile-dialog" open={open}>
@@ -84,7 +99,7 @@ function EditProfileDialogue(props) {
             </DialogTitle>
             <DialogContent id="edit-profile-dialog-content">
                 <div className="profileSubheader">
-                    <div className="cover-photo" style={userAvatarURLCSS}>
+                    <div className="cover-photo" style={{backgroundImage: "url('" + (avatar || user.avatar) + "')"}}>
                         <input
                             accept="image/*"
                             className="hidden-input"
@@ -96,7 +111,7 @@ function EditProfileDialogue(props) {
                             <AddAPhotoIcon/>
                         </label>
                     </div>
-                    <div className="profile-image" style={userAvatarURLCSS}>
+                    <div className="profile-image" style={{backgroundImage: "url('" + (avatar || user.avatar) + "')"}}>
                         <input
                             accept="image/*"
                             className="hidden-input"

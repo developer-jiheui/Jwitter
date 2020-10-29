@@ -33,7 +33,6 @@
     margin-left: 20px;
   }
   .cover-photo{
-    background: #c4c5c5;
     height: 250px;
     width: 100%;
     display: flex;
@@ -51,7 +50,6 @@
 
   .profile-image{
     border-radius: 50%;
-    background: black;
     width: 120px;
     height: 120px;
     margin-top: -74px;

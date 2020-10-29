@@ -1,6 +1,7 @@
 package com.jwt.jwitter.web.repository;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.config.jwt.JwtProvider;
 import com.jwt.jwitter.models.User;
 import java.sql.Date;
@@ -20,7 +21,8 @@ public class UsersRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    JwtProvider provider;
+    @Autowired
+    private AvatarUrlProvider avatarUrlProvider;
 
     public boolean exists(final int userId) {
         return this.jdbcTemplate.queryForObject("SELECT count(*) from users where id = ?", Integer.class, userId) != 0;
@@ -45,22 +47,31 @@ public class UsersRepository {
     }
 
     public User updateUser(final User user) {
-        System.out.println("update" + user.toString());
         this.jdbcTemplate.update(
-            "UPDATE users SET username=?,birthday=?,avatar=?,bio=?,location=?,website=? WHERE id = ?",
+            "UPDATE users SET username=?,birthday=?,bio=?,location=?,website=? WHERE id = ?",
             user.getUsername(),
             new Date(user.getBirthday().getTime()),
-            user.getAvatar(),
             user.getBio(),
             user.getLocation(),
             user.getWebsite(),
             user.getId()
         );
-        System.out.println("UPDATED USER???");
         return getUser(user.getEmail());
     }
 
     public User getUser(String email) {
-        return this.jdbcTemplate.queryForObject("SELECT * from users where email='"+ email + "';", new UserMapper());
+        return this.jdbcTemplate.queryForObject("Select * from users where email = ?", new Object[]{email}, (rs, rowNum) ->
+                new User(
+                        rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("username"),
+                        rs.getDate("birthday"),
+                        this.avatarUrlProvider.normalizeUrl(rs.getString("avatar")),
+                        rs.getString("bio"),
+                        rs.getString("location"),
+                        rs.getString("website"),
+                        rs.getDate("created_at")
+                ));
     }
 }

@@ -16,7 +16,6 @@ function Profile(props) {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
         }).then((resp) => {
-            console.log("GET USER PROFILE ",resp.data);
             setUser(resp.data);
         }).catch(error => {
             console.log(error);
@@ -37,7 +36,6 @@ function Profile(props) {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
             }).then((resp) => {
-                console.log("GET USER PROFILE ",resp.data);
                 setUser(resp.data);
             }).catch(error => {
                 console.log(error);
@@ -45,7 +43,7 @@ function Profile(props) {
         }
     }
 
-    const userAvatarURLCSS = {backgroundImage: "url('" + user.avatar + "')"};
+    const userAvatarURLCSS = user.avatar ? {background: "url('" + user.avatar + "')"} : {background: "grey"};
 
     return (
         <div className="profile">
@@ -55,7 +53,7 @@ function Profile(props) {
                 <span className="numOfTweets">{Math.floor(Math.random() * 9999)} Tweets</span>
             </div>
             <div className ="profileSubheader">
-                <img alt="cover" className="cover-photo" src={user.avatar}/>
+                <div className="cover-photo" style={userAvatarURLCSS}/>
                 <div className="profile-image" style={userAvatarURLCSS}/>
                 <Button className="edit_btn" onClick={handleClickOpen}>Edit Profile</Button>
             </div>

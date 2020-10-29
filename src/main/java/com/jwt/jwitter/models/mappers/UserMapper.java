@@ -19,14 +19,14 @@ public final class UserMapper implements RowMapper<User> {
 
     @Override
     public User mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+        System.out.println(avatarUrlProvider);
         return new User(
             rs.getInt("id"),
             rs.getString("email"),
             rs.getString("password"),
             rs.getString("username"),
             rs.getDate("birthday"),
-            "./logo512.png",
-//            this.avatarUrlProvider.normalizeUrl(rs.getString("avatar")),
+            this.avatarUrlProvider.normalizeUrl(rs.getString("avatar")),
             rs.getString("bio"),
             rs.getString("location"),
             rs.getString("website"),
