@@ -4,6 +4,8 @@ import com.jwt.jwitter.web.dto.in.SignUpDto;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,27 +14,28 @@ import javax.persistence.Id;
  * Db user.
  */
 @Data
-@Entity
+@Entity(name = "users")
+@NoArgsConstructor
 @AllArgsConstructor
-public final class User {
+public class User {
     @Id @GeneratedValue
     private int id;
 
-    private final String email;
+    private  String email;
 
-    private final String password;
+    private  String password;
 
-    private final String username;
+    private  String username;
 
-    private final Date birthday;
+    private  Date birthday;
 
-    private final String avatar;
+    private  String avatar;
 
-    private final String bio;
+    private  String bio;
 
-    private final String location;
+    private  String location;
 
-    private final String website;
+    private  String website;
 
 
     public User(final SignUpDto signUpDto, final String encodedPassword) {

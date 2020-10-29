@@ -8,14 +8,16 @@ import net.kaczmarzyk.spring.data.jpa.web.annotation.Or;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.data.jpa.domain.Specification;
 
-public interface UsersSpecification {
-
-    @Spec(path = "username", spec = LikeIgnoreCase.class)
-    interface username extends Specification<User>{}
+//public interface UsersSpecification {
+//
+//    @Spec(path = "username", spec = LikeIgnoreCase.class)
+//    interface username extends Specification<User>{}
 
 
     @Or({
-            @Spec(path = "username", spec = LikeIgnoreCase.class)
+            @Spec(path = "username", spec = LikeIgnoreCase.class),
+            @Spec(path = "tweet", spec = LikeIgnoreCase.class),
+            @Spec(path = "location", spec = LikeIgnoreCase.class)
     })
-    interface nameSpec extends Specification<User>{}
-}
+    public interface UsersSpecification extends Specification<User>{}
+

@@ -40,7 +40,7 @@ public class SearchController {
     private UserRepositorySpec userRepo;
 
     @GetMapping
-    public List<User> getAll(UsersSpecification.nameSpec spec) {
+    public List<User> getAll(UsersSpecification spec) {
             return userRepo.findAll(spec);
     }
 

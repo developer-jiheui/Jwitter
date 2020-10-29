@@ -6,7 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepositorySpec extends PagingAndSortingRepository<User, Integer>, JpaSpecificationExecutor<User> {
+public interface UserRepositorySpec extends PagingAndSortingRepository<User, String>, JpaSpecificationExecutor<User> {
 
 }
 
