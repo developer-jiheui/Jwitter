@@ -1,11 +1,9 @@
 package com.jwt.jwitter.web.service;
 
-import com.jwt.jwitter.config.jwt.JwtProvider;
 import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.repository.UsersRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,14 +15,12 @@ public class UserService {
 
     @Autowired
     private final UsersRepository usersRepository;
-    private JwtProvider jwtProvider;
-    SecurityContext securityContext;
 
     @Transactional(readOnly = true)
     public User getCurrentUser() {
-        String username = "";
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof UserDetails) {
+        final String username;
+        final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
         } else {
             username = principal.toString();
