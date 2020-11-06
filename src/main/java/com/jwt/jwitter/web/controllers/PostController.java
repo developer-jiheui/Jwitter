@@ -48,7 +48,7 @@ public final class PostController {
     @GetMapping("/tweets/{user_id}")
     public ResponseEntity<?> getTweets(@PathVariable("user_id") int user_id) {
         try {
-            return ResponseEntity.ok(this.postService.get(user_id));
+            return ResponseEntity.ok(this.postService.getPostsByUser(user_id));
         } catch (final AuthenticationException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }

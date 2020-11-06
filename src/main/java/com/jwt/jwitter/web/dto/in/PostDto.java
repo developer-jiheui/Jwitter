@@ -32,5 +32,10 @@ public class PostDto {
 	private  String photo;
     private  String content;
     private  int user_id;
+    private  int comments;
+	private  int likes;
+	private  int shares;
+
+
 
 }

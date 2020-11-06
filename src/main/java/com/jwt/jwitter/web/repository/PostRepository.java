@@ -42,7 +42,7 @@ public class PostRepository {
         return post;
     }
 
-    public List<Post> get(final int user_id) {
+    public List<Post> getPostsByUser(final int user_id) {
         return this.jdbcTemplate.query(
                 "select * from tweet where user_id =" + user_id,
                 new PostMapper());

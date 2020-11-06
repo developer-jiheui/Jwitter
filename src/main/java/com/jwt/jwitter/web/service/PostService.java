@@ -24,8 +24,13 @@ public class PostService {
     private final PostRepository repository;
 
     @Transactional(readOnly = true)
-    public List<Post> get(final int user_id) {
-        return this.repository.get(user_id);
+    public List<Post> getPostsByUser(final int user_id) {
+        return this.repository.getPostsByUser(user_id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Post> getPostsByFollow(final int user_id) {
+        return this.repository.getPostsByUser(user_id);
     }
 
     @Transactional

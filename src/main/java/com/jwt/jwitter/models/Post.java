@@ -17,6 +17,7 @@ public final class Post {
     private String photo;
     private int shares;
     private int likes;
+    private int comments;
 
 
     public Post(final PostDto postDto) {
@@ -24,9 +25,9 @@ public final class Post {
         this.content = postDto.getContent();
         this.photo = postDto.getPhoto();
         this.user_id = postDto.getUser_id();
+        this.shares = postDto.getShares();
+        this.likes = postDto.getLikes();
+        this.comments = postDto.getComments();
     }
-
-
-
 
 }
