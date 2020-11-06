@@ -374,7 +374,6 @@
     align-items: flex-start;
     border-bottom: 1px solid var(--twitter-background);
     padding-bottom: 10px;
-    
   }
   div.post:hover{
     background-color:var(--twitter-border);;
@@ -394,10 +393,14 @@
     justify-content: space-between;
     margin-top: 20px;
   }
+  .iconText{
+    vertical-align:middle;
+  }
 
   .post_headerDescription {
     margin-bottom: 10px;
     font-size: 15px;
+    width: 400px;
   }
 
   .post_headerText > h3 {

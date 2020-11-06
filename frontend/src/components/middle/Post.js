@@ -11,7 +11,7 @@ const Post = ({ tweet_data ,user, handleOnChange}) => {
 
   }
       return (
-        <div className="post" onClick={viewPost}>
+        <div className="post" onClick={e=>{viewPost}}>
           <div className="post_avatar">
             <Avatar src={user.avatar}/>
           </div>
@@ -31,7 +31,10 @@ const Post = ({ tweet_data ,user, handleOnChange}) => {
             </div>
             {tweet_data.photo && <img src={tweet_data.photo} alt="" width="400px"/> }
             <div className="post_footer">
-              <ChatBubbleOutlineIcon fontSize="small" />
+              <div className="iconText">
+                <ChatBubbleOutlineIcon fontSize="small" onClick={comment}/>
+                <span>{tweet_data.comments}</span>
+              </div>
               <RepeatIcon fontSize="small" />
               <FavoriteBorderIcon fontSize="small" />
               <PublishIcon fontSize="small" />

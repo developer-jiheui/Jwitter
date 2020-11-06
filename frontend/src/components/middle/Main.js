@@ -8,6 +8,7 @@ function Main() {
     const [user, setUser] = useState();
     //const [{user}] = useStateValue();
     const handleOnChange =(event) =>{
+        console.log(event);
         if (event == "tweet"){
             getTweets();
         }
@@ -26,7 +27,7 @@ function Main() {
             }
           }).then(resp => {
             setUser(resp.data)
-            axios.get(`/api/auth/tweets/${resp.data.id}`)
+            axios.get(`/api/auth/posts/${resp.data.id}`)
                 .then((res)=>{
                     setTweets(res.data)
                 }).catch(r=>{

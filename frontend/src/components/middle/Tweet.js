@@ -30,13 +30,16 @@ const Tweet= ({user,handleOnChange}) => {
                 photo: tweet.photo
             }
           }).then(resp => {
-            alert("Succss");
+            setTweet({...tweet,
+                content:'',
+                photo:null
+            })
             handleOnChange('tweet')
           }).catch(r => {
             console.log(r)
             alert(JSON.stringify(r.response.data));
-          });    
-    
+          });
+
     }
     return (
         <div className="tweet">
@@ -44,15 +47,15 @@ const Tweet= ({user,handleOnChange}) => {
                 <div className="tweetInput">
                     <Avatar alt="Remy Sharp" src={user==undefined?'':user.avatar} />
                     <div className="tweet_text">
-                        <textarea id="tweet_box" placeholder="What's happening?" type="text" onChange={e=> setTweet({
-                            ...tweet, 
+                        <textarea id="tweet_box" placeholder="What's happening?" type="text" value={tweet.content} onChange={e=> setTweet({
+                            ...tweet,
                             content: e.target.value
                         }
                     )} />
                     <img src={tweet.photo==null?'':tweet.photo} width="400px"/>
                     </div>
                 </div>
-                <div class="tweet_btn_area">
+                <div className="tweet_btn_area">
                     <input className="tweet_btn_box tweet_btn" id="file" type="file"
                      onChange={(e) => upload( e.target.files[0])}/>
                     <label htmlFor="file">
@@ -67,4 +70,4 @@ const Tweet= ({user,handleOnChange}) => {
     )
 }
 
-export default Tweet
+export default Tweet;
