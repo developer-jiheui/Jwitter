@@ -5,9 +5,13 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import PublishIcon from "@material-ui/icons/Publish";
-const Post = ({ tweet_data ,user }) => {
+
+const Post = ({ tweet_data ,user, handleOnChange}) => {
+  const viewPost =() =>{
+
+  }
       return (
-        <div className="post">
+        <div className="post" onClick={viewPost}>
           <div className="post_avatar">
             <Avatar src={user.avatar}/>
           </div>
@@ -25,7 +29,7 @@ const Post = ({ tweet_data ,user }) => {
                   <p>{tweet_data.content}</p>
               </div>
             </div>
-            {tweet_data.photo && <img src={tweet_data.photo} alt="" /> }
+            {tweet_data.photo && <img src={tweet_data.photo} alt="" width="400px"/> }
             <div className="post_footer">
               <ChatBubbleOutlineIcon fontSize="small" />
               <RepeatIcon fontSize="small" />

@@ -3,18 +3,16 @@ import { Avatar, Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import axios from 'axios';
-const Tweet= ({user}) => {
+const Tweet= ({user,handleOnChange}) => {
     const [tweet, setTweet] = useState({
         content:'',
         photo:null
     });
     const upload =(photo) =>{
-        console.log(photo)
         let fd = new FormData();
         fd.append('file', photo);
         axios.post('/api/avatars/photoUpload', fd)
         .then(res=>{
-            console.log(res)
                 setTweet({...tweet, photo:`http://45.76.207.32:8081/${res.data}`})
             }
         )
@@ -31,15 +29,9 @@ const Tweet= ({user}) => {
                 content: tweet.content,
                 photo: tweet.photo
             }
-          }).then(res => {
-              console.log(res)
-            //create an image
-           // let post_id = JSON.parse(JSON.stringify(res.data))
-            //let fd = new FormData()
-            //fd.append('photo', tweet.photo)
-            //return axios.post('/api/tweet_photo/upload/' + post_id.id, fd)
           }).then(resp => {
             alert("Succss");
+            handleOnChange('tweet')
           }).catch(r => {
             console.log(r)
             alert(JSON.stringify(r.response.data));
@@ -57,7 +49,7 @@ const Tweet= ({user}) => {
                             content: e.target.value
                         }
                     )} />
-                    <img src={tweet.photo==null?'':tweet.photo}/>
+                    <img src={tweet.photo==null?'':tweet.photo} width="400px"/>
                     </div>
                 </div>
                 <div class="tweet_btn_area">

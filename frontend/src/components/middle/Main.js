@@ -7,8 +7,16 @@ function Main() {
     const [tweets, setTweets] = useState([]);
     const [user, setUser] = useState();
     //const [{user}] = useStateValue();
+    const handleOnChange =(event) =>{
+        if (event == "tweet"){
+            getTweets();
+        }
+    }
     useEffect(() => {
-        console.log("HERE");
+        getTweets();
+      },[]);
+
+    const getTweets = () =>{
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
         axios({
             method: 'post',
@@ -29,7 +37,7 @@ function Main() {
             console.log(r)
             alert(JSON.stringify(r.response.data));
           });  
-      },[]);
+    }
 /*
 .then(res => {
               console.log(res)
@@ -45,11 +53,11 @@ function Main() {
             <h1>Home</h1>
             </div>
             <div>
-                <Tweet user={user}/>
+                <Tweet user={user} handleOnChange={handleOnChange}/>
             </div>
             <div>
                 {tweets.map((tweet,index)=>{
-                   return <Post key={index} tweet_data={tweet} user={user}/>
+                   return <Post key={index} tweet_data={tweet} user={user} handleOnChange={handleOnChange}/>
                 })}
      
             </div>
