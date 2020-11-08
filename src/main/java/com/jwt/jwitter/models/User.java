@@ -33,4 +33,10 @@ public final class User {
         this.location = null;
         this.website = null;
     }
+
+    public User(final int id,final String username,final String avatar){
+        this.id = id;
+        this.username = username;
+        this.avatar = avatar;
+    }
 }

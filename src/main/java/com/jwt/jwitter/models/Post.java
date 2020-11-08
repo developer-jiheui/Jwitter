@@ -1,7 +1,6 @@
 package com.jwt.jwitter.models;
 
 import com.jwt.jwitter.web.dto.in.PostDto;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -26,7 +25,8 @@ public final class Post {
         this.user_id = postDto.getUser_id();
     }
 
-
-
-
+    public Post(final String content, final String photo) {
+        this.content = content;
+        this.photo = photo;
+    }
 }

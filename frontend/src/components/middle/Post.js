@@ -25,7 +25,7 @@ const Post = ({ tweet_data ,user }) => {
                   <p>{tweet_data.content}</p>
               </div>
             </div>
-            {tweet_data.photo && <img src={tweet_data.photo} alt="" /> }
+            {tweet_data.photo && <img src={tweet_data.photo} width="200px" height="200px" alt="" /> }
             <div className="post_footer">
               <ChatBubbleOutlineIcon fontSize="small" />
               <RepeatIcon fontSize="small" />

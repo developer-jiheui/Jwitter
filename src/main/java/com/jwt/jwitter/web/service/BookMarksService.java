@@ -22,8 +22,8 @@ public class BookMarksService {
         return this.template.query(
             String.join(
                 "\n",
-                "SELECT u.username, u.avatar,t.content,t.photo from bookmarks b ",
-                "inner join users u on u.id =b.user_id inner join tweet t on t.user_id = u.id ",
+                "SELECT u.username as username,u.id as user_id, u.avatar as avatar,t.content as content,t.photo as tweet_photo from bookmarks b ",
+                "inner join tweet t on t.id =b.twit_id inner join users u on u.id = t.user_id ",
                 "WHERE b.user_id = (SELECT id from users where email = ? LIMIT 1)"
             ),
             this.bookMarkMapper,

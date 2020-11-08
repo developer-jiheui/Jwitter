@@ -37,7 +37,7 @@ function Main() {
             </div>
             <div>
                 {bookMarks.map((bookMark,index)=>{
-                   return <Post key={index} tweet_data={bookMark.tweet} user={bookMark.user}/>
+                   return <Post key={index} tweet_data={bookMark.tweet} user={bookMark.creator}/>
                 })}
      
             </div>

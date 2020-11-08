@@ -7,5 +7,5 @@ public final class BookMark {
 
     private final User creator;
 
-    private final Post post;
+    private final Post tweet;
 }
