@@ -3,7 +3,7 @@ package com.jwt.jwitter.avatars;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public final class AvatarUrlProvider {
+public class AvatarUrlProvider {
 
     private final String host;
 
