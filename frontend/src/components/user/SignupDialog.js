@@ -41,6 +41,7 @@ function SignupModal(props) {
         fd.append('file', user.avatar);
         return axios.post('/api/avatars/upload/' + createdUser.id, fd)
       }).then(resp => {
+        handleClose();
         alert("User was created");
       }).catch(r => {
         console.log(r)
