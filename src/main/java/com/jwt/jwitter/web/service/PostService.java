@@ -37,8 +37,17 @@ public class PostService {
         return this.repository.getCommentsByTweetId(tweet_id);
     }
 
+    @Transactional(readOnly = true)
+    public Post getPostById(final int post_id) {
+        return this.repository.getPostById(post_id);
+    }
     @Transactional
     public Post tweet(final PostDto postDto) {
         return this.repository.save(new Post(postDto));
+    }
+
+    @Transactional(readOnly = true)
+    public void addComment(int id,final int commentNum){
+        this.repository.addComment(id, commentNum);
     }
 }

@@ -1,5 +1,7 @@
 package com.jwt.jwitter.web.controllers;
 
+import com.jwt.jwitter.models.Comment;
+import com.jwt.jwitter.models.Post;
 import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.dto.in.PostDto;
 import com.jwt.jwitter.web.service.AuthService;
@@ -37,6 +39,10 @@ public final class PostController {
             final String email=auth.getUsername();
             User u =authService.getUserByEmail(email);
             postDto.setUser_id(u.getId());
+            if (postDto.getReply_to_id() >0){
+                Post p = this.postService.getPostById(postDto.getReply_to_id());
+                this.postService.addComment(p.getId(),p.getComments()+1);
+            }
             return ResponseEntity.ok(this.postService.tweet(postDto));
         } catch (final Exception exc) {
             return ResponseEntity.badRequest().body(

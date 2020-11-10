@@ -7,7 +7,7 @@ const Tweet= ({user,tweetOnChange, reply}) => {
     const [tweet, setTweet] = useState({
         content:'',
         photo:null,
-        reply_to_id:reply
+        reply_to_id:null
     });
     const upload =(photo) =>{
         let fd = new FormData();
@@ -19,8 +19,8 @@ const Tweet= ({user,tweetOnChange, reply}) => {
         )
     }
     const post =()=>{
+        console.log(reply)
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
-        console.log(tweet.reply_to_id)
         axios({
             method: 'post',
             url: '/api/auth/tweet',
@@ -30,7 +30,7 @@ const Tweet= ({user,tweetOnChange, reply}) => {
             data: {
                 content: tweet.content,
                 photo: tweet.photo,
-                reply_to_id: tweet.reply_to_id
+                reply_to_id: reply
             }
           }).then(resp => {
             setTweet({...tweet,
@@ -62,7 +62,7 @@ const Tweet= ({user,tweetOnChange, reply}) => {
                 <div className="tweet_btn_area">
                     <input className="tweet_btn_box tweet_btn" id="file" type="file"
                      onChange={(e) => upload( e.target.files[0])}/>
-                    <label htmlFor="file">
+                    <label htmlFor="file" className={!reply?"" :"hidden"}>
                         <IconButton color="primary" aria-label="upload picture" component="span">
                         <PhotoCamera />
                         </IconButton>

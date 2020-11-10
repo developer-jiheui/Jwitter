@@ -6,7 +6,7 @@ import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import PublishIcon from "@material-ui/icons/Publish";
 
-const Post = ({ tweet_data ,user, postOnClick}) => {
+const Post = ({ tweet_data ,user, postOnClick, viewOnly}) => {
   const viewPost =(func) =>{
     postOnClick(func,tweet_data,user)
   }
@@ -34,7 +34,7 @@ const Post = ({ tweet_data ,user, postOnClick}) => {
                   {tweet_data.photo && <img src={tweet_data.photo} alt="" width="400px"/> }
               </div>
             </div>
-            <div className="post_footer">
+            <div className={viewOnly?"hidden":"post_footer"}>
               <button type='button' onClick={()=>{viewPost("viewComment")}} >
                 <ChatBubbleOutlineIcon fontSize="small"/>
                 <span>{tweet_data.comments}</span>

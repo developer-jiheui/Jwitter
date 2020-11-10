@@ -26,8 +26,8 @@ function CommentDialog(props) {
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="xl">
       <DialogTitle id="form-dialog-title">Add comment</DialogTitle>
       <DialogContent>
-        <Post tweet_data={main_post} user={main_post_user} postOnClick={postOnClick}/>
-        <Tweet user={comment_user} tweetOnChange={tweetOnChange} relpy={main_post.id}/>
+        <Post tweet_data={main_post} user={main_post_user} postOnClick={postOnClick} viewOnly={true}/>
+        <Tweet user={comment_user} tweetOnChange={tweetOnChange} reply={main_post.id}/>
       </DialogContent>
       
       <DialogActions>

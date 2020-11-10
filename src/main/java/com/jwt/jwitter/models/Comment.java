@@ -11,7 +11,6 @@ public final class Comment{
     private final User user;
     private final Post post;
 
-    /* getters here */
 }
 
 

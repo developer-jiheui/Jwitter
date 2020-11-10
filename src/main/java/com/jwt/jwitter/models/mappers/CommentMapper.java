@@ -21,8 +21,6 @@ public final class CommentMapper implements RowMapper<Comment> {
     private PostMapper postMapper;
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private AvatarUrlProvider avatarUrlProvider;
 
     @Override
     public Comment mapRow(final ResultSet rs, final int rowNum) throws SQLException {

@@ -9,8 +9,8 @@ function Main() {
     const [user, setUser] = useState();
     const [viewComments, setViewComments] = useState(false);
     const [leaveComment, setLeaveComment] = useState(false);
-    const [postData, setPostData] = useState({tweet_data:{id:""}});
-    let viewPost ={type:"", tweet_data:{}, comment:[],main_post_user:{avatar:""}}
+    const [postData, setPostData] = useState({tweet_data:{id:""},comment:[],main_post_user:{avatar:""}});
+    let viewPost ={type:"", tweet_data:{id:{}}, comment:[],main_post_user:{avatar:""}}
     //const [{user}] = useStateValue();
     const tweetOnChange =(func) =>{
         if (func == "tweet"){
@@ -19,14 +19,13 @@ function Main() {
     }
 
     const postOnClick =(func,data, main_post_user) =>{
-        viewPost={type: func, tweet_data: data, main_post_user:main_post_user}
+        viewPost={type: func, tweet_data: data, main_post_user:main_post_user,comment:[]}
         setPostData(viewPost)
         if(func == "viewAll"){
             //setViewComment({type: func, tweet_data: data, main_post_user:main_post_user})
-            getComment(viewPost);
+            getComment(viewPost)
         }else if(func == "viewComment"){
             setLeaveComment(!leaveComment)
-            console.log(postData)
         }
     }
 
@@ -69,8 +68,8 @@ function Main() {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
         }).then((res)=>{
-            //setViewComment({...viewComment ,comment:res.data})
             viewPost.comment=res.data
+            setPostData({...postData,comment:res.data})
             setViewComments(true)
         }).catch(r=>{
             console.log(r);
@@ -85,9 +84,9 @@ function Main() {
             <div className={!viewComments?"show":"hidden"}>
                 <Tweet user={user} tweetOnChange={tweetOnChange} reply={null}/>
             </div>
-            <div>
+            <div className={!viewComments?"show":"hidden"}>
             {tweets.map((tweet,index)=>{
-                   return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick}/>
+                   return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false}/>
                 })}
                 {/* {viewComment.type=="viewAll"?
                 tweets.map((tweet,index)=>{
@@ -101,8 +100,8 @@ function Main() {
             </div>
             
             <div className={viewComments? "show":"hidden"}> 
-                <Post tweet_data={viewPost.tweet_data} user={viewPost.main_post_user} postOnClick={postOnClick}/>
-                {viewPost.comment.map((c,index)=>{
+                <Post tweet_data={postData.tweet_data} user={postData.main_post_user} postOnClick={postOnClick} viewOnly={false}/>
+                {postData.comment.map((c,index)=>{
                     return <Post key={index} tweet_data={c.post} user={c.user} postOnClick={postOnClick}/>
                  })
                 }
