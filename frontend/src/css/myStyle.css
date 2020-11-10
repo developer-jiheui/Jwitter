@@ -542,3 +542,9 @@ label:focus,
 .show{
   display:block;
 }
+.share{
+  color: var(--twitter-color);
+}
+.like{
+  color: red;
+}

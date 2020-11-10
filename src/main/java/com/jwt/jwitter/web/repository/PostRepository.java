@@ -9,7 +9,9 @@ import com.jwt.jwitter.models.mappers.CommentMapper;
 import com.jwt.jwitter.models.mappers.PostMapper;
 
 import java.sql.PreparedStatement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,6 +45,62 @@ public class PostRepository {
         return post;
     }
 
+    public Map getLikeNShare(int user_id,int tweet_id){
+        boolean isShare =this.jdbcTemplate.queryForObject("SELECT count(*) from shares where user_id = ? and share_post_id=?", Integer.class, user_id, tweet_id)  != 0;
+        boolean isLike = this.jdbcTemplate.queryForObject("SELECT count(*) from likes where user_id = ? and like_post_id=?", Integer.class, user_id, tweet_id)  != 0;
+        Map rs =new HashMap();
+        rs.put("like",isLike);
+        rs.put("share",isShare);
+        return rs;
+    }
+    public int toggleShare(int user_id,int tweet_id, boolean toggle){
+        if(toggle){
+            this.jdbcTemplate.update(con -> {
+                PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO shares (user_id,share_post_id) values (?,?)");
+                preparedStatement.setInt(1, user_id);
+                preparedStatement.setInt(2, tweet_id);
+                return preparedStatement;
+            });
+            this.jdbcTemplate.update("update tweet set shares=(select shares+1 from tweet where id=?) where id=?",tweet_id,tweet_id);
+        }else{
+            this.jdbcTemplate.update("delete from shares where user_id =? and share_post_id=?",user_id,tweet_id);
+            this.jdbcTemplate.update(con -> {
+                PreparedStatement preparedStatement = con.prepareStatement("update tweet set shares=(select \n" +
+                        " CASE WHEN shares-1<0 THEN 0" +
+                        " ELSE shares-1" +
+                        " END from tweet where id=?) where id=?");
+                preparedStatement.setInt(1, tweet_id);
+                preparedStatement.setInt(2, tweet_id);
+                return preparedStatement;
+            });
+        }
+        return this.jdbcTemplate.queryForObject("Select shares from tweet where id = ?", new Object[]{tweet_id}, Integer.class);
+    }
+
+    public int toggleLike(int user_id,int tweet_id, boolean toggle){
+        if(toggle){
+            this.jdbcTemplate.update(con -> {
+                PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO likes (user_id,like_post_id) values (?,?)");
+                preparedStatement.setInt(1, user_id);
+                preparedStatement.setInt(2, tweet_id);
+                return preparedStatement;
+            });
+            this.jdbcTemplate.update("update tweet set likes=(select likes+1 from tweet where id=?) where id=?",tweet_id,tweet_id);
+        }else{
+            this.jdbcTemplate.update("delete from likes where user_id =? and like_post_id=?",user_id,tweet_id);
+            this.jdbcTemplate.update(con -> {
+                PreparedStatement preparedStatement = con.prepareStatement("update tweet set likes=(select \n" +
+                        " CASE WHEN likes-1<0 THEN 0" +
+                        " ELSE likes-1" +
+                        " END from tweet where id=?) where id=?");
+                preparedStatement.setInt(1, tweet_id);
+                preparedStatement.setInt(2, tweet_id);
+                return preparedStatement;
+            });
+        }
+        return this.jdbcTemplate.queryForObject("Select likes from tweet where id = ?", new Object[]{tweet_id}, Integer.class);
+    }
+
     public List<Comment> getPostsByUser(final int user_id) {
         return this.jdbcTemplate.query(
                 "select * from tweet t left join users u on u.id =t.user_id "+
@@ -61,6 +119,6 @@ public class PostRepository {
     }
 
     public void addComment(int id,int comment){
-        this.jdbcTemplate.update("update tweet set comment=? where id=?",comment,id);
+        this.jdbcTemplate.update("update tweet set comments=? where id=?",comment,id);
     }
 }

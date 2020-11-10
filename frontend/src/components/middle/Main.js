@@ -9,7 +9,7 @@ function Main() {
     const [user, setUser] = useState();
     const [viewComments, setViewComments] = useState(false);
     const [leaveComment, setLeaveComment] = useState(false);
-    const [postData, setPostData] = useState({tweet_data:{id:""},comment:[],main_post_user:{avatar:""}});
+    const [postData, setPostData] = useState({tweet_data:{id:0},comment:[],main_post_user:{id:0,avatar:""}});
     let viewPost ={type:"", tweet_data:{id:{}}, comment:[],main_post_user:{avatar:""}}
     //const [{user}] = useStateValue();
     const tweetOnChange =(func) =>{
