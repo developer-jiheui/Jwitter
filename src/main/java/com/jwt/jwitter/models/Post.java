@@ -32,11 +32,4 @@ public final class Post {
         this.reply_to_id = postDto.getReply_to_id();
     }
 
-<<<<<<< HEAD
-    public Post(final String content, final String photo) {
-        this.content = content;
-        this.photo = photo;
-    }
-=======
->>>>>>> share_like_ych_72
 }
