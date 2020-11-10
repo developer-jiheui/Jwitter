@@ -20,6 +20,7 @@ const Tweet= ({user,tweetOnChange, reply}) => {
     }
     const post =()=>{
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        console.log(tweet.reply_to_id)
         axios({
             method: 'post',
             url: '/api/auth/tweet',
@@ -34,7 +35,8 @@ const Tweet= ({user,tweetOnChange, reply}) => {
           }).then(resp => {
             setTweet({...tweet,
                 content:'',
-                photo:null
+                photo:null,
+                reply_to_id:null
             })
             tweetOnChange('tweet')
           }).catch(r => {
