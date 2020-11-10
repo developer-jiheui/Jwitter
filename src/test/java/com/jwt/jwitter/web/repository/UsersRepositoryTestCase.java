@@ -3,7 +3,7 @@ package com.jwt.jwitter.web.repository;
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.models.User;
 import javax.sql.DataSource;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,10 +44,10 @@ class UsersRepositoryTestCase extends DatabaseIntegrationTest {
     void testGetEmail() {
         final String email = "test@gmail.com";
         final User user = this.repository.getUserByEmail(email);
-        Assert.assertEquals(
-            "Test that user from database has specific email",
+        Assertions.assertEquals(
             email,
-            user.getEmail()
+            user.getEmail(),
+            "Test that user from database has specific email"
         );
     }
 
