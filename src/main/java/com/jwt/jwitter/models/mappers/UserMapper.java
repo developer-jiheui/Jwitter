@@ -1,6 +1,7 @@
 package com.jwt.jwitter.models.mappers;
 
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
+import com.jwt.jwitter.models.Post;
 import com.jwt.jwitter.models.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,6 @@ public final class UserMapper implements RowMapper<User> {
 
     @Override
     public User mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-        System.out.println(avatarUrlProvider);
         return new User(
             rs.getInt("id"),
             rs.getString("email"),

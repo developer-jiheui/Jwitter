@@ -353,7 +353,8 @@
   }
   .tweetInput{
     display: flex;
-    padding: 20px;
+    padding: 20px 0px 20px 20px;
+    width: 600px;
   }
 
   .tweetInput > input {
@@ -373,7 +374,11 @@
     align-items: flex-start;
     border-bottom: 1px solid var(--twitter-background);
     padding-bottom: 10px;
+    width: 600px;
   }
+  div.post:hover{
+    background-color:var(--twitter-border);;
+ }
 
   .post_body {
     flex: 1;
@@ -389,10 +394,14 @@
     justify-content: space-between;
     margin-top: 20px;
   }
+  .iconText{
+    vertical-align:middle;
+  }
 
   .post_headerDescription {
     margin-bottom: 10px;
     font-size: 15px;
+    width: 400px;
   }
 
   .post_headerText > h3 {
@@ -526,4 +535,16 @@ label:focus,
   display: flex;
   padding: 0px 0px 0px 30rem;
   width: fit-content;
+}
+.hidden {
+  display:none;
+}
+.show{
+  display:block;
+}
+.share{
+  color: var(--twitter-color);
+}
+.like{
+  color: red;
 }
