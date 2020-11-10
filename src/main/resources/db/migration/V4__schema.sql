@@ -23,6 +23,6 @@ CREATE table shares
 
 ALTER TABLE likes
     ADD PRIMARY KEY (user_id, like_post_id);
-	
+
 ALTER TABLE shares
     ADD PRIMARY KEY (user_id, share_post_id);

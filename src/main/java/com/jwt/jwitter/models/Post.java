@@ -31,5 +31,8 @@ public final class Post {
         this.comments = postDto.getComments();
         this.reply_to_id = postDto.getReply_to_id();
     }
-
+    public Post(final String content, final String photo) {
+        this.content = content;
+        this.photo = photo;
+    }
 }
