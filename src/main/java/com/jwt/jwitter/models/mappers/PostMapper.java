@@ -25,7 +25,8 @@ public final class PostMapper implements RowMapper<Post> {
             rs.getString("photo"),
             rs.getInt("shares"),
             rs.getInt("likes"),
-            rs.getInt("comments")
+            rs.getInt("comments"),
+            rs.getInt("reply_to_id")
         );
     }
 }

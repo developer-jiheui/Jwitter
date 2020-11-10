@@ -6,12 +6,16 @@ import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import PublishIcon from "@material-ui/icons/Publish";
 
-const Post = ({ tweet_data ,user, handleOnChange}) => {
-  const viewPost =() =>{
-
+const Post = ({ tweet_data ,user, postOnClick}) => {
+  const viewPost =(func) =>{
+    postOnClick(func,tweet_data,user)
   }
+ // const toggleLike=(like) =>{
+    
+ // }
+  //const [like,setLike] =useState(tweet_data.likes);
       return (
-        <div className="post" onClick={e=>{viewPost}}>
+        <div className="post">
           <div className="post_avatar">
             <Avatar src={user.avatar}/>
           </div>
@@ -25,18 +29,20 @@ const Post = ({ tweet_data ,user, handleOnChange}) => {
                   </span>
                 </h3>
               </div>
-              <div className="post_headerDescription">
+              <div className="post_headerDescription" onClick={()=>{viewPost("viewAll")}}>
                   <p>{tweet_data.content}</p>
+                  {tweet_data.photo && <img src={tweet_data.photo} alt="" width="400px"/> }
               </div>
             </div>
-            {tweet_data.photo && <img src={tweet_data.photo} alt="" width="400px"/> }
             <div className="post_footer">
-              <div className="iconText">
-                <ChatBubbleOutlineIcon fontSize="small" onClick={comment}/>
+              <button type='button' onClick={()=>{viewPost("viewComment")}} >
+                <ChatBubbleOutlineIcon fontSize="small"/>
                 <span>{tweet_data.comments}</span>
-              </div>
+               </button>
               <RepeatIcon fontSize="small" />
+              <div className="iconText">l
               <FavoriteBorderIcon fontSize="small" />
+              </div>
               <PublishIcon fontSize="small" />
             </div>
           </div>

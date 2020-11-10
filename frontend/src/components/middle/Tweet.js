@@ -3,10 +3,11 @@ import { Avatar, Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import axios from 'axios';
-const Tweet= ({user,handleOnChange}) => {
+const Tweet= ({user,tweetOnChange, reply}) => {
     const [tweet, setTweet] = useState({
         content:'',
-        photo:null
+        photo:null,
+        reply_to_id:reply
     });
     const upload =(photo) =>{
         let fd = new FormData();
@@ -27,14 +28,15 @@ const Tweet= ({user,handleOnChange}) => {
             },
             data: {
                 content: tweet.content,
-                photo: tweet.photo
+                photo: tweet.photo,
+                reply_to_id: tweet.reply_to_id
             }
           }).then(resp => {
             setTweet({...tweet,
                 content:'',
                 photo:null
             })
-            handleOnChange('tweet')
+            tweetOnChange('tweet')
           }).catch(r => {
             console.log(r)
             alert(JSON.stringify(r.response.data));

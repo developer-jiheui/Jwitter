@@ -54,6 +54,15 @@ public final class PostController {
         }
     }
 
+    @GetMapping("/comments/{tweet_id}")
+    public ResponseEntity<?> getCommentsByTweetId(@PathVariable("tweet_id") int tweet_id) {
+        try {
+            return ResponseEntity.ok(this.postService.getCommentsByTweetId(tweet_id));
+        } catch (final AuthenticationException exc) {
+            return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
+        }
+    }
+
     @GetMapping("/posts/{user_id}")
     public ResponseEntity<?> getPostsByFollow(@PathVariable("user_id") int user_id) {
         try {

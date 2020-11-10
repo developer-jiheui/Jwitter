@@ -374,6 +374,7 @@
     align-items: flex-start;
     border-bottom: 1px solid var(--twitter-background);
     padding-bottom: 10px;
+    width: 600px;
   }
   div.post:hover{
     background-color:var(--twitter-border);;
@@ -534,4 +535,10 @@ label:focus,
   display: flex;
   padding: 0px 0px 0px 30rem;
   width: fit-content;
+}
+.hidden {
+  display:none;
+}
+.show{
+  display:block;
 }
