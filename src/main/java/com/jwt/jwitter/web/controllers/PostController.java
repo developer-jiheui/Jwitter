@@ -1,6 +1,5 @@
 package com.jwt.jwitter.web.controllers;
 
-import com.jwt.jwitter.models.Comment;
 import com.jwt.jwitter.models.Post;
 import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.dto.in.PostDto;
@@ -35,13 +34,13 @@ public final class PostController {
     @PostMapping("/tweet")
     public ResponseEntity<?> tweet(@RequestBody PostDto postDto) {
         try {
-            final UserDetails auth= (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            final String email=auth.getUsername();
-            User u =authService.getUserByEmail(email);
+            final UserDetails auth = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            final String email = auth.getUsername();
+            User u = authService.getUserByEmail(email);
             postDto.setUser_id(u.getId());
-            if (postDto.getReply_to_id() >0){
+            if (postDto.getReply_to_id() > 0) {
                 Post p = this.postService.getPostById(postDto.getReply_to_id());
-                this.postService.addComment(p.getId(),p.getComments()+1);
+                this.postService.addComment(p.getId(), p.getComments() + 1);
             }
             return ResponseEntity.ok(this.postService.tweet(postDto));
         } catch (final Exception exc) {
@@ -72,11 +71,11 @@ public final class PostController {
     @GetMapping("/likeNShare/{tweet_id}")
     public ResponseEntity<?> getLikeNShare(@PathVariable("tweet_id") int tweet_id) {
         try {
-            final UserDetails auth= (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            final String email=auth.getUsername();
-            User u =authService.getUserByEmail(email);
-            int user_id=u.getId();
-            return ResponseEntity.ok(this.postService.getLikeNShare(user_id,tweet_id));
+            final UserDetails auth = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            final String email = auth.getUsername();
+            User u = authService.getUserByEmail(email);
+            int user_id = u.getId();
+            return ResponseEntity.ok(this.postService.getLikeNShare(user_id, tweet_id));
         } catch (final AuthenticationException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
@@ -85,11 +84,11 @@ public final class PostController {
     @GetMapping("/toggleShare/{tweet_id}/{toggle}")
     public ResponseEntity<?> toggleShare(@PathVariable("tweet_id") int tweet_id, @PathVariable("toggle") boolean toggle) {
         try {
-            final UserDetails auth= (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            final String email=auth.getUsername();
-            User u =authService.getUserByEmail(email);
-            int user_id=u.getId();
-            return ResponseEntity.ok(this.postService.toggleShare(user_id,tweet_id,toggle));
+            final UserDetails auth = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            final String email = auth.getUsername();
+            User u = authService.getUserByEmail(email);
+            int user_id = u.getId();
+            return ResponseEntity.ok(this.postService.toggleShare(user_id, tweet_id, toggle));
         } catch (final AuthenticationException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
@@ -98,11 +97,11 @@ public final class PostController {
     @GetMapping("/toggleLike/{tweet_id}/{toggle}")
     public ResponseEntity<?> toggleLike(@PathVariable("tweet_id") int tweet_id, @PathVariable("toggle") boolean toggle) {
         try {
-            final UserDetails auth= (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            final String email=auth.getUsername();
-            User u =authService.getUserByEmail(email);
-            int user_id=u.getId();
-            return ResponseEntity.ok(this.postService.toggleLike(user_id,tweet_id,toggle));
+            final UserDetails auth = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            final String email = auth.getUsername();
+            User u = authService.getUserByEmail(email);
+            int user_id = u.getId();
+            return ResponseEntity.ok(this.postService.toggleLike(user_id, tweet_id, toggle));
         } catch (final AuthenticationException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
@@ -116,4 +115,5 @@ public final class PostController {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
     }
+
 }

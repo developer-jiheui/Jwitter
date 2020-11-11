@@ -19,7 +19,7 @@ public final class Post {
     private int likes;
     private int comments;
     private int reply_to_id;
-
+    private boolean bookMarked;
 
     public Post(final PostDto postDto) {
         this.id = -1;
@@ -31,6 +31,12 @@ public final class Post {
         this.comments = postDto.getComments();
         this.reply_to_id = postDto.getReply_to_id();
     }
+    public Post(final String content, final String photo,boolean bookMarked) {
+        this.content = content;
+        this.photo = photo;
+        this.bookMarked = bookMarked;
+    }
+
     public Post(final String content, final String photo) {
         this.content = content;
         this.photo = photo;
