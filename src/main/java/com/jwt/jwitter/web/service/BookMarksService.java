@@ -17,6 +17,11 @@ public class BookMarksService {
     @Autowired
     private BookMarkMapper bookMarkMapper;
 
+    @Transactional
+    public void create(final String userEmail, final int postId) {
+        this.template.update("INSERT INTO bookmarks (user_id,twit_id) values ((select id from users where email = ? limit 1),?)", userEmail, postId);
+    }
+
     @Transactional(readOnly = true)
     public List<BookMark> getBookMarks(final String email) {
         return this.template.query(

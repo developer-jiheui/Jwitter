@@ -63,7 +63,7 @@ function Login() {
                             account: e.target.value
                         }
                     )}/>
-                  <input placeholder="password" type="text" onChange={e=> setUser({
+                  <input placeholder="password" type="password" onChange={e=> setUser({
                             ...user, 
                             password: e.target.value
                         }

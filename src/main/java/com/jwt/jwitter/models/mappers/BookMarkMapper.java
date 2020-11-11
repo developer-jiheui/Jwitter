@@ -26,7 +26,8 @@ public final class BookMarkMapper implements RowMapper<BookMark> {
             ),
             new Post(
                 rs.getString("content"),
-                rs.getString("tweet_photo")
+                rs.getString("tweet_photo"),
+                true
             )
         );
     }
