@@ -10,23 +10,23 @@ import axios from 'axios';
 const Post = ({ tweet_data ,user, postOnClick, viewOnly}) => {
   const [like, setLike]= useState(false)
   const [share, setShare]= useState(false)
+  const [tweetData, setTweetData]= useState(tweet_data)
+  console.log("tweetData",tweetData)
   useEffect(() => {
     init()
-    console.log(tweet_data)
-    console.log(user)
-  },[user]);
-  const viewPost =(func) =>{
-    postOnClick(func,tweet_data,user)
+  },[tweetData]);
+  const viewPost =() =>{
+    postOnClick(tweetData,user)
   }
   const toggleShare=(share)=>{
     let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')))
-    axios.get(`/api/auth/toggleShare/${tweet_data.id}/${!share}`,{
+    axios.get(`/api/auth/toggleShare/${tweetData.id}/${!share}`,{
       headers: {
           Authorization: bearer
       }
     }).then((res)=>{
           setShare(!share)
-          tweet_data.shares=res.data
+          setTweetData({...tweetData,shares:res.data})
       }).catch(r=>{
           console.log(r);
           alert(r);
@@ -34,15 +34,13 @@ const Post = ({ tweet_data ,user, postOnClick, viewOnly}) => {
   }
   const toggleLike=(like)=>{
     let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')))
-    axios.get(`/api/auth/toggleLike/${tweet_data.id}/${!like}`,{
+    axios.get(`/api/auth/toggleLike/${tweetData.id}/${!like}`,{
       headers: {
           Authorization: bearer
       }
     }).then((res)=>{
-          setShare(!like)
-          tweet_data.likes=res.data
-          console.log(share)
-          console.log(tweet_data)
+          setLike(!like)
+          setTweetData({...tweetData,likes:res.data})
       }).catch(r=>{
           console.log(r);
           alert(r);
@@ -50,7 +48,7 @@ const Post = ({ tweet_data ,user, postOnClick, viewOnly}) => {
   }
   const init =() =>{
     let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')))
-    axios.get(`/api/auth/likeNShare/${tweet_data.id}`,{
+    axios.get(`/api/auth/likeNShare/${tweetData.id}`,{
       headers: {
           Authorization: bearer
       }
@@ -81,23 +79,23 @@ const Post = ({ tweet_data ,user, postOnClick, viewOnly}) => {
                   </span>
                 </h3>
               </div>
-              <div className="post_headerDescription" onClick={()=>{viewPost("viewAll")}}>
-                  <p>{tweet_data.content}</p>
-                  {tweet_data.photo && <img src={tweet_data.photo} alt="" width="400px"/> }
+              <div className="post_headerDescription">
+                  <p>{tweetData.content}</p>
+                  {tweetData.photo && <img src={tweetData.photo} alt="" width="400px"/> }
               </div>
             </div>
             <div className={viewOnly?"hidden":"post_footer"}>
               <button type='button' onClick={()=>{viewPost("viewComment")}} >
                 <ChatBubbleOutlineIcon fontSize="small"/>
-                <span>{tweet_data.comments}</span>
+                <span>{tweetData.comments}</span>
                </button>
                <button type='button' onClick={()=>toggleShare(share)} >
                   <RepeatIcon fontSize="small" className={share?"share":""}/>
-                <span>{tweet_data.shares}</span>
+                <span>{tweetData.shares}</span>
                </button>
                <button type='button' onClick={()=>toggleLike(like)} >
                   <FavoriteBorderIcon fontSize="small" className={like?"like":""}/>
-                <span>{tweet_data.likes}</span>
+                <span>{tweetData.likes}</span>
                </button>
               <PublishIcon fontSize="small" />
             </div>

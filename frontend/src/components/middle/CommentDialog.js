@@ -15,8 +15,8 @@ import axios from 'axios';
 // }
 
 function CommentDialog(props) {
-    const {onClose, open, main_post,main_post_user, comment_user} = props
-    console.log(props)
+    const {onClose, open, main_post,main_post_user,comments, comment_user} = props
+    console.log("props",props)
     const handleClose = () => {
         onClose(open);
   };
@@ -27,6 +27,10 @@ function CommentDialog(props) {
       <DialogTitle id="form-dialog-title">Add comment</DialogTitle>
       <DialogContent>
         <Post tweet_data={main_post} user={main_post_user} postOnClick={postOnClick} viewOnly={true}/>
+        {comments.map((c,index)=>{
+            return <Post key={index} tweet_data={c.post} user={c.user} postOnClick={postOnClick} viewOnly={true}/>
+          })
+        }
         <Tweet user={comment_user} tweetOnChange={tweetOnChange} reply={main_post.id}/>
       </DialogContent>
       

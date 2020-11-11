@@ -10,7 +10,6 @@ function Main() {
     const [viewComments, setViewComments] = useState(false);
     const [leaveComment, setLeaveComment] = useState(false);
     const [postData, setPostData] = useState({tweet_data:{id:0},comment:[],main_post_user:{id:0,avatar:""}});
-    let viewPost ={type:"", tweet_data:{id:{}}, comment:[],main_post_user:{avatar:""}}
     //const [{user}] = useStateValue();
     const tweetOnChange =(func) =>{
         if (func == "tweet"){
@@ -18,15 +17,11 @@ function Main() {
         }
     }
 
-    const postOnClick =(func,data, main_post_user) =>{
-        viewPost={type: func, tweet_data: data, main_post_user:main_post_user,comment:[]}
+    const postOnClick =(data, main_post_user) =>{
+        let viewPost={tweet_data: data, main_post_user:main_post_user,comment:[]}
         setPostData(viewPost)
-        if(func == "viewAll"){
-            //setViewComment({type: func, tweet_data: data, main_post_user:main_post_user})
-            getComment(viewPost)
-        }else if(func == "viewComment"){
-            setLeaveComment(!leaveComment)
-        }
+        getComment(viewPost)
+        setLeaveComment(!leaveComment)
     }
 
     const handleClose=()=>{
@@ -35,7 +30,7 @@ function Main() {
 
     useEffect(() => {
         getTweets();
-      },[]);
+      },[postData]);
 
     const getTweets = () =>{
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
@@ -69,8 +64,7 @@ function Main() {
                 "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
         }).then((res)=>{
             viewPost.comment=res.data
-            setPostData({...postData,comment:res.data})
-            setViewComments(true)
+            setPostData(viewPost)
         }).catch(r=>{
             console.log(r);
             alert(r);
@@ -78,39 +72,31 @@ function Main() {
     }
     return (
         <div className="main">
-            <div className="main_header"> 
+            <div className="main_header">
             <h1>Home</h1>
             </div>
             <div className={!viewComments?"show":"hidden"}>
                 <Tweet user={user} tweetOnChange={tweetOnChange} reply={null}/>
             </div>
-            <div className={!viewComments?"show":"hidden"}>
+            <div >
             {tweets.map((tweet,index)=>{
                    return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false}/>
                 })}
-                {/* {viewComment.type=="viewAll"?
-                tweets.map((tweet,index)=>{
-                   return <Post key={index} tweet_data={tweet} user={user} postOnClick={postOnClick}/>
-                }):  
-                <Post key={index} tweet_data={viewComment.tweet_data} user={user} postOnClick={postOnClick}/> 
-                viewComment.comment.map((comment,index)=>{
-                    return <Post key={index} tweet_data={comment} user={user} postOnClick={postOnClick}/>
-                 })
-                } */}
             </div>
             
-            <div className={viewComments? "show":"hidden"}> 
+            {/* <div className={viewComments? "show":"hidden"}> 
                 <Post tweet_data={postData.tweet_data} user={postData.main_post_user} postOnClick={postOnClick} viewOnly={false}/>
                 {postData.comment.map((c,index)=>{
                     return <Post key={index} tweet_data={c.post} user={c.user} postOnClick={postOnClick}/>
                  })
                 }
-            </div>
+            </div> */}
             <CommentDialog 
             open={leaveComment} 
             main_post={postData.tweet_data} 
             main_post_user={postData.main_post_user} 
             comment_user={user} 
+            comments={postData.comment}
             onClose={handleClose} />
         </div>
     )
