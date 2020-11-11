@@ -19,5 +19,7 @@ public final class UserDto implements IntUserDto {
     private final String bio;
     private final String location;
     private final String website;
+    private final String avatar;
+    private final String coverPhoto;
 
 }

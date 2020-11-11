@@ -42,7 +42,8 @@ public final class AuthController {
     public ResponseEntity<?> signIn(@RequestBody SignInDto signInDto) {
         try {
             return ResponseEntity.ok(this.authService.signIn(signInDto));
-        } catch (final AuthenticationException exc) {
+        } catch (final Exception exc) {
+            exc.printStackTrace();
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
     }

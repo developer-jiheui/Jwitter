@@ -21,6 +21,7 @@ public final class User {
     private String location;
     private String website;
     private Date joinday;
+    private String coverPhoto;
 
     public User(final SignUpDto signUpDto, final String encodedPassword) {
         this.id = -1;
@@ -32,6 +33,7 @@ public final class User {
         this.bio = null;
         this.location = null;
         this.website = null;
+        this.coverPhoto = null;
     }
 
     public User(final int id,final String username,final String avatar){

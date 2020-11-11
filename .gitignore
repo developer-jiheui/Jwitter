@@ -17,7 +17,7 @@ mvnw*
 *.iml
 .factorypath
 .project
-
 database.properties
 jwt.properties
 weedfs.properties
+*.DS_Store

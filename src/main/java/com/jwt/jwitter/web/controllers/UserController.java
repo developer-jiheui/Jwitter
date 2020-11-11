@@ -46,7 +46,8 @@ public final class UserController {
         user.setBirthday(userDto.getBirthday());
         user.setLocation(userDto.getLocation());
         user.setWebsite(userDto.getWebsite());
-
+        user.setAvatar(userDto.getAvatar());
+        user.setCoverPhoto(userDto.getCoverPhoto());
         try {
             return ResponseEntity.ok(this.userService.updateUser(user));
         } catch (Exception e) {

@@ -18,7 +18,7 @@ function SignupModal(props) {
     email: null,
     birth: null,
     avatar: null,
-    password: null
+    password: null,
   });
   const [signUpMethod, setSignUpMethod] = useState({ method: "email" });
   const handleClose = () => {

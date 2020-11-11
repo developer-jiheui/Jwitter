@@ -2,6 +2,7 @@ package com.jwt.jwitter.config.jwt;
 
 import com.jwt.jwitter.web.dto.Credentials;
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +20,8 @@ public class SignInAuthVerification {
     private final JwtGenerator jwtGenerator;
 
     public String verify(final Credentials credentials) {
-        var authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword()));
+        var authentication = this.authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return this.jwtGenerator.generateJwtToken(authentication);
     }

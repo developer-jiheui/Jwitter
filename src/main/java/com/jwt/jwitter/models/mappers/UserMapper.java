@@ -30,7 +30,8 @@ public final class UserMapper implements RowMapper<User> {
             rs.getString("bio"),
             rs.getString("location"),
             rs.getString("website"),
-            rs.getDate("created_at")
+            rs.getDate("created_at"),
+            this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto"))
         );
     }
 }

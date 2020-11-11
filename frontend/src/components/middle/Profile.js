@@ -43,7 +43,7 @@ function Profile(props) {
         }
     }
 
-    const userAvatarURLCSS = user.avatar ? {background: "url('" + user.avatar + "')"} : {background: "grey"};
+    const userAvatarURLCSS = user.avatar ? {backgroundImage: "url('" + user.avatar + "')"} : {background: "grey"};
 
     return (
         <div className="main">

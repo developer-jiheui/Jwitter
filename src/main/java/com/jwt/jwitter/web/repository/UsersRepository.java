@@ -35,7 +35,8 @@ public class UsersRepository {
                 rs.getString("bio"),
                 rs.getString("location"),
                 rs.getString("website"),
-                rs.getDate("created_at")
+                rs.getDate("created_at"),
+                this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto"))
             ));
 
     }
@@ -83,7 +84,8 @@ public class UsersRepository {
                 rs.getString("bio"),
                 rs.getString("location"),
                 rs.getString("website"),
-                rs.getDate("created_at")
+                rs.getDate("created_at"),
+                this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto"))
             ));
     }
 }

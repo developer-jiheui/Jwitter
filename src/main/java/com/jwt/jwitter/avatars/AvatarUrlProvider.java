@@ -13,7 +13,11 @@ public class AvatarUrlProvider {
      * Normalize file id from database to http url.
      */
     public String normalizeUrl(final String fid) {
-        return String.format("http://%s:%d/%s", this.host, this.port, fid);
+        if(fid==null){
+            return "";
+        }
+        else
+            return String.format("http://%s:%d/%s", this.host, this.port, fid);
     }
 
 }

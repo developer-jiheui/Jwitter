@@ -11,4 +11,6 @@ public interface IntUserDto {
     String getBio();
     String getLocation();
     String getWebsite();
+    String getAvatar();
+    String getCoverPhoto();
 }
