@@ -2,11 +2,13 @@ package com.jwt.jwitter.web.repository;
 
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.models.User;
+import java.util.Date;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -51,6 +53,37 @@ class UsersRepositoryTestCase extends DatabaseIntegrationTest {
         );
     }
 
+    @Test
+    @DisplayName("Check update avatar")
+    @Sql("/create_user_with_avatar.sql")
+    void updateAvatarTestCase() {
+        final String email = "test_avatar@gmail.com";
+        final User user = this.repository.getUserByEmail(email);
+        final String avatar = "avatar";
+        this.repository.updateAvatar(user.getId(), avatar);
+        Assertions.assertEquals(
+            avatar,
+            this.repository.getUserByEmail(email).getAvatar(),
+            "Check that avatar was updated"
+        );
+    }
+
+    @Test
+    @DisplayName("Test save user")
+    void saveTestCase() {
+        final String email = "alm@gmail.com";
+        final User user = new User(10, "Almas322", "avatar");
+        user.setEmail(email);
+        user.setPassword("12345");
+        user.setBirthday(new Date());
+        this.repository.save(user);
+        Assertions.assertEquals(
+            email,
+            this.repository.getUserByEmail(email).getEmail(),
+            "Check that new user has specific email"
+        );
+    }
+
     @TestConfiguration
     public static class UserRepositoryConfig {
 
@@ -66,7 +99,9 @@ class UsersRepositoryTestCase extends DatabaseIntegrationTest {
 
         @Bean
         public AvatarUrlProvider avatarUrlProvider() {
-            return Mockito.mock(AvatarUrlProvider.class);
+            final AvatarUrlProvider mock = Mockito.mock(AvatarUrlProvider.class);
+            Mockito.when(mock.normalizeUrl(ArgumentMatchers.anyString())).thenReturn("avatar");
+            return mock;
         }
 
     }
