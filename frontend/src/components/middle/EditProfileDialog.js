@@ -20,7 +20,6 @@ EditProfileDialogue.propTypes = {
 };
 
 function EditProfileDialogue(props) {
-    console.log(props.user);
     const {onClose, open} = props;
     const [user, setUser ] = useState({...props.user});
 
@@ -74,7 +73,9 @@ function EditProfileDialogue(props) {
         fd.append('file', file);
         axios.post('/api/avatars/photoUpload', fd)
             .then(res=>{
-                    setUser({...user, coverPhoto:`http://45.76.207.32:8081/${res.data}`})
+                const rawData = res.data.split("/");
+                const fid = rawData[rawData.length-1]
+                    setUser({...user, coverPhoto:`http://45.76.207.32:8081/`+fid})
                 }
             )
     }
@@ -85,7 +86,9 @@ function EditProfileDialogue(props) {
         fd.append('file',file);
         axios.post('/api/avatars/photoUpload', fd)
             .then(res=>{
-                    setUser({...user, avatar:`http://45.76.207.32:8081/${res.data}`})
+                const rawData = res.data.split("/");
+                const fid = rawData[rawData.length-1]
+                setUser({...user, avatar:`http://45.76.207.32:8081/`+fid})
                 }
             )
     }

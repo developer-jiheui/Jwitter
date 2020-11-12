@@ -16,8 +16,11 @@ public class AvatarUrlProvider {
         if(fid==null){
             return "";
         }
-        else
-            return String.format("http://%s:%d/%s", this.host, this.port, fid);
+        else{
+            String rawData[] = fid.split("/");
+            String cleanData = rawData[rawData.length-1];
+            return String.format("http://%s:%d/%s", this.host, this.port, cleanData);
+        }
     }
 
     /**
@@ -27,8 +30,8 @@ public class AvatarUrlProvider {
         if(fid==null){
             return "";
         }
-            String cleanData = fid.replace("http://45.76.207.32:8081/","");
-            System.out.println(cleanData);
+            String rawData[] = fid.split("/");
+            String cleanData = rawData[rawData.length-1];
             return cleanData;
     }
 
