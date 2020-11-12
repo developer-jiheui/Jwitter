@@ -16,6 +16,8 @@ function Profile() {
     const [myTweets, setTweets] = useState([]);
     const [tweetsAndReplies, setTandR] = useState([]);
     const [tweetLike, setLikes] = useState([]);
+    const [following, setFollowing] = useState([]);
+    const [follower, setFollower] = useState([]);
 
 
     useEffect(() => {
@@ -29,6 +31,8 @@ function Profile() {
             getMyTweets(resp.data.id);
             getTweetsAndReplies(resp.data.id);
             getLikes(resp.data.id);
+            getFollower(resp.data.id);
+            getFollowing(resp.data.id);
             console.log("User",user)
         }).catch(error => {
             console.log(error);
@@ -84,6 +88,35 @@ function Profile() {
         });
     }
 
+    const getFollowing = (user_id) => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        axios({
+            method: 'get',
+            url: '/api/auth/get-following/' + user_id,
+            headers: {
+                Authorization: bearer
+            }
+        }).then(resp => {
+            setFollowing(resp.data);
+        }).catch(r => {
+            console.log(r);
+        });
+    }
+
+    const getFollower = (user_id) => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        axios({
+            method: 'get',
+            url: '/api/auth/get-follower/' + user_id,
+            headers: {
+                Authorization: bearer
+            }
+        }).then(resp => {
+            setFollower(resp.data);
+        }).catch(r => {
+            console.log(r);
+        });
+    }
 
     const handleClickOpen = () => {
         setEditProfileOpen(true);
@@ -113,7 +146,7 @@ function Profile() {
             <div className="profile_header">
                 <BackIcon className="backArrow"/>
                 <span className="userName">{user.username}</span>
-                <span className="numOfTweets">{Math.floor(Math.random() * 9999)} Tweets</span>
+                <span className="numOfTweets">{myTweets.length} Tweets</span>
             </div>
             <div className ="profileSubheader">
                 <div className="cover-photo" style={coverPhotoURLCSS}/>
@@ -136,11 +169,11 @@ function Profile() {
                 </div>
                 <div className ="profileInfoSection">
                     <span className="userProfileInfo">
-                        <span className="followingNum">{Math.floor(Math.random() * 500)}</span>
+                        <span className="followingNum">{following.length}</span>
                         Following
                     </span>
                     <span className="userProfileInfo">
-                        <span className="followerNum">{Math.floor(Math.random() * 500)}</span>
+                        <span className="followerNum">{follower.length}</span>
                         Follower
                     </span>
                 </div>

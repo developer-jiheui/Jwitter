@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Data
 public class UserService {
@@ -32,4 +34,15 @@ public class UserService {
     public User updateUser(final User user) {
         return this.usersRepository.updateUser(user);
     }
+
+    @Transactional
+    public List<User> getFollowing(final int userid) {
+        return this.usersRepository.getFollowing(userid);
+    }
+    @Transactional
+    public List<User> getFollower(final int userid) {return this.usersRepository.getFollower(userid);
+    }
+
+    @Transactional
+    public boolean isSameUserName(final User user) { return this.usersRepository.isSameUserName(user);}
 }

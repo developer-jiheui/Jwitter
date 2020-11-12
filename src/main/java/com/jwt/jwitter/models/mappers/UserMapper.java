@@ -15,8 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public final class UserMapper implements RowMapper<User> {
 
-    @Autowired
+
     private AvatarUrlProvider avatarUrlProvider;
+
+    @Autowired
+    public UserMapper(AvatarUrlProvider avatarUrlProvider) {
+        this.avatarUrlProvider = avatarUrlProvider;
+    }
 
     @Override
     public User mapRow(final ResultSet rs, final int rowNum) throws SQLException {
