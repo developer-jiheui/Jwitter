@@ -20,6 +20,7 @@ public class UsersRepository {
     private AvatarUrlProvider avatarUrlProvider;
 
     public boolean exists(final int userId) {
+        System.out.println("USER EXISTS?? + " + userId);
         return this.jdbcTemplate.queryForObject("SELECT count(*) from users where id = ?", Integer.class, userId) != 0;
     }
 
@@ -61,12 +62,14 @@ public class UsersRepository {
 
     public User updateUser(final User user) {
         this.jdbcTemplate.update(
-            "UPDATE users SET username=?,birthday=?,bio=?,location=?,website=? WHERE id = ?",
+            "UPDATE users SET username=?,birthday=?,bio=?,location=?,website=?,avatar =?, coverPhoto =? WHERE id = ?",
             user.getUsername(),
             new Date(user.getBirthday().getTime()),
             user.getBio(),
             user.getLocation(),
             user.getWebsite(),
+            this.avatarUrlProvider.denormalizeUrl(user.getAvatar()),
+            this.avatarUrlProvider.denormalizeUrl(user.getCoverPhoto()),
             user.getId()
         );
         return getUser(user.getEmail());

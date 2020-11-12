@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect,useState } from "react";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -11,6 +11,8 @@ import Input from "@material-ui/core/Input";
 import * as PropTypes from "prop-types";
 import axios from 'axios';
 
+
+
 EditProfileDialogue.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
@@ -18,41 +20,39 @@ EditProfileDialogue.propTypes = {
 };
 
 function EditProfileDialogue(props) {
-    const {onClose, open, user} = props;
-    const [avatar, setAvatar] = React.useState(user.avatar);
-    const [updatedUser, setUpdatedUser ] = React.useState({
-        username: "",
-        avatar: "",
-        bio: "",
-        website: "",
-        birthday: "",
-        location: ""
-    });
+    console.log(props.user);
+    const {onClose, open} = props;
+    const [user, setUser ] = useState({...props.user});
+
+    console.log("Cover Photo url loaded at the beginning: ", user.coverPhoto);
+
+    useEffect(() => {
+        setUser(props.user);
+    }, [props.user])
+
 
     function handleClose() {
         onClose(true);
     }
 
     async function handleSaveProfile() {
-        console.log('UPDATED ', updatedUser);
-        console.log("CURR ", user);
-
-        let bday = new Date(updatedUser.birthday ? updatedUser.birthday : user.birthday);
+        console.log("ABOUT TO SAVE USER: ", user);
+        let bday = new Date(user.birthday );//? user.birthday : user.birthday);
         bday.setDate(bday.getDate() + 1);
 
-        let fd = new FormData();
-        fd.append('file', avatar || user.avatar);
+        let userDto = {
+                email: user.email,
+                username: user.username,
+                bio: user.bio,
+                birthday: bday,
+                location: user.location,
+                website: user.website,
+                avatar : user.avatar,
+                coverPhoto : user.coverPhoto
+        };
 
-        let updatedData = {
-            username: updatedUser.username ? updatedUser.username : user.username,
-            bio: updatedUser.bio ? updatedUser.bio : user.bio,
-            location: updatedUser.location ? updatedUser.location : user.location,
-            website: updatedUser.website ? updatedUser.website : user.website,
-            birthday: updatedUser.birthday ? updatedUser.birthday : user.birthday,
-            email: user.email
-        }
+        console.log(userDto);
 
-        console.log(updatedData);
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
         axios({
             method: "put",
@@ -60,38 +60,53 @@ function EditProfileDialogue(props) {
             headers: {
                 Authorization: bearer
               },
-            data: updatedData
-        }).then(resp => {
-            console.log(resp.data);
+            data: userDto
         }).catch(error => {
             // TODO: error handling for UI
             console.log(error);
         });
+        console.log("saved Cover Photo: ", user.coverPhoto);
 
-        handleClose();
+        handleClose(true);
     }
 
     function handleChangeCoverPhoto(event) {
+
         const file = event.target.files[0];
-        const reader = new FileReader();
+        let fd = new FormData();
+        console.log("Cover Photo file: ", file);
 
-        reader.onloadend = function(e) {
-            setAvatar(reader.result);
-        }.bind(this);
-
-        reader.readAsDataURL(file);
+        fd.append('file', file);
+        axios.post('/api/avatars/photoUpload', fd)
+            .then(res=>{
+                    setUser({...user, coverPhoto:`http://45.76.207.32:8081/${res.data}`})
+                }
+            )
     }
 
     function handleChangeProfilePhoto(event) {
         const file = event.target.files[0];
-        const reader = new FileReader();
+        let fd = new FormData();
+        fd.append('file',file);
+        axios.post('/api/avatars/photoUpload', fd)
+            .then(res=>{
+                    setUser({...user, avatar:`http://45.76.207.32:8081/${res.data}`})
+                }
+            )
 
-        reader.onloadend = function(e) {
-            setAvatar(reader.result);
-        }.bind(this);
-
-        reader.readAsDataURL(file);
+        // const file = event.target.files[0];
+        // const reader = new FileReader();
+        //
+        // reader.onloadend = function(e) {
+        //     setUser({...user, avatar: file});
+        // }.bind(this);
+        //
+        // reader.readAsDataURL(file);
     }
+
+    const userAvatarURLCSS = user.avatar ? {backgroundImage: "url('" +user.avatar + "')"} : {background: "grey"};
+    const coverPhotoURLCSS = user.coverPhoto ? {backgroundImage: "url('" + user.coverPhoto + "')"} : {background: "grey"};
+
 
     return (
         <Dialog onClose={handleClose} className="edit-profile-dialog" aria-labelledby="edit-profile-dialog" open={open}>
@@ -102,7 +117,7 @@ function EditProfileDialogue(props) {
             </DialogTitle>
             <DialogContent id="edit-profile-dialog-content">
                 <div className="profileSubheader">
-                    <div className="cover-photo" style={{backgroundImage: "url('" + (avatar || user.avatar) + "')"}}>
+                    <div className="cover-photo" style={coverPhotoURLCSS}>
                         <input
                             accept="image/*"
                             className="hidden-input"
@@ -114,7 +129,7 @@ function EditProfileDialogue(props) {
                             <AddAPhotoIcon/>
                         </label>
                     </div>
-                    <div className="profile-image" style={{backgroundImage: "url('" + (avatar || user.avatar) + "')"}}>
+                    <div className="profile-image" style={userAvatarURLCSS}>
                         <input
                             accept="image/*"
                             className="hidden-input"
@@ -136,7 +151,7 @@ function EditProfileDialogue(props) {
                                           rows="1"
                                           value={user.username}
                                           name="name"
-                                          updateMethod={e=> setUpdatedUser({...updatedUser, username: e.target.value}) }/>
+                                          updateMethod={e=> setUser({...user, username: e.target.value}) }/>
                     </div>
                     <div className="input-form">
                         <label htmlFor="bio">Bio</label>
@@ -148,7 +163,7 @@ function EditProfileDialogue(props) {
                                           rows="3"
                                           value={user.bio}
                                           name="bio"
-                                          updateMethod={e=> setUpdatedUser({...updatedUser, bio: e.target.value}) }/>
+                                          updateMethod={e=> setUser({...user, bio: e.target.value}) }/>
                     </div>
                     <div className="input-form">
                         <label htmlFor="location">Location</label>
@@ -159,7 +174,7 @@ function EditProfileDialogue(props) {
                                           rows="1"
                                           value={user.location}
                                           name="location"
-                                          updateMethod={e=> setUpdatedUser({...updatedUser, location: e.target.value}) }/>
+                                          updateMethod={e=> setUser({...user, location: e.target.value}) }/>
                     </div>
                     <div className="input-form">
                         <label htmlFor="website">Website</label>
@@ -170,7 +185,7 @@ function EditProfileDialogue(props) {
                                           rows="1"
                                           value={user.website}
                                           name="website"
-                                          updateMethod={e=> setUpdatedUser({...updatedUser, website: e.target.value}) }/>
+                                          updateMethod={e=> setUser({...user, website: e.target.value}) }/>
                     </div>
                     <div className="input-form">
                         <label htmlFor="birthdate">Birth Date</label>
@@ -178,7 +193,7 @@ function EditProfileDialogue(props) {
                                type="date"
                                fullWidth
                                defaultValue={user.birthday}
-                               onChange={e=> setUpdatedUser({...updatedUser, birthday: e.target.value}) }/>
+                               onChange={e=> setUser({...user, birthday: e.target.value}) }/>
                     </div>
                 </div>
             </DialogContent>

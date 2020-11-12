@@ -10,13 +10,17 @@ import axios from 'axios';
 
 import EditProfileDialogue from "./EditProfileDialog";
 
-function Profile(props) {
+function Profile() {
     let currUser = async () => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
         axios.get('/api/auth/get-profile', {
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
+                Authorization: bearer
+            }
         }).then((resp) => {
             setUser(resp.data);
+            console.log(resp.data);
+            console.log(user.coverPhoto);
         }).catch(error => {
             console.log(error);
         });
@@ -44,6 +48,7 @@ function Profile(props) {
     }
 
     const userAvatarURLCSS = user.avatar ? {backgroundImage: "url('" + user.avatar + "')"} : {background: "grey"};
+    const coverPhotoURLCSS = user.coverPhoto ? {backgroundImage: "url('" + user.coverPhoto + "')"} : {background: "grey"};
 
     return (
         <div className="main">
@@ -53,7 +58,7 @@ function Profile(props) {
                 <span className="numOfTweets">{Math.floor(Math.random() * 9999)} Tweets</span>
             </div>
             <div className ="profileSubheader">
-                <div className="cover-photo" style={userAvatarURLCSS}/>
+                <div className="cover-photo" style={coverPhotoURLCSS}/>
                 <div className="profile-image" style={userAvatarURLCSS}/>
                 <Button className="edit_btn" onClick={handleClickOpen}>Edit Profile</Button>
             </div>

@@ -39,6 +39,8 @@
     position:relative;
     z-index: 1;
     background-size: cover;
+    background-color: grey;
+
   }
 
   .profile_header{
@@ -59,6 +61,8 @@
     background-size: cover;
     position: relative;
     z-index: 2;
+    background-color: grey;
+
   }
 
   .hidden-input {
