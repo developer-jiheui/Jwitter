@@ -36,10 +36,10 @@ public final class UserController {
         }
     }
 
+
     @PutMapping("/update-user")
     public ResponseEntity<?> saveUserProfile(@RequestBody @Valid UserDto userDto) {
         User user = this.userService.getCurrentUser();
-
         user.setEmail(userDto.getEmail());
         user.setUsername(userDto.getUsername());
         user.setBio(userDto.getBio());

@@ -16,8 +16,23 @@ public class AvatarUrlProvider {
         if(fid==null){
             return "";
         }
-        else
-            return String.format("http://%s:%d/%s", this.host, this.port, fid);
+        else{
+            String rawData[] = fid.split("/");
+            String cleanData = rawData[rawData.length-1];
+            return String.format("http://%s:%d/%s", this.host, this.port, cleanData);
+        }
+    }
+
+    /**
+     * Denormalize file id from database to http url.
+     */
+    public String denormalizeUrl(final String fid) {
+        if(fid==null){
+            return "";
+        }
+            String rawData[] = fid.split("/");
+            String cleanData = rawData[rawData.length-1];
+            return cleanData;
     }
 
 }

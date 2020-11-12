@@ -21,8 +21,18 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<Comment> getPostsByUser(final int user_id) {
+    public List<Post> getPostsByUser(final int user_id) {
         return this.repository.getPostsByUser(user_id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Comment> getTweetsAndReplies(final int user_id) {
+        return this.repository.getTweetsAndReplies(user_id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Comment> getLikes(final int user_id) {
+        return this.repository.getLikes(user_id);
     }
 
     @Transactional(readOnly = true)

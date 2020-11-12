@@ -67,19 +67,19 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
       alert(r);
     });
   }
-  const init = () => {
+  const init =() =>{
     let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')))
-    axios.get(`/api/auth/likeNShare/${tweetData.id}`, {
+    axios.get(`/api/auth/likeNShare/${tweetData.id}`,{
       headers: {
-        Authorization: bearer
+          Authorization: bearer
       }
-    }).then((res) => {
-      setLike(res.data.like)
-      setShare(res.data.share)
-    }).catch(r => {
-      console.log(r);
-      alert(r);
-    });
+    }).then((res)=>{
+          setLike(res.data.like)
+          setShare(res.data.share)
+      }).catch(r=>{
+          console.log(r);
+          alert(r);
+      });
   }
   // const toggleLike=(like) =>{
 
@@ -118,7 +118,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
             <FavoriteBorderIcon fontSize="small" className={like ? "like" : ""} />
             <span>{tweetData.likes}</span>
           </button>
-          {bookMarked ? <BlockIcon fontSize="small" />: 
+          {bookMarked ? <BlockIcon fontSize="small" />:
               <Tooltip title="BookMark"><BookmarkIcon onClick={()=>bookMark()} fontSize="small" /></Tooltip>
            }
         </div>

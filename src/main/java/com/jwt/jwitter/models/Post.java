@@ -41,4 +41,6 @@ public final class Post {
         this.content = content;
         this.photo = photo;
     }
+
+
 }

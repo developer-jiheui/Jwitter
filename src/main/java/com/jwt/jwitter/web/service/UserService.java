@@ -18,14 +18,14 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getCurrentUser() {
-        final String username;
+        final String userEmail;
         final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
+            userEmail = ((UserDetails) principal).getUsername();
         } else {
-            username = principal.toString();
+            userEmail = principal.toString();
         }
-        return this.usersRepository.getUser(username);
+        return this.usersRepository.getUser(userEmail);
     }
 
     @Transactional

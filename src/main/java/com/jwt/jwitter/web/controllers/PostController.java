@@ -58,6 +58,24 @@ public final class PostController {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
     }
+    @GetMapping("/tweetsAndReplies/{user_id}")
+    public ResponseEntity<?> getTweetsAndReplies(@PathVariable("user_id") int user_id) {
+        try {
+            return ResponseEntity.ok(this.postService.getTweetsAndReplies(user_id));
+        } catch (final AuthenticationException exc) {
+            return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
+        }
+    }
+    @GetMapping("/tweetslike/{user_id}")
+    public ResponseEntity<?> getLikes(@PathVariable("user_id") int user_id) {
+        try {
+            return ResponseEntity.ok(this.postService.getLikes(user_id));
+        } catch (final AuthenticationException exc) {
+            return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
+        }
+    }
+
+
 
     @GetMapping("/comments/{tweet_id}")
     public ResponseEntity<?> getCommentsByTweetId(@PathVariable("tweet_id") int tweet_id) {
@@ -107,6 +125,7 @@ public final class PostController {
         }
     }
 
+    //
     @GetMapping("/posts/{user_id}")
     public ResponseEntity<?> getPostsByFollow(@PathVariable("user_id") int user_id) {
         try {

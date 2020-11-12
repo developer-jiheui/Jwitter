@@ -6,6 +6,7 @@ import com.jwt.jwitter.models.Comment;
 import com.jwt.jwitter.models.Post;
 import com.jwt.jwitter.models.mappers.CommentMapper;
 import com.jwt.jwitter.models.mappers.PostMapper;
+import com.jwt.jwitter.models.mappers.TweetAndReplyMapper;
 import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,9 @@ public class PostRepository {
     @Autowired
     private PostMapper pMapper;
 
+    @Autowired
+    private TweetAndReplyMapper tnrMapper;
+
     public void updatePhoto(final int postId, final String fileId) {
         this.jdbcTemplate.update("UPDATE tweet set photo=? where id=?", fileId, postId);
     }
@@ -43,12 +47,12 @@ public class PostRepository {
         return post;
     }
 
-    public Map getLikeNShare(int user_id, int tweet_id) {
-        boolean isShare = this.jdbcTemplate.queryForObject("SELECT count(*) from shares where user_id = ? and share_post_id=?", Integer.class, user_id, tweet_id) != 0;
-        boolean isLike = this.jdbcTemplate.queryForObject("SELECT count(*) from likes where user_id = ? and like_post_id=?", Integer.class, user_id, tweet_id) != 0;
-        Map rs = new HashMap();
-        rs.put("like", isLike);
-        rs.put("share", isShare);
+    public Map getLikeNShare(int user_id,int tweet_id){
+        boolean isShare =this.jdbcTemplate.queryForObject("SELECT count(*) from shares where user_id = ? and share_post_id=?", Integer.class, user_id, tweet_id)  != 0;
+        boolean isLike = this.jdbcTemplate.queryForObject("SELECT count(*) from likes where user_id = ? and like_post_id=?", Integer.class, user_id, tweet_id)  != 0;
+        Map rs =new HashMap();
+        rs.put("like",isLike);
+        rs.put("share",isShare);
         return rs;
     }
 
@@ -100,18 +104,47 @@ public class PostRepository {
         return this.jdbcTemplate.queryForObject("Select likes from tweet where id = ?", new Object[]{tweet_id}, Integer.class);
     }
 
-    public List<Comment> getPostsByUser(final int user_id) {
+    //for geting all the tweets a user created -- used in Profile page tweet tab
+    public List<Post> getPostsByUser(final int user_id) {
         return this.jdbcTemplate.query(
-            "select * from tweet  where user_id=" + user_id,
-            this.mapper);
+                "select * from tweet  where user_id=" + user_id + "order by created_at desc",
+                this.pMapper);
+    }
 
+    public List<Comment> getTweetsAndReplies(final int user_id){
+        return this.jdbcTemplate.query(
+                "select * from\n" +
+                        "    (select *  from (select * from tweet where user_id != "+user_id+") as t\n" +
+                        "    Inner join \n" +
+                        "    (select share_post_id id from\n" +
+                        "                shares\n" +
+                        "                where\n" +
+                        "                user_id = "+user_id+"\n" +
+                        "                union\n" +
+                        "                select\n" +
+                        "                like_post_id id\n" +
+                        "                from\n" +
+                        "                likes\n" +
+                        "                where\n" +
+                        "                user_id = "+user_id+"\n" +
+                        "        ) sl using (id)\n" +
+                        ") as selected inner join (select id user_id, username, avatar from users) as u using (user_id)\n" +
+                        "order by selected.created_at desc", this.tnrMapper);
+    }
+    public List<Comment> getLikes(final int user_id){
+        return this.jdbcTemplate.query(
+                "select * from\n" +
+                        "    (select * from tweet \n" +
+                        "inner join (select like_post_id id from likes where user_id = "+user_id+") l using (id)\n" +
+                        ") as selected inner join (select id user_id, username, avatar from users) as u using(user_id) \n" +
+                        "order by selected.created_at desc", this.tnrMapper);
     }
 
     public List<Comment> getPostsByFollow(final int user_id) {
         return this.jdbcTemplate.query(
             "select * from tweet t left join users u on u.id =t.user_id where t.user_id in " +
-                "(select follow_user_id from follow where user_id=?)\n and reply_to_id=0" +
-                "union \n" +
+                "(select follow_user_id from follow where user_id=?)\n and reply_to_id=0 " +
+                " union \n" +
                 "select * from tweet t left join users u on u.id =t.user_id where  user_id=? and reply_to_id=0 order by 1 desc"
             , new Object[]{user_id, user_id},
             this.mapper);

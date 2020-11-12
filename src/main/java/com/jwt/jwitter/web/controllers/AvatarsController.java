@@ -47,6 +47,7 @@ public class AvatarsController {
             @RequestParam("file") final MultipartFile file
     ) {
         try {
+            System.out.println("Uploaded"+ResponseEntity.ok(this.avatarsService.photoUpload(file)));
             return ResponseEntity.ok(this.avatarsService.photoUpload(file));
         } catch (final IOException excp) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

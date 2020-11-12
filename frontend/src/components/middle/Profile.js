@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import ProfileTabs from "./ProfileTabs";
 
 import BackIcon from '@material-ui/icons/ArrowBack';
@@ -10,20 +10,80 @@ import axios from 'axios';
 
 import EditProfileDialogue from "./EditProfileDialog";
 
-function Profile(props) {
-    let currUser = async () => {
+function Profile() {
+    const [editProfileOpen, setEditProfileOpen] = React.useState(false);
+    const [user, setUser] = React.useState({id:0});
+    const [myTweets, setTweets] = useState([]);
+    const [tweetsAndReplies, setTandR] = useState([]);
+    const [tweetLike, setLikes] = useState([]);
+
+
+    useEffect(() => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
         axios.get('/api/auth/get-profile', {
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
+                Authorization: bearer
+            }
         }).then((resp) => {
             setUser(resp.data);
+            getMyTweets(resp.data.id);
+            getTweetsAndReplies(resp.data.id);
+            getLikes(resp.data.id);
+            console.log("User",user)
         }).catch(error => {
             console.log(error);
         });
+    },[]);
+
+
+    const getMyTweets = (user_id) => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        axios({
+            method: 'get',
+            url: '/api/auth/tweets/' + user_id,
+            headers: {
+                Authorization: bearer
+            }
+        }).then(resp => {
+            console.log("GOT TWEETS: ", resp.data)
+            setTweets(resp.data);
+        }).catch(r => {
+            console.log(r);
+        });
     }
 
-    const [editProfileOpen, setEditProfileOpen] = React.useState(false);
-    const [user, setUser] = React.useState(currUser);
+    const getTweetsAndReplies = (user_id) => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        axios({
+            method: 'get',
+            url: '/api/auth/tweetsAndReplies/' + user_id,
+            headers: {
+                Authorization: bearer
+            }
+        }).then(resp => {
+            console.log("GOT TWEETS AND REPLIES: ", resp.data)
+            setTandR(resp.data);
+        }).catch(r => {
+            console.log(r);
+        });
+    }
+
+    const getLikes = (user_id) => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        axios({
+            method: 'get',
+            url: '/api/auth/tweetslike/' + user_id,
+            headers: {
+                Authorization: bearer
+            }
+        }).then(resp => {
+            console.log("GOT LIKES: ", resp.data)
+            setLikes(resp.data);
+        }).catch(r => {
+            console.log(r);
+        });
+    }
+
 
     const handleClickOpen = () => {
         setEditProfileOpen(true);
@@ -44,6 +104,9 @@ function Profile(props) {
     }
 
     const userAvatarURLCSS = user.avatar ? {backgroundImage: "url('" + user.avatar + "')"} : {background: "grey"};
+    const coverPhotoURLCSS = user.coverPhoto ? {backgroundImage: "url('" + user.coverPhoto + "')"} : {background: "grey"};
+
+    console.log("user passing",user);
 
     return (
         <div className="main">
@@ -53,7 +116,7 @@ function Profile(props) {
                 <span className="numOfTweets">{Math.floor(Math.random() * 9999)} Tweets</span>
             </div>
             <div className ="profileSubheader">
-                <div className="cover-photo" style={userAvatarURLCSS}/>
+                <div className="cover-photo" style={coverPhotoURLCSS}/>
                 <div className="profile-image" style={userAvatarURLCSS}/>
                 <Button className="edit_btn" onClick={handleClickOpen}>Edit Profile</Button>
             </div>
@@ -82,7 +145,8 @@ function Profile(props) {
                     </span>
                 </div>
             </div>
-            <ProfileTabs />
+            <ProfileTabs tweets={myTweets} tandR = {tweetsAndReplies} tweetLike={tweetLike} user = {user}/>
+
             <EditProfileDialogue onClose={onClose} open={editProfileOpen} user={user} />
         </div>
     )
