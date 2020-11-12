@@ -19,8 +19,6 @@ function Profile() {
             }
         }).then((resp) => {
             setUser(resp.data);
-            console.log(resp.data);
-            console.log(user.coverPhoto);
         }).catch(error => {
             console.log(error);
         });

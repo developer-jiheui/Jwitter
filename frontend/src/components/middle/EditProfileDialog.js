@@ -24,7 +24,6 @@ function EditProfileDialogue(props) {
     const {onClose, open} = props;
     const [user, setUser ] = useState({...props.user});
 
-    console.log("Cover Photo url loaded at the beginning: ", user.coverPhoto);
 
     useEffect(() => {
         setUser(props.user);
@@ -36,7 +35,6 @@ function EditProfileDialogue(props) {
     }
 
     async function handleSaveProfile() {
-        console.log("ABOUT TO SAVE USER: ", user);
         let bday = new Date(user.birthday );//? user.birthday : user.birthday);
         bday.setDate(bday.getDate() + 1);
 
@@ -51,7 +49,6 @@ function EditProfileDialogue(props) {
                 coverPhoto : user.coverPhoto
         };
 
-        console.log(userDto);
 
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
         axios({
@@ -65,7 +62,6 @@ function EditProfileDialogue(props) {
             // TODO: error handling for UI
             console.log(error);
         });
-        console.log("saved Cover Photo: ", user.coverPhoto);
 
         handleClose(true);
     }
@@ -74,7 +70,6 @@ function EditProfileDialogue(props) {
 
         const file = event.target.files[0];
         let fd = new FormData();
-        console.log("Cover Photo file: ", file);
 
         fd.append('file', file);
         axios.post('/api/avatars/photoUpload', fd)
@@ -93,15 +88,6 @@ function EditProfileDialogue(props) {
                     setUser({...user, avatar:`http://45.76.207.32:8081/${res.data}`})
                 }
             )
-
-        // const file = event.target.files[0];
-        // const reader = new FileReader();
-        //
-        // reader.onloadend = function(e) {
-        //     setUser({...user, avatar: file});
-        // }.bind(this);
-        //
-        // reader.readAsDataURL(file);
     }
 
     const userAvatarURLCSS = user.avatar ? {backgroundImage: "url('" +user.avatar + "')"} : {background: "grey"};
