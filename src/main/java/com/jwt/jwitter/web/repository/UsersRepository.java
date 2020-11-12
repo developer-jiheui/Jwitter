@@ -2,6 +2,7 @@ package com.jwt.jwitter.web.repository;
 
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.models.User;
+import com.jwt.jwitter.models.mappers.PostMapper;
 import com.jwt.jwitter.models.mappers.UserMapper;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -26,6 +27,8 @@ public class UsersRepository {
     public List<User> searchUsers(final String name) {
         return this.jdbcTemplate.query("SELECT * from users where username ilike ?", this.mapper, '%' + name + '%');
     }
+
+
 
     public boolean exists(final int userId) {
         return this.jdbcTemplate.queryForObject("SELECT count(*) from users where id = ?", Integer.class, userId) != 0;

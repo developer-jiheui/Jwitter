@@ -5,6 +5,8 @@ import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.dto.in.PostDto;
 import com.jwt.jwitter.web.service.AuthService;
 import com.jwt.jwitter.web.service.PostService;
+
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,12 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Auth controller.
@@ -113,6 +110,16 @@ public final class PostController {
             return ResponseEntity.ok(this.postService.getPostsByFollow(user_id));
         } catch (final AuthenticationException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @GetMapping("/tweet-search")
+    public ResponseEntity<List<Post>> searchTweets(@RequestParam(name = "name") final String name) {
+        final List<Post> tweets = this.postService.searchTweets(name);
+        if (tweets.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(tweets);
         }
     }
 

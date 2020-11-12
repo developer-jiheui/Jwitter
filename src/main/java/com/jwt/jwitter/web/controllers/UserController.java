@@ -1,6 +1,7 @@
 package com.jwt.jwitter.web.controllers;
 
 import com.jwt.jwitter.models.User;
+import com.jwt.jwitter.models.Post;
 import com.jwt.jwitter.web.dto.in.UserDto;
 import com.jwt.jwitter.web.service.UserService;
 import java.util.List;
@@ -38,6 +39,7 @@ public final class UserController {
         }
     }
 
+
     @GetMapping("/users")
     public ResponseEntity<List<User>> searchUsers(@RequestParam(name = "name") final String name) {
         final List<User> users = this.userService.searchUsers(name);
@@ -47,6 +49,7 @@ public final class UserController {
             return ResponseEntity.ok(users);
         }
     }
+
 
     @PutMapping("/update-user")
     public ResponseEntity<?> saveUserProfile(@RequestBody @Valid UserDto userDto) {

@@ -71,4 +71,9 @@ public class PostService {
     public void createBookMark(final String email, final int postId) {
         this.repository.createBookmark(email, postId);
     }
+
+    @Transactional(readOnly = true)
+    public List<Post> searchTweets(final String word) {
+        return this.repository.searchTweets(word);
+    }
 }

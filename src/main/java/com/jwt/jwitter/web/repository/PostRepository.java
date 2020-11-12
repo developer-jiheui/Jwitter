@@ -4,6 +4,7 @@ package com.jwt.jwitter.web.repository;
 
 import com.jwt.jwitter.models.Comment;
 import com.jwt.jwitter.models.Post;
+import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.models.mappers.CommentMapper;
 import com.jwt.jwitter.models.mappers.PostMapper;
 import java.sql.PreparedStatement;
@@ -141,4 +142,9 @@ public class PostRepository {
     public void createBookmark(final String email, final int postId) {
         this.jdbcTemplate.update("INSERT INTO bookmarks (user_is,twit_id) values ((select id from users where email = ? limit 1),?)", email, postId);
     }
+
+    public List<Post> searchTweets (final String tweet) {
+        return this.jdbcTemplate.query("SELECT * from tweet where content ilike ?", this.pMapper, '%' + tweet + '%');
+    }
+
 }

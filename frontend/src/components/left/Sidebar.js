@@ -16,7 +16,7 @@ function Sidebar({activeOne}) {
         <div className="sidebar">
             <TwitterIcon className="logo"/>
             <SidebarOption active ={activeOne==="Home"} text="Home" Icon={HomeIcon} href="/home"/>
-            <SidebarOption active ={activeOne==="Explore"} text="Explore" Icon={SearchIcon}/>
+            <SidebarOption active ={activeOne==="Explore"} text="Explore" Icon={SearchIcon} href="/search"/>
             <SidebarOption active ={activeOne==="Notifications"} text="Notifications" Icon={NotificationsIcon}/>
             <SidebarOption active ={activeOne==="Messages"} text="Messages" Icon={MailOutlineIcon}/>
             <SidebarOption active ={activeOne==="Bookmarks"} text="Bookmarks" Icon={BookmarkIcon} href="/bookmarks"/>
