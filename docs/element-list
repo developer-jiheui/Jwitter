@@ -1,0 +1,12 @@
+com.jwt.jwitter
+com.jwt.jwitter.avatars
+com.jwt.jwitter.config
+com.jwt.jwitter.config.jwt
+com.jwt.jwitter.mapper
+com.jwt.jwitter.models
+com.jwt.jwitter.models.mappers
+com.jwt.jwitter.web.controllers
+com.jwt.jwitter.web.dto
+com.jwt.jwitter.web.dto.in
+com.jwt.jwitter.web.repository
+com.jwt.jwitter.web.service
