@@ -67,7 +67,8 @@ function EditProfileDialogue(props) {
             msg.message = new String(msg.message);
             alert(msg.message);
 
-            console.log(error);
+
+            // console.log(error);
         });
 
     }
