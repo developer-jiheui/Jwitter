@@ -2,9 +2,11 @@ package com.jwt.jwitter.web.repository;
 
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.models.User;
+import com.jwt.jwitter.models.mappers.UserMapper;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,6 +20,12 @@ public class UsersRepository {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private AvatarUrlProvider avatarUrlProvider;
+    @Autowired
+    private UserMapper mapper;
+
+    public List<User> searchUsers(final String name) {
+        return this.jdbcTemplate.query("SELECT * from users where username ilike ?", this.mapper, '%' + name + '%');
+    }
 
     public boolean exists(final int userId) {
         return this.jdbcTemplate.queryForObject("SELECT count(*) from users where id = ?", Integer.class, userId) != 0;
