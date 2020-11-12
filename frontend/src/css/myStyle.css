@@ -14,6 +14,10 @@
     padding: 20px;
   }
 
+  .tweetButtons{
+     border: none;
+      background-color: white;
+  }
   .sidebarLink {
     margin-right: 20px;
     text-decoration: none;

@@ -81,19 +81,19 @@ const Post = ({ tweet_data ,user, postOnClick, viewOnly}) => {
               </div>
               <div className="post_headerDescription">
                   <p>{tweetData.content}</p>
-                  {tweetData.photo && <img src={tweetData.photo} alt="" width="400px"/> }
+                  {tweetData.photo && <img src={tweetData.photo} alt="" width="400px" style={{maxHeight: "200px", objectFit: "cover"}} /> }
               </div>
             </div>
             <div className={viewOnly?"hidden":"post_footer"}>
-              <button type='button' onClick={()=>{viewPost("viewComment")}} >
+              <button className= "tweetButtons" type='button' onClick={()=>{viewPost("viewComment")}} >
                 <ChatBubbleOutlineIcon fontSize="small"/>
                 <span>{tweetData.comments}</span>
                </button>
-               <button type='button' onClick={()=>toggleShare(share)} >
+               <button className= "tweetButtons" type='button' onClick={()=>toggleShare(share)} >
                   <RepeatIcon fontSize="small" className={share?"share":""}/>
                 <span>{tweetData.shares}</span>
                </button>
-               <button type='button' onClick={()=>toggleLike(like)} >
+               <button className= "tweetButtons" type='button' onClick={()=>toggleLike(like)} >
                   <FavoriteBorderIcon fontSize="small" className={like?"like":""}/>
                 <span>{tweetData.likes}</span>
                </button>

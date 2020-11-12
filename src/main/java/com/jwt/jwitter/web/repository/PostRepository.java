@@ -103,9 +103,37 @@ public class PostRepository {
         return this.jdbcTemplate.queryForObject("Select likes from tweet where id = ?", new Object[]{tweet_id}, Integer.class);
     }
 
+    //for geting all the tweets a user created -- used in Profile page tweet tab
     public List<Post> getPostsByUser(final int user_id) {
         return this.jdbcTemplate.query(
-                "select * from tweet  where user_id=" + user_id,
+                "select * from tweet  where user_id=" + user_id + "order by created_at desc",
+                this.pMapper);
+    }
+
+    public List<Post> getTweetsAndReplies(final int user_id){
+        return this.jdbcTemplate.query(
+                "select * from (select\n" +
+                        " *" +
+                        "from\n" +
+                        "  tweet where user_id != "+user_id+") as t\n" +
+                        "  Inner join (\n" +
+                        "    select\n" +
+                        "      share_post_id tweetid,\n" +
+                        "      user_id as userid\n" +
+                        "    from\n" +
+                        "      shares\n" +
+                        "    where\n" +
+                        "      user_id = "+user_id+"\n" +
+                        "    union\n" +
+                        "    select\n" +
+                        "      like_post_id tweetid,\n" +
+                        "      user_id as userid\n" +
+                        "    from\n" +
+                        "      likes\n" +
+                        "    where\n" +
+                        "      user_id = "+user_id+"\n" +
+                        "  ) sl on t.id = sl.tweetid\n" +
+                        "order by t.created_at desc",
                 this.pMapper);
     }
 

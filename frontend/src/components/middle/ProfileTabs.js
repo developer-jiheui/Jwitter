@@ -6,7 +6,6 @@ import axios from "axios";
 
 function ProfileTabs(props) {
     const [value, setValue] = React.useState(0);
-    const [myTweets, setTweets] = useState([]);
 
     const [postData, setPostData] = useState({tweet_data:{id:0},comment:[],main_post_user:{id:0,avatar:""}});
     const [leaveComment, setLeaveComment] = useState(false);
@@ -15,7 +14,7 @@ function ProfileTabs(props) {
         setValue(value);
         switch(value) {
             case 0:
-               getMyTweets();
+             //  getMyTweets();
                 break;
             case 1:
                 break;
@@ -24,26 +23,9 @@ function ProfileTabs(props) {
         }
     }
 
-    console.log("props",props.user.id);
-    const getMyTweets = () => {
-        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
-        axios({
-            method: 'get',
-            url: '/api/auth/tweets/' + props.user.id,
-            headers: {
-                Authorization: bearer
-            }
-        }).then(resp => {
-            console.log("GOT TWEETS: ", resp.data)
-            setTweets(resp.data);
-        }).catch(r => {
-            console.log(r);
-        });
-    }
 
-    useEffect(() => {
-        getMyTweets();
-    }, [props.user]);
+
+
 
     const getComment = (viewPost) =>{
         axios.get(`/api/auth/comments/${viewPost.tweet_data.id}`, {
@@ -80,12 +62,14 @@ function ProfileTabs(props) {
                 </Tabs>
             </div>
             <TabPanel value={value} index={0}>
-                {myTweets.map((tweet,index)=>{
+                {props.tweets.map((tweet,index)=>{
                 return <Post key={index} tweet_data={tweet} user={props.user} postOnClick={postOnClick} viewOnly={false}/>
             })}
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <Main />
+                {props.tandR.map((tweet,index)=>{
+                    return <Post key={index} tweet_data={tweet} user={props.user} postOnClick={postOnClick} viewOnly={false}/>
+                })}
             </TabPanel>
             <TabPanel value={value} index={2}>
             </TabPanel>

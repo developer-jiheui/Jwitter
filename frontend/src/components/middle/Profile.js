@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import ProfileTabs from "./ProfileTabs";
 
 import BackIcon from '@material-ui/icons/ArrowBack';
@@ -11,7 +11,13 @@ import axios from 'axios';
 import EditProfileDialogue from "./EditProfileDialog";
 
 function Profile() {
-    let currUser = async () => {
+    const [editProfileOpen, setEditProfileOpen] = React.useState(false);
+    const [user, setUser] = React.useState({id:0});
+    const [myTweets, setTweets] = useState([]);
+    const [tweetsAndReplies, setTandR] = useState([]);
+
+
+    useEffect(() => {
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
         axios.get('/api/auth/get-profile', {
             headers: {
@@ -19,13 +25,51 @@ function Profile() {
             }
         }).then((resp) => {
             setUser(resp.data);
+            getMyTweets(resp.data.id);
+            getTweetsAndReplies(resp.data.id);
+            console.log("User",user)
         }).catch(error => {
             console.log(error);
         });
+    },[]);
+
+
+    const getMyTweets = (user_id) => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        axios({
+            method: 'get',
+            url: '/api/auth/tweets/' + user_id,
+            headers: {
+                Authorization: bearer
+            }
+        }).then(resp => {
+            console.log("GOT TWEETS: ", resp.data)
+            setTweets(resp.data);
+        }).catch(r => {
+            console.log(r);
+        });
     }
 
-    const [editProfileOpen, setEditProfileOpen] = React.useState(false);
-    const [user, setUser] = React.useState(currUser);
+    const getTweetsAndReplies = (user_id) => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        axios({
+            method: 'get',
+            url: '/api/auth/tweetsAndReplies/' + user_id,
+            headers: {
+                Authorization: bearer
+            }
+        }).then(resp => {
+            console.log("GOT TWEETS AND REPLIES: ", resp.data)
+            setTandR(resp.data);
+        }).catch(r => {
+            console.log(r);
+        });
+    }
+
+    // useEffect(() => {
+    //     getMyTweets();
+    // }, [user.id]);
+
 
     const handleClickOpen = () => {
         setEditProfileOpen(true);
@@ -87,7 +131,7 @@ function Profile() {
                     </span>
                 </div>
             </div>
-            <ProfileTabs user={user}/>
+            <ProfileTabs tweets={myTweets} tandR = {tweetsAndReplies} user = {user}/>
 
             <EditProfileDialogue onClose={onClose} open={editProfileOpen} user={user} />
         </div>
