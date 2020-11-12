@@ -45,6 +45,8 @@ public class PostRepository {
         return post;
     }
 
+
+
     public Map getLikeNShare(int user_id,int tweet_id){
         boolean isShare =this.jdbcTemplate.queryForObject("SELECT count(*) from shares where user_id = ? and share_post_id=?", Integer.class, user_id, tweet_id)  != 0;
         boolean isLike = this.jdbcTemplate.queryForObject("SELECT count(*) from likes where user_id = ? and like_post_id=?", Integer.class, user_id, tweet_id)  != 0;
@@ -101,10 +103,10 @@ public class PostRepository {
         return this.jdbcTemplate.queryForObject("Select likes from tweet where id = ?", new Object[]{tweet_id}, Integer.class);
     }
 
-    public List<Comment> getPostsByUser(final int user_id) {
+    public List<Post> getPostsByUser(final int user_id) {
         return this.jdbcTemplate.query(
                 "select * from tweet  where user_id=" + user_id,
-                this.mapper);
+                this.pMapper);
     }
 
     public List<Comment> getPostsByFollow(final int user_id) {

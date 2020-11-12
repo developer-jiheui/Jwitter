@@ -108,6 +108,7 @@ public final class PostController {
         }
     }
 
+    //
     @GetMapping("/posts/{user_id}")
     public ResponseEntity<?> getPostsByFollow(@PathVariable("user_id") int user_id) {
         try {

@@ -48,6 +48,8 @@ function Profile() {
     const userAvatarURLCSS = user.avatar ? {backgroundImage: "url('" + user.avatar + "')"} : {background: "grey"};
     const coverPhotoURLCSS = user.coverPhoto ? {backgroundImage: "url('" + user.coverPhoto + "')"} : {background: "grey"};
 
+    console.log("user passing",user);
+
     return (
         <div className="main">
             <div className="profile_header">
@@ -85,7 +87,8 @@ function Profile() {
                     </span>
                 </div>
             </div>
-            <ProfileTabs />
+            <ProfileTabs user={user}/>
+
             <EditProfileDialogue onClose={onClose} open={editProfileOpen} user={user} />
         </div>
     )

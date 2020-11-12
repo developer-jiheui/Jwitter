@@ -1,12 +1,68 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Tab, Tabs} from "@material-ui/core";
 import Post from "./Post";
+import Main from "./Main";
+import axios from "axios";
 
 function ProfileTabs(props) {
     const [value, setValue] = React.useState(0);
+    const [myTweets, setTweets] = useState([]);
+
+    const [postData, setPostData] = useState({tweet_data:{id:0},comment:[],main_post_user:{id:0,avatar:""}});
+    const [leaveComment, setLeaveComment] = useState(false);
 
     const handleChange = (event, value) => {
         setValue(value);
+        switch(value) {
+            case 0:
+               getMyTweets();
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
+    }
+
+    console.log("props",props.user.id);
+    const getMyTweets = () => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        axios({
+            method: 'get',
+            url: '/api/auth/tweets/' + props.user.id,
+            headers: {
+                Authorization: bearer
+            }
+        }).then(resp => {
+            console.log("GOT TWEETS: ", resp.data)
+            setTweets(resp.data);
+        }).catch(r => {
+            console.log(r);
+        });
+    }
+
+    useEffect(() => {
+        getMyTweets();
+    }, [props.user]);
+
+    const getComment = (viewPost) =>{
+        axios.get(`/api/auth/comments/${viewPost.tweet_data.id}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
+        }).then((res)=>{
+            viewPost.comment=res.data
+            setPostData(viewPost)
+        }).catch(r=>{
+            console.log(r);
+            alert(r);
+        });
+    }
+
+    const postOnClick =(data, main_post_user) =>{
+        let viewPost={tweet_data: data, main_post_user:main_post_user,comment:[]}
+        setPostData(viewPost)
+        getComment(viewPost)
+        setLeaveComment(!leaveComment)
     }
 
     return (
@@ -24,12 +80,16 @@ function ProfileTabs(props) {
                 </Tabs>
             </div>
             <TabPanel value={value} index={0}>
-
+                {myTweets.map((tweet,index)=>{
+                return <Post key={index} tweet_data={tweet} user={props.user} postOnClick={postOnClick} viewOnly={false}/>
+            })}
             </TabPanel>
             <TabPanel value={value} index={1}>
+                <Main />
             </TabPanel>
             <TabPanel value={value} index={2}>
             </TabPanel>
+
         </div>
     );
 }

@@ -24,7 +24,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<Comment> getPostsByUser(final int user_id) {
+    public List<Post> getPostsByUser(final int user_id) {
         return this.repository.getPostsByUser(user_id);
     }
 
