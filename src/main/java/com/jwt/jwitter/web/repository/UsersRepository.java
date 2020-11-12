@@ -5,6 +5,9 @@ import com.jwt.jwitter.models.User;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
+
+import com.jwt.jwitter.models.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,10 +21,17 @@ public class UsersRepository {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private AvatarUrlProvider avatarUrlProvider;
+    @Autowired
+    private UserMapper userMapper;
+
 
     public boolean exists(final int userId) {
         System.out.println("USER EXISTS?? + " + userId);
         return this.jdbcTemplate.queryForObject("SELECT count(*) from users where id = ?", Integer.class, userId) != 0;
+    }
+
+    public boolean isSameUserName(final User user) {
+        return this.jdbcTemplate.queryForObject("SELECT count(*) from users where username = ? AND id = "+user.getId(), Integer.class,user.getUsername())>1;
     }
 
     public User getUserByEmail(final String email) {
@@ -45,6 +55,19 @@ public class UsersRepository {
     public void updateAvatar(final int userId, final String fileId) {
         this.jdbcTemplate.update("UPDATE users set avatar=? where id=?", fileId, userId);
     }
+
+    public List<User> getFollowing(final int userId){
+        return this.jdbcTemplate.query("select * from\n" +
+                "    (select follow_user_id id from follow where user_id = "+userId+"\n" +
+                ") as selected inner join (select * from users) as u using(id)",this.userMapper);
+    }
+
+    public List<User> getFollower(final int userId){
+        return this.jdbcTemplate.query("select * from\n" +
+                "    (select user_id id from follow where follow_user_id = "+userId+"\n" +
+                ") as selected inner join (select * from users) as u using(id) ",this.userMapper);
+    }
+
 
     public User save(final User user) {
         final KeyHolder holder = new GeneratedKeyHolder();

@@ -144,6 +144,7 @@ public class PostRepository {
                         "order by selected.created_at desc", this.tnrMapper);
     }
 
+
     public List<Comment> getPostsByFollow(final int user_id) {
         return this.jdbcTemplate.query(
                 "select * from tweet t left join users u on u.id =t.user_id where t.user_id in " +

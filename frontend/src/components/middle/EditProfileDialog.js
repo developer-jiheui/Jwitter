@@ -49,6 +49,7 @@ function EditProfileDialogue(props) {
         };
 
 
+
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
         axios({
             method: "put",
@@ -57,12 +58,18 @@ function EditProfileDialogue(props) {
                 Authorization: bearer
               },
             data: userDto
+        }).then((resp)=>{
+            handleClose();
         }).catch(error => {
             // TODO: error handling for UI
+            const alertMsg = JSON.stringify(error.response.data);
+            const msg = JSON.parse(alertMsg);
+            msg.message = new String(msg.message);
+            alert(msg.message);
+
             console.log(error);
         });
 
-        handleClose(true);
     }
 
     function handleChangeCoverPhoto(event) {
