@@ -15,6 +15,7 @@ function Profile() {
     const [user, setUser] = React.useState({id:0});
     const [myTweets, setTweets] = useState([]);
     const [tweetsAndReplies, setTandR] = useState([]);
+    const [tweetLike, setLikes] = useState([]);
 
 
     useEffect(() => {
@@ -27,6 +28,7 @@ function Profile() {
             setUser(resp.data);
             getMyTweets(resp.data.id);
             getTweetsAndReplies(resp.data.id);
+            getLikes(resp.data.id);
             console.log("User",user)
         }).catch(error => {
             console.log(error);
@@ -66,9 +68,21 @@ function Profile() {
         });
     }
 
-    // useEffect(() => {
-    //     getMyTweets();
-    // }, [user.id]);
+    const getLikes = (user_id) => {
+        let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        axios({
+            method: 'get',
+            url: '/api/auth/tweetslike/' + user_id,
+            headers: {
+                Authorization: bearer
+            }
+        }).then(resp => {
+            console.log("GOT LIKES: ", resp.data)
+            setLikes(resp.data);
+        }).catch(r => {
+            console.log(r);
+        });
+    }
 
 
     const handleClickOpen = () => {
@@ -131,7 +145,7 @@ function Profile() {
                     </span>
                 </div>
             </div>
-            <ProfileTabs tweets={myTweets} tandR = {tweetsAndReplies} user = {user}/>
+            <ProfileTabs tweets={myTweets} tandR = {tweetsAndReplies} tweetLike={tweetLike} user = {user}/>
 
             <EditProfileDialogue onClose={onClose} open={editProfileOpen} user={user} />
         </div>

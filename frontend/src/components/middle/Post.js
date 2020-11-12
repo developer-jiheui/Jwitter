@@ -11,7 +11,7 @@ const Post = ({ tweet_data ,user, postOnClick, viewOnly}) => {
   const [like, setLike]= useState(false)
   const [share, setShare]= useState(false)
   const [tweetData, setTweetData]= useState(tweet_data)
-  console.log("tweetData",tweetData)
+  // console.log("tweetData",tweetData)
   useEffect(() => {
     init()
   },[tweetData]);

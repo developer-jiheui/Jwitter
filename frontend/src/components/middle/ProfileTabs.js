@@ -68,10 +68,13 @@ function ProfileTabs(props) {
             </TabPanel>
             <TabPanel value={value} index={1}>
                 {props.tandR.map((tweet,index)=>{
-                    return <Post key={index} tweet_data={tweet} user={props.user} postOnClick={postOnClick} viewOnly={false}/>
+                    return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false}/>
                 })}
             </TabPanel>
             <TabPanel value={value} index={2}>
+                {props.tweetLike.map((tweet,index)=>{
+                    return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false}/>
+                })}
             </TabPanel>
 
         </div>

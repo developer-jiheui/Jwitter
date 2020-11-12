@@ -67,6 +67,14 @@ public final class PostController {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
     }
+    @GetMapping("/tweetslike/{user_id}")
+    public ResponseEntity<?> getLikes(@PathVariable("user_id") int user_id) {
+        try {
+            return ResponseEntity.ok(this.postService.getLikes(user_id));
+        } catch (final AuthenticationException exc) {
+            return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
+        }
+    }
 
 
 
