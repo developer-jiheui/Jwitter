@@ -48,10 +48,10 @@ public final class UserController {
         user.setCoverPhoto(userDto.getCoverPhoto());
 
         if(userDto.getUsername().contains(" ")){
-            return new ResponseEntity<>(Map.of("message", "please don't user any empty space in the user name"), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(Map.of("message", "please don't use any empty space in the user name"), HttpStatus.FORBIDDEN);
         }
-        if(userDto.getWebsite()!=null){
-            Pattern p = Pattern.compile("(http(s)?://)?([\\w-]+\\.)+[\\w-]+[.com]+(/[/?%&=]*)?");
+        if(userDto.getWebsite()!=null&&userDto.getWebsite().length()>0){
+            Pattern p = Pattern.compile("(http(s)?://)?([\\w-]+\\.)+[\\w-]+[.com|.org|.ca|.net|.info]+(/[/?%&=]*)?");
             Matcher m;
             m=p.matcher(userDto.getWebsite());
             boolean matches = m.matches();

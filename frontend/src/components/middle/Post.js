@@ -102,7 +102,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
           </div>
           <div className="post_headerDescription">
             <p>{tweetData.content}</p>
-            {tweetData.photo && <img src={tweetData.photo} alt="" width="400px" />}
+            {tweetData.photo && <img src={tweetData.photo} alt="" width="400px" style={{"maxHeight":"200px","objectFit":"cover" }}/>}
           </div>
         </div>
         <div className={viewOnly ? "hidden" : "post_footer"}>

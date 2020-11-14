@@ -4,11 +4,14 @@ import ProfileTabs from "./ProfileTabs";
 import BackIcon from '@material-ui/icons/ArrowBack';
 import CalendarIcon from '@material-ui/icons/DateRange';
 import BdayIcon from '@material-ui/icons/CakeOutlined';
+import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+import LanguageOutlinedIcon from '@material-ui/icons/LanguageOutlined';
 
 import {Button} from "@material-ui/core";
 import axios from 'axios';
 
 import EditProfileDialogue from "./EditProfileDialog";
+import {LocationOn} from "@material-ui/icons";
 
 function Profile() {
     const [editProfileOpen, setEditProfileOpen] = React.useState(false);
@@ -158,6 +161,18 @@ function Profile() {
                 <div className ="jiterId">@{user.username}</div>
                 <div className ="bio">{user.bio}</div>
                 <div className ="profileInfoSection">
+                    {user.location &&
+                        <span className="userProfileInfo">
+                        <LocationOnOutlinedIcon/>
+                            {user.location}
+                        </span>
+                    }
+                    {user.website &&
+                        <span className="userProfileInfo">
+                        <LanguageOutlinedIcon/>
+                        <a href = {"https://"+user.website}>{user.website}</a>
+                        </span>
+                    }
                     <span className="userProfileInfo">
                         <BdayIcon/>
                         Born {user.birthday}
@@ -166,7 +181,7 @@ function Profile() {
                         <CalendarIcon className="iconAlignment"/>
                         Joined {user.joinday}
                     </span>
-                </div>
+                                    </div>
                 <div className ="profileInfoSection">
                     <span className="userProfileInfo">
                         <span className="followingNum">{following.length}</span>
