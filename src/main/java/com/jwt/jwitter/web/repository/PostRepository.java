@@ -167,7 +167,10 @@ public class PostRepository {
 
     public void checkBookMarks(final List<Comment> comments, final int userId) {
         comments.forEach(comment -> {
-            final Map<String, Object> map = this.jdbcTemplate.queryForMap("SELECT t.id,b.id as bookmarked from tweet t left join bookmarks b on t.id = b.twit_id and b.user_id=? where t.id = ?", userId, comment.getPost().getId());
+            final Map<String, Object> map = this.jdbcTemplate.queryForMap(
+                    "SELECT t.id,b.id as bookmarked from tweet t left join bookmarks b " +
+                            "on t.id = b.twit_id and b.user_id=? where t.id = ?",
+                            userId, comment.getPost().getId());
             comment.getPost().setBookMarked(map.get("bookmarked") != null);
         });
     }

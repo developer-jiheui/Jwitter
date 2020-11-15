@@ -12,6 +12,7 @@ import axios from 'axios';
 
 import EditProfileDialogue from "./EditProfileDialog";
 import {LocationOn} from "@material-ui/icons";
+import CommentDialog from "./CommentDialog";
 
 function Profile() {
     const [editProfileOpen, setEditProfileOpen] = React.useState(false);
@@ -21,6 +22,9 @@ function Profile() {
     const [tweetLike, setLikes] = useState([]);
     const [following, setFollowing] = useState([]);
     const [follower, setFollower] = useState([]);
+    const [viewComments, setViewComments] = useState(false);
+    const [leaveComment, setLeaveComment] = useState(false);
+    const [postData, setPostData] = useState({tweet_data:{id:0},comment:[],main_post_user:{id:0,avatar:""}});
 
 
     useEffect(() => {
@@ -138,6 +142,22 @@ function Profile() {
             });
         }
     }
+    const handleClose=()=>{
+        setLeaveComment(!leaveComment)
+    }
+
+    const getComment = (viewPost) =>{
+        axios.get(`/api/auth/comments/${viewPost.tweet_data.id}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
+        }).then((res)=>{
+            viewPost.comment=res.data
+            setPostData(viewPost)
+        }).catch(r=>{
+            console.log(r);
+            alert(r);
+        });
+    }
 
     const userAvatarURLCSS = user.avatar ? {backgroundImage: "url('" + user.avatar + "')"} : {background: "grey"};
     const coverPhotoURLCSS = user.coverPhoto ? {backgroundImage: "url('" + user.coverPhoto + "')"} : {background: "grey"};
@@ -196,6 +216,13 @@ function Profile() {
             <ProfileTabs tweets={myTweets} tandR = {tweetsAndReplies} tweetLike={tweetLike} user = {user}/>
 
             <EditProfileDialogue onClose={onClose} open={editProfileOpen} user={user} />
+            <CommentDialog
+                open={leaveComment}
+                main_post={postData.tweet_data}
+                main_post_user={postData.main_post_user}
+                comment_user={user}
+                comments={postData.comment}
+                onClose={handleClose} />
         </div>
     )
 }
