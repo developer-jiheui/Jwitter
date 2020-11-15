@@ -26,9 +26,9 @@ function CommentDialog(props) {
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="xl">
       <DialogTitle id="form-dialog-title">Add comment</DialogTitle>
       <DialogContent>
-        <Post tweet_data={main_post} user={main_post_user} postOnClick={postOnClick} viewOnly={true}/>
+        <Post tweet_data={main_post} user={main_post_user} postOnClick={postOnClick} viewOnly={true} currUser={comment_user}/>
         {comments.map((c,index)=>{
-            return <Post key={index} tweet_data={c.post} user={c.user} postOnClick={postOnClick} viewOnly={true}/>
+            return <Post key={index} tweet_data={c.post} user={c.user} postOnClick={postOnClick} viewOnly={true}  currUser={comment_user}/>
           })
         }
         <Tweet user={comment_user} tweetOnChange={tweetOnChange} reply={main_post.id}/>

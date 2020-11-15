@@ -8,17 +8,19 @@ import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutline
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import axios from 'axios';
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
+const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
   const [like, setLike] = useState(false)
   const [share, setShare] = useState(false)
   const [tweetData, setTweetData] = useState(tweet_data)
-  const [bookMarked, setBookMarked] = useState(tweetData.bookMarked)
+  const [bookMarked, setBookMarked] = useState(tweet_data.bookMarked)
   const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [currentUser, setCurrentUser] = useState();
 
   useEffect(() => {
     init()
@@ -29,6 +31,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
 
   const bookMark = () => {
     let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')))
+    console.log("INSIDE BOOKMARK", tweet_data.id);
     axios({
       method: 'post',
       url: `/api/bookmarks/${tweet_data.id}`,
@@ -41,7 +44,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
       setBookMarked(true)
     }).catch(r => {
       console.log(r)
-      alert(JSON.stringify(r.response.data));
+     // alert(JSON.stringify(r.response.data));
     });
   }
 
@@ -140,7 +143,21 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
               >
-                <MenuItem className="postMenu" onClick={deletePost}><DeleteForeverOutlinedIcon style={{"marginRight":"5px"}}/>Delete</MenuItem>
+                {
+                  (currUser.id === tweet_data.user_id)
+                  &&
+                  <MenuItem className="postMenu" onClick={deletePost}>
+                    <DeleteForeverOutlinedIcon style={{"marginRight": "5px"}}/>
+                    Delete
+                  </MenuItem>
+                }
+                {
+                  (currUser.id != tweet_data.user_id)
+                  &&
+                    <MenuItem className="postMenu" >
+                      <FlagOutlinedIcon style={{"marginRight": "5px"}}/>
+                      Report
+                    </MenuItem>}
               </Menu>
             </h3>
           </div>

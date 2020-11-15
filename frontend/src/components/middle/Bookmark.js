@@ -1,6 +1,5 @@
 
 import React,{ useEffect,useState } from 'react'
-import Tweet from '../middle/Tweet'
 import Post from '../middle/Post'
 import axios from 'axios';
 
@@ -15,10 +14,10 @@ function Main() {
               Authorization: bearer
             }
           }).then(resp => {
-              setBookmarks(resp.data)
+            setBookmarks(resp.data)
           }).catch(r => {
-            console.log(r)
-            alert(JSON.stringify(r.response.data));
+          console.log(r)
+          (JSON.stringify(r.response.data));
           });  
       },[]);
 /*
@@ -37,7 +36,7 @@ function Main() {
             </div>
             <div>
                 {bookMarks.map((bookMark,index)=>{
-                   return <Post key={index} tweet_data={bookMark.tweet} user={bookMark.creator}/>
+                   return <Post key={index} tweet_data={bookMark.tweet} user={bookMark.creator} currUser={bookMark.creator}/>
                 })}
      
             </div>

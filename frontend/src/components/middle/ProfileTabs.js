@@ -59,24 +59,24 @@ function ProfileTabs(props) {
                     textColor="primary"
                 >
                     <Tab label="Tweets"  />
-                    <Tab label="Tweets & Replies"  />
+                    <Tab label="Comments & Shares"  />
                     <Tab label="Likes" />
                 </Tabs>
             </div>
 
             <TabPanel value={value} index={0}>
                 {props.tweets.map((tweet,index)=>{
-                return <Post key={index} tweet_data={tweet} user={props.user} postOnClick={postOnClick} viewOnly={false}/>
+                return <Post key={index} tweet_data={tweet} user={props.user} postOnClick={postOnClick} viewOnly={false} currUser={props.user}/>
             })}
             </TabPanel>
             <TabPanel value={value} index={1}>
                 {props.tandR.map((tweet,index)=>{
-                    return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false}/>
+                    return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false} currUser={props.user}/>
                 })}
             </TabPanel>
             <TabPanel value={value} index={2}>
                 {props.tweetLike.map((tweet,index)=>{
-                    return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false}/>
+                    return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false} currUser={props.user}/>
                 })}
             </TabPanel>
 
