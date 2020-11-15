@@ -26,7 +26,9 @@ function Main() {
 
     const handleClose=()=>{
         setLeaveComment(!leaveComment)
-      }
+        console.log("COMMENTS" +postData.comments)
+
+    }
 
     useEffect(() => {
         getTweets();

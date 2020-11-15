@@ -107,14 +107,14 @@ public class PostRepository {
     //for geting all the tweets a user created -- used in Profile page tweet tab
     public List<Post> getPostsByUser(final int user_id) {
         return this.jdbcTemplate.query(
-                "select * from tweet  where user_id=" + user_id + "order by created_at desc",
+                "select * from tweet  where user_id=" + user_id+ " and reply_to_id=0 order by created_at desc",
                 this.pMapper);
     }
 
     public List<Comment> getTweetsAndReplies(final int user_id){
         return this.jdbcTemplate.query(
                 "select * from\n" +
-                        "    (select *  from (select * from tweet where user_id != "+user_id+") as t\n" +
+                        "    (select *  from (select * from tweet where user_id != "+user_id+" and reply_to_id=0) as t\n" +
                         "    Inner join \n" +
                         "    (select share_post_id id from\n" +
                         "                shares\n" +
@@ -134,9 +134,9 @@ public class PostRepository {
     public List<Comment> getLikes(final int user_id){
         return this.jdbcTemplate.query(
                 "select * from\n" +
-                        "    (select * from tweet \n" +
+                        "    (select * from tweet t \n" +
                         "inner join (select like_post_id id from likes where user_id = "+user_id+") l using (id)\n" +
-                        ") as selected inner join (select id user_id, username, avatar from users) as u using(user_id) \n" +
+                        "where t.reply_to_id = 0) as selected inner join (select id user_id, username, avatar from users) as u using(user_id) \n" +
                         "order by selected.created_at desc", this.tnrMapper);
     }
 

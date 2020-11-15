@@ -111,6 +111,7 @@
     height: 50px !important;
   }
 
+
   .sidebar{
     border-right: 1px solid var(--twitter-border);
     margin-top: 20px;
@@ -384,6 +385,12 @@
     padding-bottom: 10px;
     width: 600px;
   }
+  .post button{
+    border: none;
+    background-color: white;
+  }
+
+
   div.post:hover{
     background-color:var(--twitter-border);;
  }

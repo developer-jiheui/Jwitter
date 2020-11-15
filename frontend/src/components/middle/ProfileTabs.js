@@ -3,27 +3,14 @@ import { Tab, Tabs} from "@material-ui/core";
 import Post from "./Post";
 import Main from "./Main";
 import axios from "axios";
+import CommentDialog from "./CommentDialog";
+import Tweet from "./Tweet";
 
 function ProfileTabs(props) {
     const [value, setValue] = React.useState(0);
-
     const [postData, setPostData] = useState({tweet_data:{id:0},comment:[],main_post_user:{id:0,avatar:""}});
     const [leaveComment, setLeaveComment] = useState(false);
-
-    const handleChange = (event, value) => {
-        setValue(value);
-        switch(value) {
-            case 0:
-             //  getMyTweets();
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-        }
-    }
-
-
+    const [viewComments, setViewComments] = useState(false);
 
 
 
@@ -42,9 +29,25 @@ function ProfileTabs(props) {
 
     const postOnClick =(data, main_post_user) =>{
         let viewPost={tweet_data: data, main_post_user:main_post_user,comment:[]}
-        setPostData(viewPost)
         getComment(viewPost)
         setLeaveComment(!leaveComment)
+    }
+
+    const handleClose=()=>{
+        setLeaveComment(!leaveComment)
+    }
+
+    const handleChange = (event, value) => {
+        setValue(value);
+        switch(value) {
+            case 0:
+                //  getMyTweets();
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
     }
 
     return (
@@ -61,6 +64,7 @@ function ProfileTabs(props) {
                     <Tab label="Likes" />
                 </Tabs>
             </div>
+
             <TabPanel value={value} index={0}>
                 {props.tweets.map((tweet,index)=>{
                 return <Post key={index} tweet_data={tweet} user={props.user} postOnClick={postOnClick} viewOnly={false}/>
@@ -77,6 +81,13 @@ function ProfileTabs(props) {
                 })}
             </TabPanel>
 
+            <CommentDialog
+                open={leaveComment}
+                main_post={postData.tweet_data}
+                main_post_user={postData.main_post_user}
+                comment_user={props.user}
+                comments={postData.comment}
+                onClose={handleClose} />
         </div>
     );
 }
