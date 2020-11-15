@@ -12,12 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Auth controller.
@@ -135,4 +130,12 @@ public final class PostController {
         }
     }
 
+    @DeleteMapping("/tweets/{tweet_id}")
+    public ResponseEntity<?> deletePost(@PathVariable("tweet_id") int tweet_id) {
+        try {
+            return ResponseEntity.ok(this.postService.deletePost(tweet_id));
+        } catch (final AuthenticationException exc) {
+            return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
+        }
+    }
 }

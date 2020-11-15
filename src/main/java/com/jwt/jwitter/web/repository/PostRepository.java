@@ -178,4 +178,8 @@ public class PostRepository {
     public void createBookmark(final String email, final int postId) {
         this.jdbcTemplate.update("INSERT INTO bookmarks (user_is,twit_id) values ((select id from users where email = ? limit 1),?)", email, postId);
     }
+
+    public boolean deletePost(int tweet_id) {
+        return this.jdbcTemplate.update("DELETE FROM tweet where id="+tweet_id)==1;
+    }
 }
