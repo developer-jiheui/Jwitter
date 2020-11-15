@@ -4,6 +4,7 @@ import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BlockIcon from '@material-ui/icons/Block';
 import axios from 'axios';
@@ -118,8 +119,8 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
             <FavoriteBorderIcon fontSize="small" className={like ? "like" : ""} />
             <span>{tweetData.likes}</span>
           </button>
-          {bookMarked ? <BlockIcon fontSize="small" />:
-              <Tooltip title="BookMark"><BookmarkIcon onClick={()=>bookMark()} fontSize="small" /></Tooltip>
+          {bookMarked ? <BookmarkIcon fontSize="small" />:
+              <Tooltip title="BookMark"><BookmarkBorderOutlinedIcon onClick={()=>bookMark()} fontSize="small" /></Tooltip>
            }
         </div>
       </div>
