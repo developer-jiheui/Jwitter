@@ -36,7 +36,6 @@ function Profile() {
             getLikes(resp.data.id);
             getFollower(resp.data.id);
             getFollowing(resp.data.id);
-            console.log("User",user)
         }).catch(error => {
             console.log(error);
         });
@@ -52,7 +51,6 @@ function Profile() {
                 Authorization: bearer
             }
         }).then(resp => {
-            console.log("GOT TWEETS: ", resp.data)
             setTweets(resp.data);
         }).catch(r => {
             console.log(r);
@@ -68,7 +66,6 @@ function Profile() {
                 Authorization: bearer
             }
         }).then(resp => {
-            console.log("GOT TWEETS AND REPLIES: ", resp.data)
             setTandR(resp.data);
         }).catch(r => {
             console.log(r);
@@ -84,7 +81,6 @@ function Profile() {
                 Authorization: bearer
             }
         }).then(resp => {
-            console.log("GOT LIKES: ", resp.data)
             setLikes(resp.data);
         }).catch(r => {
             console.log(r);
@@ -143,8 +139,6 @@ function Profile() {
 
     const userAvatarURLCSS = user.avatar ? {backgroundImage: "url('" + user.avatar + "')"} : {background: "grey"};
     const coverPhotoURLCSS = user.coverPhoto ? {backgroundImage: "url('" + user.coverPhoto + "')"} : {background: "grey"};
-
-    console.log("user passing",user);
 
     return (
         <div className="main">

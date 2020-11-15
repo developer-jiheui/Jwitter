@@ -41,7 +41,6 @@ function ProfileTabs(props) {
         setValue(value);
         switch(value) {
             case 0:
-                //  getMyTweets();
                 break;
             case 1:
                 break;

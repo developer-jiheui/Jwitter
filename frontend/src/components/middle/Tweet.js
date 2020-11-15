@@ -38,7 +38,6 @@ const Tweet= ({user,tweetOnChange, reply}) => {
                 photo:null,
                 reply_to_id:null
             })
-            console.log(tweet)
             tweetOnChange('tweet')
           }).catch(r => {
             console.log(r)
