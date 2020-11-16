@@ -36,48 +36,48 @@ function App() {
   },[]);
 
   return (
-  //   <div className="app">
-  //   {!token && <Login />}
-  //   {token && 
-  //   <>
-  //   <Sidebar/>
-  //   <Main/>
-  //   <Embed/>
-  //   </>
-  //   }
-  // </div>
-  <Router>
-      <div className="app">
-        <Switch>
-          <Route path="/home">
-          <Sidebar ativeOne="Home"/>
-          <Main/>
-          <Embed/>
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/profile">
-          <Sidebar ativeOne="Profile"/>
-            <Profile/>
-            <Embed/>
-          </Route>
-          <Route path="/bookmarks">
-            <Sidebar activeOne="Bookmark"/>
-            <Bookmark/>
-            <Embed/>
-          </Route>
-          <Route path="/explore">
-            <Sidebar activeOne="Explore"/>
-            <Bookmark/>
-            <Embed/>
-          </Route>
-          <Route path="/">
-            <Login />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+      //   <div className="app">
+      //   {!token && <Login />}
+      //   {token &&
+      //   <>
+      //   <Sidebar/>
+      //   <Main/>
+      //   <Embed/>
+      //   </>
+      //   }
+      // </div>
+      <Router>
+        <div className="app">
+          <Switch>
+            <Route path="/home">
+              <Sidebar ativeOne="Home"/>
+              <Main/>
+              <Embed/>
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/profile">
+              <Sidebar ativeOne="Profile"/>
+              <Profile/>
+              <Embed/>
+            </Route>
+            <Route path="/bookmarks">
+              <Sidebar activeOne="Bookmark"/>
+              <Bookmark/>
+              <Embed/>
+            </Route>
+            <Route path="/explore">
+              <Sidebar activeOne="Explore"/>
+              <Search/>
+              <Embed/>
+            </Route>
+            <Route path="/">
+              <Login />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
   );
 }
 

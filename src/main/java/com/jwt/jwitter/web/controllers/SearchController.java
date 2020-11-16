@@ -30,15 +30,15 @@ public class SearchController {
     @Autowired
     private UserService userService;
 
-//    @GetMapping("/search")
-//    public ResponseEntity<List<User>> searchUsers(@RequestParam(name = "name") final String name) {
-//        final List<User> users = this.userService.searchUsers(name);
-//        if (users.isEmpty()) {
-//            return ResponseEntity.noContent().build();
-//        } else {
-//            return ResponseEntity.ok(users);
-//        }
-//    }
+    @GetMapping("/search/{search_word}")
+    public ResponseEntity<List<User>> searchUsers(@RequestParam(name = "name") final String name) {
+        final List<User> users = this.userService.searchUsers(name);
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(users);
+        }
+    }
 
 
 //    @PostMapping("/{postId}")
