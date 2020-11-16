@@ -17,7 +17,6 @@ function Main() {
             setBookmarks(resp.data)
           }).catch(r => {
           console.log(r)
-          (JSON.stringify(r.response.data));
           });  
       },[]);
 /*

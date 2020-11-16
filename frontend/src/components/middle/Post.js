@@ -29,9 +29,24 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
     postOnClick(tweetData, user)
   }
 
+  const deleteBookMark = () => {
+    let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')))
+    axios({
+      method: 'delete',
+      url: `/api/bookmarks/${tweet_data.id}`,
+      headers: {
+        Authorization: bearer
+      },
+      data: {
+      }
+    }).then(() => {
+      setBookMarked(false)
+    }).catch(r => {
+      console.log(r)
+    });
+  }
   const bookMark = () => {
     let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')))
-    console.log("INSIDE BOOKMARK", tweet_data.id);
     axios({
       method: 'post',
       url: `/api/bookmarks/${tweet_data.id}`,
@@ -44,7 +59,6 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
       setBookMarked(true)
     }).catch(r => {
       console.log(r)
-     // alert(JSON.stringify(r.response.data));
     });
   }
 
@@ -179,7 +193,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
             <FavoriteBorderIcon fontSize="small" className={like ? "like" : ""} />
             <span>{tweetData.likes}</span>
           </button>
-          {bookMarked ? <BookmarkIcon fontSize="small" />:
+          {bookMarked ? <Tooltip title="Delete bookmark"><BookmarkIcon  fontSize="small" onClick={()=>deleteBookMark()} /></Tooltip>:
               <Tooltip title="BookMark"><BookmarkBorderOutlinedIcon onClick={()=>bookMark()} fontSize="small" /></Tooltip>
            }
         </div>

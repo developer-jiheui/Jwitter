@@ -47,12 +47,12 @@ public class PostRepository {
         return post;
     }
 
-    public Map getLikeNShare(int user_id,int tweet_id){
-        boolean isShare =this.jdbcTemplate.queryForObject("SELECT count(*) from shares where user_id = ? and share_post_id=?", Integer.class, user_id, tweet_id)  != 0;
-        boolean isLike = this.jdbcTemplate.queryForObject("SELECT count(*) from likes where user_id = ? and like_post_id=?", Integer.class, user_id, tweet_id)  != 0;
-        Map rs =new HashMap();
-        rs.put("like",isLike);
-        rs.put("share",isShare);
+    public Map getLikeNShare(int user_id, int tweet_id) {
+        boolean isShare = this.jdbcTemplate.queryForObject("SELECT count(*) from shares where user_id = ? and share_post_id=?", Integer.class, user_id, tweet_id) != 0;
+        boolean isLike = this.jdbcTemplate.queryForObject("SELECT count(*) from likes where user_id = ? and like_post_id=?", Integer.class, user_id, tweet_id) != 0;
+        Map rs = new HashMap();
+        rs.put("like", isLike);
+        rs.put("share", isShare);
         return rs;
     }
 
@@ -107,39 +107,42 @@ public class PostRepository {
     //for geting all the tweets a user created -- used in Profile page tweet tab
     public List<Post> getPostsByUser(final int user_id) {
         return this.jdbcTemplate.query(
-                "select * from tweet  where user_id=" + user_id+ " and reply_to_id=0 order by created_at desc",
-                this.pMapper);
+            "select t.*,b.id as bookmarked from tweet t left join bookmarks b on t.id = b.twit_id and b.user_id=? where t.user_id= ? and t.reply_to_id=0 order by t.created_at desc",
+            this.pMapper::postWithBookmark,
+            user_id,
+            user_id
+        );
     }
 
-    public List<Comment> gigetTweetsAndReplies(final int user_id){
+    public List<Comment> getTweetsAndReplies(final int user_id) {
         return this.jdbcTemplate.query(
-                "select * from\n" +
-                        "    (select *  from (select * from tweet where user_id != "+user_id+" and reply_to_id=0) as t\n" +
-                        "    Inner join \n" +
-                        "    (select share_post_id id from\n" +
-                        "                shares\n" +
-                        "                where\n" +
-                        "                user_id = "+user_id+"\n" +
-                        "                union\n" +
-                        "                select\n" +
-                        "                like_post_id id\n" +
-                        "                from\n" +
-                        "                likes\n" +
-                        "                where\n" +
-                        "                user_id = "+user_id+"\n" +
-                        "        ) sl using (id)\n" +
-                        ") as selected inner join (select id user_id, username, avatar from users) as u using (user_id)\n" +
-                        "order by selected.created_at desc", this.tnrMapper);
-    }
-    public List<Comment> getLikes(final int user_id){
-        return this.jdbcTemplate.query(
-                "select * from\n" +
-                        "    (select * from tweet t \n" +
-                        "inner join (select like_post_id id from likes where user_id = "+user_id+") l using (id)\n" +
-                        "where t.reply_to_id = 0) as selected inner join (select id user_id, username, avatar from users) as u using(user_id) \n" +
-                        "order by selected.created_at desc", this.tnrMapper);
+            "select * from\n" +
+                "    (select *  from (select * from tweet where user_id != " + user_id + " and reply_to_id=0) as t\n" +
+                "    Inner join \n" +
+                "    (select share_post_id id from\n" +
+                "                shares\n" +
+                "                where\n" +
+                "                user_id = " + user_id + "\n" +
+                "                union\n" +
+                "                select\n" +
+                "                like_post_id id\n" +
+                "                from\n" +
+                "                likes\n" +
+                "                where\n" +
+                "                user_id = " + user_id + "\n" +
+                "        ) sl using (id)\n" +
+                ") as selected inner join (select id user_id, username, avatar from users) as u using (user_id)\n" +
+                "order by selected.created_at desc", this.tnrMapper);
     }
 
+    public List<Comment> getLikes(final int user_id) {
+        return this.jdbcTemplate.query(
+            "select * from\n" +
+                "    (select * from tweet t \n" +
+                "inner join (select like_post_id id from likes where user_id = " + user_id + ") l using (id)\n" +
+                "where t.reply_to_id = 0) as selected inner join (select id user_id, username, avatar from users) as u using(user_id) \n" +
+                "order by selected.created_at desc", this.tnrMapper);
+    }
 
     public List<Comment> getPostsByFollow(final int user_id) {
         return this.jdbcTemplate.query(
@@ -168,9 +171,9 @@ public class PostRepository {
     public void checkBookMarks(final List<Comment> comments, final int userId) {
         comments.forEach(comment -> {
             final Map<String, Object> map = this.jdbcTemplate.queryForMap(
-                    "SELECT t.id,b.id as bookmarked from tweet t left join bookmarks b " +
-                            "on t.id = b.twit_id and b.user_id=? where t.id = ?",
-                            userId, comment.getPost().getId());
+                "SELECT t.id,b.id as bookmarked from tweet t left join bookmarks b " +
+                    "on t.id = b.twit_id and b.user_id=? where t.id = ?",
+                userId, comment.getPost().getId());
             comment.getPost().setBookMarked(map.get("bookmarked") != null);
         });
     }
@@ -180,6 +183,6 @@ public class PostRepository {
     }
 
     public boolean deletePost(int tweet_id) {
-        return this.jdbcTemplate.update("DELETE FROM tweet where id="+tweet_id)==1;
+        return this.jdbcTemplate.update("DELETE FROM tweet where id=" + tweet_id) == 1;
     }
 }

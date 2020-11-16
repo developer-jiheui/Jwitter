@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,14 @@ public class BookMarksController {
 
     @Autowired
     private BookMarksService bookMarksService;
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<?> deleteBookmark(
+        final Principal user,
+        @PathVariable("postId") final int postId) {
+        this.bookMarksService.deleteBookMark(user.getName(), postId);
+        return ResponseEntity.noContent().build();
+    }
 
     @PostMapping("/{postId}")
     public ResponseEntity<?> createBookMark(
