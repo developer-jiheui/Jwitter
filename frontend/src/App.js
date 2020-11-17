@@ -5,6 +5,7 @@ import Main from './components/middle/Main'
 import Profile from './components/middle/Profile'
 import Embed from './components/right/Embed'
 import Bookmark from './components/middle/Bookmark'
+import Search from './components/middle/Search'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 import { useStateValue } from "./utils/StateProvider";
@@ -35,43 +36,48 @@ function App() {
   },[]);
 
   return (
-  //   <div className="app">
-  //   {!token && <Login />}
-  //   {token && 
-  //   <>
-  //   <Sidebar/>
-  //   <Main/>
-  //   <Embed/>
-  //   </>
-  //   }
-  // </div>
-  <Router>
-      <div className="app">
-        <Switch>
-          <Route path="/home">
-          <Sidebar ativeOne="Home"/>
-          <Main/>
-          <Embed/>
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/profile">
-          <Sidebar ativeOne="Profile"/>
-            <Profile/>
-            <Embed/>
-          </Route>
-          <Route path="/bookmarks">
-            <Sidebar activeOne="Bookmark"/>
-            <Bookmark/>
-            <Embed/>
-          </Route>
-          <Route path="/">
-            <Login />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+      //   <div className="app">
+      //   {!token && <Login />}
+      //   {token &&
+      //   <>
+      //   <Sidebar/>
+      //   <Main/>
+      //   <Embed/>
+      //   </>
+      //   }
+      // </div>
+      <Router>
+        <div className="app">
+          <Switch>
+            <Route path="/home">
+              <Sidebar ativeOne="Home"/>
+              <Main/>
+              <Embed/>
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/profile">
+              <Sidebar ativeOne="Profile"/>
+              <Profile/>
+              <Embed/>
+            </Route>
+            <Route path="/bookmarks">
+              <Sidebar activeOne="Bookmark"/>
+              <Bookmark/>
+              <Embed/>
+            </Route>
+            <Route path="/explore">
+              <Sidebar activeOne="Explore"/>
+              <Search/>
+              <Embed/>
+            </Route>
+            <Route path="/">
+              <Login />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
   );
 }
 

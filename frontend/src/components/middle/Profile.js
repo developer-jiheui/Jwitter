@@ -190,7 +190,6 @@ function Profile() {
                 </div>
             </div>
             <ProfileTabs tweets={myTweets} tandR = {tweetsAndReplies} tweetLike={tweetLike} user = {user}/>
-
             <EditProfileDialogue onClose={onClose} open={editProfileOpen} user={user} />
 
         </div>
