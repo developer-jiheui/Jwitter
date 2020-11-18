@@ -4,11 +4,12 @@ import com.jwt.jwitter.models.Comment;
 import com.jwt.jwitter.models.Post;
 import com.jwt.jwitter.web.dto.in.PostDto;
 import com.jwt.jwitter.web.repository.PostRepository;
-import java.util.List;
-import java.util.Map;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Data
@@ -16,9 +17,7 @@ public class PostService {
 
     private final PostRepository repository;
 
-    public PostService(PostRepository repository) {
-        this.repository = repository;
-    }
+    public PostService(PostRepository repository){this.repository =repository;}
 
     @Transactional(readOnly = true)
     public List<Post> getPostsByUser(final int user_id) {
@@ -86,7 +85,7 @@ public class PostService {
     public boolean deletePost(final int tweet_id) { return this.repository.deletePost(tweet_id);}
 
     @Transactional(readOnly = true)
-    public List<Post> searchTweets(final String word) {
-        return this.repository.searchTweets(word);
+    public List<Comment> searchTweets(final String word) {
+        return this.repository.searchTweet(word);
     }
 }

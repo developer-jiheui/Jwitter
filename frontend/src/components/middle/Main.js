@@ -1,6 +1,7 @@
 import React,{ useEffect,useState } from 'react'
-import Tweet from '../middle/Tweet'
-import Post from '../middle/Post'
+import Tweet from '../middle/Tweet';
+import Post from '../middle/Post';
+import Search from '../middle/Search';
 import axios from 'axios';
 import CommentDialog from './CommentDialog';
 //import { useStateValue } from "../../utils/StateProvider";
@@ -93,6 +94,12 @@ function Main() {
                  })
                 }
             </div> */}
+        
+        <Search 
+           currUser ={user}
+           postOnClick={postOnClick}
+           />
+
             <CommentDialog 
             open={leaveComment} 
             main_post={postData.tweet_data} 

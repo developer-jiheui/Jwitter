@@ -7,11 +7,13 @@ import com.jwt.jwitter.web.dto.in.SignUpDto;
 import com.jwt.jwitter.web.repository.UsersRepository;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Data
+@Repository
 public class AuthService {
 
     private final PasswordEncoder encoder;

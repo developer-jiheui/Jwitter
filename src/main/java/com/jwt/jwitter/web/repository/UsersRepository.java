@@ -2,7 +2,6 @@ package com.jwt.jwitter.web.repository;
 
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.models.User;
-import com.jwt.jwitter.models.mappers.PostMapper;
 import com.jwt.jwitter.models.mappers.UserMapper;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -15,6 +14,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@SuppressWarnings("ALL")
 public class UsersRepository {
 
     @Autowired
@@ -23,10 +23,9 @@ public class UsersRepository {
     private AvatarUrlProvider avatarUrlProvider;
     @Autowired
     private UserMapper userMapper;
-    private UserMapper mapper;
 
     public List<User> searchUsers(final String name) {
-        return this.jdbcTemplate.query("SELECT * from users where username ilike ?", this.mapper, '%' + name + '%');
+        return this.jdbcTemplate.query("SELECT * from users where username like '%" + name + "%'", this.userMapper);
     }
 
     public boolean exists(final int userId) {
@@ -35,7 +34,7 @@ public class UsersRepository {
     }
 
     public boolean isSameUserName(final User user) {
-        return this.jdbcTemplate.queryForObject("SELECT count(*) from users where username = ? AND id = "+user.getId(), Integer.class,user.getUsername())>1;
+        return this.jdbcTemplate.queryForObject("SELECT count(*) from users where username = ? AND id = " + user.getId(), Integer.class, user.getUsername()) > 1;
     }
 
     public User getUserByEmail(final String email) {
@@ -60,18 +59,17 @@ public class UsersRepository {
         this.jdbcTemplate.update("UPDATE users set avatar=? where id=?", fileId, userId);
     }
 
-    public List<User> getFollowing(final int userId){
+    public List<User> getFollowing(final int userId) {
         return this.jdbcTemplate.query("select * from\n" +
-                "    (select follow_user_id id from follow where user_id = "+userId+"\n" +
-                ") as selected inner join (select * from users) as u using(id)",this.userMapper);
+            "    (select follow_user_id id from follow where user_id = " + userId + "\n" +
+            ") as selected inner join (select * from users) as u using(id)", this.userMapper);
     }
 
-    public List<User> getFollower(final int userId){
+    public List<User> getFollower(final int userId) {
         return this.jdbcTemplate.query("select * from\n" +
-                "    (select user_id id from follow where follow_user_id = "+userId+"\n" +
-                ") as selected inner join (select * from users) as u using(id) ",this.userMapper);
+            "    (select user_id id from follow where follow_user_id = " + userId + "\n" +
+            ") as selected inner join (select * from users) as u using(id) ", this.userMapper);
     }
-
 
     public User save(final User user) {
         final KeyHolder holder = new GeneratedKeyHolder();

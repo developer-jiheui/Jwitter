@@ -10,7 +10,7 @@ function Embed() {
         <div className="embed">
             <div className="embed_input">
                 <SearchIcon className="embed_search" />
-                <input placeholder="Search Twitter" type="text" />
+                <input placeholder="Search Jitter" type="text" />
             </div>
             <div className="embedContainer">
                 <h2>What's happening</h2>
