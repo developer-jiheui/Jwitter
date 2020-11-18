@@ -4,6 +4,7 @@ package com.jwt.jwitter.web.repository;
 
 import com.jwt.jwitter.models.Comment;
 import com.jwt.jwitter.models.Post;
+import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.models.mappers.CommentMapper;
 import com.jwt.jwitter.models.mappers.PostMapper;
 import com.jwt.jwitter.models.mappers.TweetAndReplyMapper;
@@ -146,10 +147,10 @@ public class PostRepository {
 
     public List<Comment> getPostsByFollow(final int user_id) {
         return this.jdbcTemplate.query(
-            "select * from tweet t left join users u on u.id =t.user_id where t.user_id in " +
+            "select t.*, u.id as userID, u.* from tweet t left join users u on u.id =t.user_id where t.user_id in " +
                 "(select follow_user_id from follow where user_id=?)\n and reply_to_id=0 " +
                 " union \n" +
-                "select * from tweet t left join users u on u.id =t.user_id where  user_id=? and reply_to_id =0 order by 1 desc"
+                "select t.*, u.id as userID, u.* from tweet t left join users u on u.id =t.user_id where  user_id=? and reply_to_id=0 order by 1 desc"
             , new Object[]{user_id, user_id},
             this.mapper);
     }
@@ -182,7 +183,12 @@ public class PostRepository {
         this.jdbcTemplate.update("INSERT INTO bookmarks (user_is,twit_id) values ((select id from users where email = ? limit 1),?)", email, postId);
     }
 
+
     public boolean deletePost(int tweet_id) {
         return this.jdbcTemplate.update("DELETE FROM tweet where id=" + tweet_id) == 1;
     }
+    public List<Post> searchTweets (final String tweet) {
+        return this.jdbcTemplate.query("SELECT * from tweet where content ilike ?", this.pMapper, '%' + tweet + '%');
+    }
+
 }
