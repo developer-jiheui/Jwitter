@@ -1,8 +1,10 @@
 package com.jwt.jwitter.web.controllers;
 
 import com.jwt.jwitter.models.User;
+import com.jwt.jwitter.models.Post;
 import com.jwt.jwitter.web.dto.in.UserDto;
 import com.jwt.jwitter.web.service.UserService;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.*;
+=======
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+>>>>>>> search_for_users_and_posts_FEATURE_mch_87
 
 /**
  * User Controller
@@ -35,6 +46,20 @@ public final class UserController {
     }
 
 
+<<<<<<< HEAD
+=======
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> searchUsers(@RequestParam(name = "name") final String name) {
+        final List<User> users = this.userService.searchUsers(name);
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(users);
+        }
+    }
+
+
+>>>>>>> search_for_users_and_posts_FEATURE_mch_87
     @PutMapping("/update-user")
     public ResponseEntity<?> saveUserProfile(@RequestBody @Valid UserDto userDto) {
         User user = this.userService.getCurrentUser();
@@ -48,10 +73,10 @@ public final class UserController {
         user.setCoverPhoto(userDto.getCoverPhoto());
 
         if(userDto.getUsername().contains(" ")){
-            return new ResponseEntity<>(Map.of("message", "please don't user any empty space in the user name"), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(Map.of("message", "please don't use any empty space in the user name"), HttpStatus.FORBIDDEN);
         }
-        if(userDto.getWebsite()!=null){
-            Pattern p = Pattern.compile("(http(s)?://)?([\\w-]+\\.)+[\\w-]+[.com]+(/[/?%&=]*)?");
+        if(userDto.getWebsite()!=null&&userDto.getWebsite().length()>0){
+            Pattern p = Pattern.compile("(http(s)?://)?([\\w-]+\\.)+[\\w-]+[.com|.org|.ca|.net|.info]+(/[/?%&=]*)?");
             Matcher m;
             m=p.matcher(userDto.getWebsite());
             boolean matches = m.matches();

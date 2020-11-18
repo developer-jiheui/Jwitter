@@ -4,11 +4,14 @@ import ProfileTabs from "./ProfileTabs";
 import BackIcon from '@material-ui/icons/ArrowBack';
 import CalendarIcon from '@material-ui/icons/DateRange';
 import BdayIcon from '@material-ui/icons/CakeOutlined';
+import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+import LanguageOutlinedIcon from '@material-ui/icons/LanguageOutlined';
 
 import {Button} from "@material-ui/core";
 import axios from 'axios';
 
 import EditProfileDialogue from "./EditProfileDialog";
+import CommentDialog from "./CommentDialog";
 
 function Profile() {
     const [editProfileOpen, setEditProfileOpen] = React.useState(false);
@@ -33,7 +36,6 @@ function Profile() {
             getLikes(resp.data.id);
             getFollower(resp.data.id);
             getFollowing(resp.data.id);
-            console.log("User",user)
         }).catch(error => {
             console.log(error);
         });
@@ -49,7 +51,6 @@ function Profile() {
                 Authorization: bearer
             }
         }).then(resp => {
-            console.log("GOT TWEETS: ", resp.data)
             setTweets(resp.data);
         }).catch(r => {
             console.log(r);
@@ -65,7 +66,6 @@ function Profile() {
                 Authorization: bearer
             }
         }).then(resp => {
-            console.log("GOT TWEETS AND REPLIES: ", resp.data)
             setTandR(resp.data);
         }).catch(r => {
             console.log(r);
@@ -81,7 +81,6 @@ function Profile() {
                 Authorization: bearer
             }
         }).then(resp => {
-            console.log("GOT LIKES: ", resp.data)
             setLikes(resp.data);
         }).catch(r => {
             console.log(r);
@@ -136,10 +135,10 @@ function Profile() {
         }
     }
 
+
+
     const userAvatarURLCSS = user.avatar ? {backgroundImage: "url('" + user.avatar + "')"} : {background: "grey"};
     const coverPhotoURLCSS = user.coverPhoto ? {backgroundImage: "url('" + user.coverPhoto + "')"} : {background: "grey"};
-
-    console.log("user passing",user);
 
     return (
         <div className="main">
@@ -158,6 +157,18 @@ function Profile() {
                 <div className ="jiterId">@{user.username}</div>
                 <div className ="bio">{user.bio}</div>
                 <div className ="profileInfoSection">
+                    {user.location &&
+                        <span className="userProfileInfo">
+                        <LocationOnOutlinedIcon/>
+                            {user.location}
+                        </span>
+                    }
+                    {user.website &&
+                        <span className="userProfileInfo">
+                        <LanguageOutlinedIcon/>
+                        <a href = {"https://"+user.website}>{user.website}</a>
+                        </span>
+                    }
                     <span className="userProfileInfo">
                         <BdayIcon/>
                         Born {user.birthday}
@@ -166,7 +177,7 @@ function Profile() {
                         <CalendarIcon className="iconAlignment"/>
                         Joined {user.joinday}
                     </span>
-                </div>
+                                    </div>
                 <div className ="profileInfoSection">
                     <span className="userProfileInfo">
                         <span className="followingNum">{following.length}</span>
@@ -179,8 +190,8 @@ function Profile() {
                 </div>
             </div>
             <ProfileTabs tweets={myTweets} tandR = {tweetsAndReplies} tweetLike={tweetLike} user = {user}/>
-
             <EditProfileDialogue onClose={onClose} open={editProfileOpen} user={user} />
+
         </div>
     )
 }

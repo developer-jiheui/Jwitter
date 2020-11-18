@@ -4,15 +4,24 @@ import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
-import BlockIcon from '@material-ui/icons/Block';
+import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined';
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import axios from 'axios';
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
-const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
+const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
   const [like, setLike] = useState(false)
   const [share, setShare] = useState(false)
   const [tweetData, setTweetData] = useState(tweet_data)
-  const [bookMarked, setBookMarked] = useState(tweetData.bookMarked)
+  const [bookMarked, setBookMarked] = useState(tweet_data.bookMarked)
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const [currentUser, setCurrentUser] = useState();
+
   useEffect(() => {
     init()
   }, [tweetData]);
@@ -20,6 +29,22 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
     postOnClick(tweetData, user)
   }
 
+  const deleteBookMark = () => {
+    let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')))
+    axios({
+      method: 'delete',
+      url: `/api/bookmarks/${tweet_data.id}`,
+      headers: {
+        Authorization: bearer
+      },
+      data: {
+      }
+    }).then(() => {
+      setBookMarked(false)
+    }).catch(r => {
+      console.log(r)
+    });
+  }
   const bookMark = () => {
     let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')))
     axios({
@@ -34,7 +59,6 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
       setBookMarked(true)
     }).catch(r => {
       console.log(r)
-      alert(JSON.stringify(r.response.data));
     });
   }
 
@@ -81,10 +105,35 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
           alert(r);
       });
   }
-  // const toggleLike=(like) =>{
-
-  // }
+  //const showMenu=() =>{}
   //const [like,setLike] =useState(tweet_data.likes);
+
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const deletePost = (e) =>{
+    let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+    axios({
+      method: 'delete',
+      url: '/api/auth/tweets/' + tweet_data.id,
+      headers: {
+        Authorization: bearer
+      }
+    }).then(resp => {
+      if(resp.data==true){
+
+      }
+    }).catch(r => {
+      console.log(r);
+    });
+  }
+
   return (
     <div className="post">
       <div className="post_avatar">
@@ -98,11 +147,37 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
               <span className="post_headerSpecial">
                 <VerifiedUserIcon className="post_badge" />
               </span>
+              <IconButton className="postOptions"  aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                <MoreHorizOutlinedIcon/>
+              </IconButton>
+              <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+              >
+                {
+                  (currUser.id === tweet_data.user_id)
+                  &&
+                  <MenuItem className="postMenu" onClick={deletePost}>
+                    <DeleteForeverOutlinedIcon style={{"marginRight": "5px"}}/>
+                    Delete
+                  </MenuItem>
+                }
+                {
+                  (currUser.id != tweet_data.user_id)
+                  &&
+                    <MenuItem className="postMenu" >
+                      <FlagOutlinedIcon style={{"marginRight": "5px"}}/>
+                      Report
+                    </MenuItem>}
+              </Menu>
             </h3>
           </div>
           <div className="post_headerDescription">
             <p>{tweetData.content}</p>
-            {tweetData.photo && <img src={tweetData.photo} alt="" width="400px" />}
+            {tweetData.photo && <img className="tweet_photo" src={tweetData.photo} alt=""/>}
           </div>
         </div>
         <div className={viewOnly ? "hidden" : "post_footer"}>
@@ -118,8 +193,8 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly }) => {
             <FavoriteBorderIcon fontSize="small" className={like ? "like" : ""} />
             <span>{tweetData.likes}</span>
           </button>
-          {bookMarked ? <BlockIcon fontSize="small" />:
-              <Tooltip title="BookMark"><BookmarkIcon onClick={()=>bookMark()} fontSize="small" /></Tooltip>
+          {bookMarked ? <Tooltip title="Delete bookmark"><BookmarkIcon  fontSize="small" onClick={()=>deleteBookMark()} /></Tooltip>:
+              <Tooltip title="BookMark"><BookmarkBorderOutlinedIcon onClick={()=>bookMark()} fontSize="small" /></Tooltip>
            }
         </div>
       </div>

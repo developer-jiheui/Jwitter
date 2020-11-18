@@ -111,6 +111,7 @@
     height: 50px !important;
   }
 
+
   .sidebar{
     border-right: 1px solid var(--twitter-border);
     margin-top: 20px;
@@ -384,6 +385,17 @@
     padding-bottom: 10px;
     width: 600px;
   }
+  .post button{
+    border: none;
+    background-color: white;
+  }
+  .postOptions{
+    float: right;
+  }
+  .postMenu{
+    color:#ff6161 !important;
+  }
+
   div.post:hover{
     background-color:var(--twitter-border);;
  }
@@ -511,6 +523,17 @@
   width: 100%;
   height: 30%;
   margin: 10px;
+}
+.tweet_photo{
+  width: 100%;
+  border-radius: 30px;
+  display: block;
+  margin-top: 15px;
+  max-height: 200px;
+  object-fit: cover;
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 textarea:hover,
 input:hover,

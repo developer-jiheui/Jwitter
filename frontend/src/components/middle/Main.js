@@ -26,11 +26,11 @@ function Main() {
 
     const handleClose=()=>{
         setLeaveComment(!leaveComment)
-      }
+    }
 
     useEffect(() => {
         getTweets();
-      },[postData]);
+    },[postData]);
 
     const getTweets = () =>{
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
@@ -42,6 +42,8 @@ function Main() {
             }
           }).then(resp => {
             setUser(resp.data)
+            console.log("MAIN JS USER: ", user);
+
             axios.get(`/api/auth/posts/${resp.data.id}`,{
                 headers: {
                     Authorization: bearer
@@ -73,14 +75,14 @@ function Main() {
     return (
         <div className="main">
             <div className="main_header">
-            <h1>Home</h1>
+            <h1>Home </h1>
             </div>
             <div className={!viewComments?"show":"hidden"}>
                 <Tweet user={user} tweetOnChange={tweetOnChange} reply={null}/>
             </div>
             <div >
             {tweets.map((tweet,index)=>{
-                   return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false}/>
+                   return <Post key={index} tweet_data={tweet.post} user={tweet.user} postOnClick={postOnClick} viewOnly={false} currUser={user}/>
                 })}
             </div>
             

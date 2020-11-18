@@ -18,6 +18,11 @@ public class BookMarksService {
     private BookMarkMapper bookMarkMapper;
 
     @Transactional
+    public void deleteBookMark(final String userEmail, final int postId) {
+        this.template.update("delete from bookmarks where user_id = (select id from users where email = ? limit 1) and twit_id = ?", userEmail, postId);
+    }
+
+    @Transactional
     public void create(final String userEmail, final int postId) {
         this.template.update("INSERT INTO bookmarks (user_id,twit_id) values ((select id from users where email = ? limit 1),?)", userEmail, postId);
     }

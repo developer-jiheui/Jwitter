@@ -2,6 +2,7 @@ package com.jwt.jwitter.web.service;
 
 import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.repository.UsersRepository;
+import java.util.List;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +17,7 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private final UsersRepository usersRepository;
+    private UsersRepository usersRepository;
 
     @Transactional(readOnly = true)
     public User getCurrentUser() {
@@ -28,6 +29,11 @@ public class UserService {
             userEmail = principal.toString();
         }
         return this.usersRepository.getUser(userEmail);
+    }
+
+    @Transactional(readOnly = true)
+    public List<User> searchUsers(final String word) {
+        return this.usersRepository.searchUsers(word);
     }
 
     @Transactional
