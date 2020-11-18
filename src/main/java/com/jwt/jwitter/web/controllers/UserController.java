@@ -13,16 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.*;
-=======
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
->>>>>>> search_for_users_and_posts_FEATURE_mch_87
 
 /**
  * User Controller
@@ -46,8 +43,7 @@ public final class UserController {
     }
 
 
-<<<<<<< HEAD
-=======
+
     @GetMapping("/users")
     public ResponseEntity<List<User>> searchUsers(@RequestParam(name = "name") final String name) {
         final List<User> users = this.userService.searchUsers(name);
@@ -59,7 +55,6 @@ public final class UserController {
     }
 
 
->>>>>>> search_for_users_and_posts_FEATURE_mch_87
     @PutMapping("/update-user")
     public ResponseEntity<?> saveUserProfile(@RequestBody @Valid UserDto userDto) {
         User user = this.userService.getCurrentUser();
