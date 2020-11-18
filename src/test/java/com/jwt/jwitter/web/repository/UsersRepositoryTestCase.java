@@ -2,6 +2,7 @@ package com.jwt.jwitter.web.repository;
 
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.models.User;
+import com.jwt.jwitter.models.mappers.UserMapper;
 import java.util.Date;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.Assertions;
@@ -90,6 +91,11 @@ class UsersRepositoryTestCase extends DatabaseIntegrationTest {
         @Bean
         public JdbcTemplate jdbcTemplate(@Autowired DataSource dataSource) {
             return new JdbcTemplate(dataSource);
+        }
+
+        @Bean
+        public UserMapper mapper(){
+            return new UserMapper(this.avatarUrlProvider());
         }
 
         @Bean
