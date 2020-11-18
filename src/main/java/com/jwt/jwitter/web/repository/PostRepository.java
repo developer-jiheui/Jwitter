@@ -4,17 +4,17 @@ package com.jwt.jwitter.web.repository;
 
 import com.jwt.jwitter.models.Comment;
 import com.jwt.jwitter.models.Post;
-import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.models.mappers.CommentMapper;
 import com.jwt.jwitter.models.mappers.PostMapper;
 import com.jwt.jwitter.models.mappers.TweetAndReplyMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
 import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 @Repository
 @SuppressWarnings("ALL")
@@ -187,8 +187,10 @@ public class PostRepository {
     public boolean deletePost(int tweet_id) {
         return this.jdbcTemplate.update("DELETE FROM tweet where id=" + tweet_id) == 1;
     }
-    public List<Post> searchTweets (final String tweet) {
-        return this.jdbcTemplate.query("SELECT * from tweet where content ilike ?", this.pMapper, '%' + tweet + '%');
+    public List<Comment> searchTweet(final String tweet) {
+        return this.jdbcTemplate.query(
+                "select t.*,u.*,u.id as user_id from tweet t left join users u on u.id =t.user_id where t.content like '%"+tweet+"%'",this.mapper);
+
     }
 
 }

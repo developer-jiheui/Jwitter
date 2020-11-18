@@ -1,28 +1,22 @@
 package com.jwt.jwitter.web.controllers;
 
+import com.jwt.jwitter.models.Comment;
 import com.jwt.jwitter.models.User;
-import com.jwt.jwitter.web.service.BookMarksService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import com.jwt.jwitter.web.service.PostService;
 import com.jwt.jwitter.web.service.UserService;
-import java.security.Principal;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
-@RequestMapping(value ="api/auth",produces = "application/json")
+@RequestMapping("/api/auth")
+@Slf4j
 public class SearchController {
 
     @Autowired
@@ -30,17 +24,28 @@ public class SearchController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/search/{search_word}")
-    public ResponseEntity<List<User>> searchUsers(@RequestParam(name = "name") final String name) {
+    @GetMapping("/search/{searchWord}")
+    public ResponseEntity<?> searchUsers(@PathVariable(name = "searchWord") final String name) {
         final List<User> users = this.userService.searchUsers(name);
-        if (users.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
+        try {
             return ResponseEntity.ok(users);
+        } catch (final Exception e) {
+            log.error("An error occured", e);
+            return new ResponseEntity<>(Map.of("message", "No user profile found"), HttpStatus.NOT_FOUND);
         }
     }
 
+    @GetMapping("/tweet-search/{searchWord}")
+    public ResponseEntity<?> searchTweets(@PathVariable(name = "searchWord") final String name) {
+        final List<Comment> tweets = this.postService.searchTweets(name);
+        try {
+            return ResponseEntity.ok(tweets);
+        } catch (final Exception e) {
+            log.error("An error occured", e);
+            return new ResponseEntity<>(Map.of("message", "No user profile found"), HttpStatus.NOT_FOUND);
+        }
 
+    }
 //    @PostMapping("/{postId}")
 //    public ResponseEntity<?> createBookMark(
 //            final Principal user,

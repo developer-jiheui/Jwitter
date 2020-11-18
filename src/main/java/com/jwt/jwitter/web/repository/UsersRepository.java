@@ -2,22 +2,17 @@ package com.jwt.jwitter.web.repository;
 
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.models.User;
-import com.jwt.jwitter.models.mappers.PostMapper;
 import com.jwt.jwitter.models.mappers.UserMapper;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.List;
-<<<<<<< HEAD
-
-import com.jwt.jwitter.models.mappers.UserMapper;
-=======
->>>>>>> search_for_users_and_posts_FEATURE_mch_87
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.List;
 
 @Repository
 public class UsersRepository {
@@ -31,7 +26,7 @@ public class UsersRepository {
     private UserMapper mapper;
 
     public List<User> searchUsers(final String name) {
-        return this.jdbcTemplate.query("SELECT * from users where username ilike ?", this.mapper, '%' + name + '%');
+        return this.jdbcTemplate.query("SELECT * from users where username like '%"+name+"%'",this.userMapper);
     }
 
     public boolean exists(final int userId) {

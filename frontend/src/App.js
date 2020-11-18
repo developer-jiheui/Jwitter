@@ -5,6 +5,7 @@ import Main from './components/middle/Main'
 import Profile from './components/middle/Profile'
 import Embed from './components/right/Embed'
 import Bookmark from './components/middle/Bookmark'
+import Search from './components/middle/Search'
 import Notifications from './components/middle/Notifications'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
@@ -70,6 +71,11 @@ function App() {
                     <Route path="/bookmarks">
                         <Sidebar activeOne="Bookmark"/>
                         <Bookmark/>
+                        <Embed/>
+                    </Route>
+                    <Route path="/search">
+                        <Sidebar activeOne="Search"/>
+                        <Search/>
                         <Embed/>
                     </Route>
                     <Route path="/">
