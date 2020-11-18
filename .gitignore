@@ -21,3 +21,5 @@ database.properties
 jwt.properties
 weedfs.properties
 *.DS_Store
+
+src/bin/.*
