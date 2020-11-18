@@ -42,8 +42,6 @@ function Main() {
             }
           }).then(resp => {
             setUser(resp.data)
-            console.log("MAIN JS USER: ", user);
-
             axios.get(`/api/auth/posts/${resp.data.id}`,{
                 headers: {
                     Authorization: bearer
