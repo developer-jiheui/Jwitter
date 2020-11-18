@@ -20,12 +20,24 @@ public final class CommentMapper implements RowMapper<Comment> {
     @Autowired
     private PostMapper postMapper;
     @Autowired
-    private UserMapper userMapper;
+    private AvatarUrlProvider avatarUrlProvider;
 
     @Override
     public Comment mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         Post p = postMapper.mapRow(rs, rowNum);
-        User u = userMapper.mapRow(rs, rowNum);
+        User u = new User(
+                rs.getInt("userID"),
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getString("username"),
+                rs.getDate("birthday"),
+                this.avatarUrlProvider.normalizeUrl(rs.getString("avatar")),
+                rs.getString("bio"),
+                rs.getString("location"),
+                rs.getString("website"),
+                rs.getDate("created_at"),
+                this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto"))
+        );
         return new Comment(u, p);
     }
 }

@@ -143,10 +143,10 @@ public class PostRepository {
 
     public List<Comment> getPostsByFollow(final int user_id) {
         return this.jdbcTemplate.query(
-            "select * from tweet t left join users u on u.id =t.user_id where t.user_id in " +
+            "select t.*, u.id as userID, u.* from tweet t left join users u on u.id =t.user_id where t.user_id in " +
                 "(select follow_user_id from follow where user_id=?)\n and reply_to_id=0 " +
                 " union \n" +
-                "select * from tweet t left join users u on u.id =t.user_id where  user_id=? and reply_to_id=0 order by 1 desc"
+                "select t.*, u.id as userID, u.* from tweet t left join users u on u.id =t.user_id where  user_id=? and reply_to_id=0 order by 1 desc"
             , new Object[]{user_id, user_id},
             this.mapper);
     }
