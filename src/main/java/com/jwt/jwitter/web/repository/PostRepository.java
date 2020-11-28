@@ -132,8 +132,9 @@ public class PostRepository {
                     "                             tw.reply_to_id=1 and tw.user_id =? \n" +
                     "                    ) sl using (id)\n" +
                     "    ) as selected inner join (select id user_id, username, avatar from users) as u using (user_id)\n" +
+                    "    where selected.id not in (select tweet_id as id from reports where user_id = ?)\n" +
                     "    order by selected.created_at desc",
-                new Object[]{user_id, user_id,user_id},
+                new Object[]{user_id, user_id,user_id,user_id},
                 this.tnrMapper);
     }
 
@@ -143,6 +144,7 @@ public class PostRepository {
                 "    (select * from tweet t \n" +
                 "inner join (select like_post_id id from likes where user_id = " + user_id + ") l using (id)\n" +
                 "where t.reply_to_id = 0) as selected inner join (select id user_id, username, avatar from users) as u using(user_id) \n" +
+                "where selected.id not in (select tweet_id as id from reports where user_id = " + user_id + ")\n" +
                 "order by selected.created_at desc", this.tnrMapper);
     }
 
@@ -167,13 +169,15 @@ public class PostRepository {
                     "         union\n" +
                     "         (select * from tweet where user_id = ?)\n" +
                     ") as selected\n" +
-                    "    left join (select id user_id, username, email, avatar from users)as u using (user_id)\n" +
+                    "    left join (select id user_id, username, email, birthday," +
+                    "                   password, created_at, modified_at,avatar," +
+                    "                   bio, location, website, coverphoto from users)as u using (user_id)\n" +
                     "    where selected.id not in (select tweet_id as id from reports where user_id = ?)\n" +
                     "    and\n" +
                     "    selected.reply_to_id =0\n" +
                     "    order by selected.created_at desc"
             , new Object[]{user_id, user_id,user_id},
-            this.tnrMapper);
+            this.mapper);
     }
 
     public List<Comment> getCommentsByTweetId(final int tweet_id) {

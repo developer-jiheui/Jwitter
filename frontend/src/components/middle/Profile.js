@@ -36,6 +36,7 @@ function Profile() {
             getLikes(resp.data.id);
             getFollower(resp.data.id);
             getFollowing(resp.data.id);
+            console.log("LOOK THIS IS USER_ID!!!!", resp.data.id);
         }).catch(error => {
             console.log(error);
         });
