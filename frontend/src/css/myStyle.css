@@ -324,6 +324,91 @@
 }
 /*************/
 
+/*** REPORT USER ***/
+#report-dialog-header{
+  padding:10px;
+}
+
+#report-dialog-content {
+  padding: 2px;
+  min-width: 500px;
+}
+
+.close-dialog {
+  color: var(--twitter-color)!important;
+  position: relative;
+  top: 5px;
+  margin-right: 30px;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.close-profile-dialog:hover {
+  cursor: pointer;
+  background-color: var(--twitter-color-lighter);
+}
+
+.dialog-title {
+  font-size: large;
+  font-weight: bolder;
+  position:relative;
+  bottom: 6px;
+}
+
+.report-button {
+  float: right;
+  background-color: var(--twitter-color) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: bolder !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  margin-top: 17px !important;
+  margin-bottom: 25px !important;
+}
+
+.report-button:hover {
+  background-color: var(--twitter-color-darker) !important;
+}
+.input-form {
+  color: grey;
+  background-color: aliceblue;
+  margin-bottom: 40px;
+  padding: 5px 5px 0px 5px;
+  border-bottom: 2px solid black;
+}
+.input-form label {
+  font-weight: bold;
+}
+.input-form .edit-profile-input {
+  color: grey;
+  border: none;
+  background: transparent;
+  width: 100%;
+  padding: 10px 0px;
+  resize: none;
+  font-family: inherit;
+}
+
+.input-form .edit-profile-input:focus {
+  border: none;
+  outline: none;
+}
+
+#reportCommentForm {
+  padding:20px;
+}
+
+.charcount-indicator {
+  float: right;
+  margin-top: 5px;
+}
+
+.bottomMargin{
+  margin-bottom: 30px;
+}
+/*************/
+
   .logo{
       color: var(--twitter-color)!important;
       padding-left: 20px;

@@ -26,7 +26,7 @@ public class ReportRepository {
                 preparedStatement.setString(3, reportDto.getReport_content());
                 return preparedStatement;
             });
-        return this.jdbcTemplate.queryForObject("Select tweet_id,user_id,report_comment from reports where tweet_id = ? AND user_id =?", new Object[]{reportDto.getTweet_id(),reportDto.getUser_id()},this.reportMapper);
+        return this.jdbcTemplate.queryForObject("Select tweet_id,user_id,report_content from reports where tweet_id = ? AND user_id =?", new Object[]{reportDto.getTweet_id(),reportDto.getUser_id()},this.reportMapper);
 
     }
 }

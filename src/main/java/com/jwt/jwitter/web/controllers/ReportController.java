@@ -23,13 +23,13 @@ import java.util.Map;
  * Report controller.
  */
 @RestController
-@RequestMapping(value = "/api/auth", produces = "application/json")
+@RequestMapping("/api/report")
 public class ReportController {
 
     @Autowired
     private ReportService reportService;
 
-    @PostMapping("/report-user")
+    @PostMapping
     public ResponseEntity<?> signUp(@RequestBody @Valid ReportDto reportDto) {
         try {
             return ResponseEntity.ok(this.reportService.reportPost(reportDto));
