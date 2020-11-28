@@ -94,11 +94,11 @@ function Main() {
                  })
                 }
             </div> */}
-        
-        <Search 
-           currUser ={user}
-           postOnClick={postOnClick}
-           />
+
+            {<Search
+                currUser={user}
+                postOnClick={postOnClick}
+            />}
 
             <CommentDialog 
             open={leaveComment} 

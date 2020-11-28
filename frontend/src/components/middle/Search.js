@@ -94,7 +94,7 @@ function Search(props) {
             </TabPanel>
             <TabPanel value={value} index={1}>
                 {user.map((u,index)=>{
-                    return <div key ={index}>{u.username} + {u.avatar} + {u.bio} </div>
+                    return <div key ={index}>{u.username} {u.avatar} {u.bio} </div>
                 })}
             </TabPanel>
         </div>

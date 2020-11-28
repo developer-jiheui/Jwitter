@@ -13,6 +13,9 @@ import axios from 'axios';
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import ReportDialog from "../admin/ReportDialog";
+
+import EditProfileDialogue from "./EditProfileDialog";
 
 const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
   const [like, setLike] = useState(false)
@@ -20,6 +23,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
   const [tweetData, setTweetData] = useState(tweet_data)
   const [bookMarked, setBookMarked] = useState(tweet_data.bookMarked)
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [reportDialogOpen,setReportDialogOpen] = React.useState(false);
   // const [currentUser, setCurrentUser] = useState();
 
   useEffect(() => {
@@ -133,6 +137,13 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
       console.log(r);
     });
   }
+  const reportPost = () => {
+    setReportDialogOpen(true);
+  }
+
+  const onReportClose = (hasChanged) => {
+    setReportDialogOpen(false);
+  }
 
   return (
     <div className="post">
@@ -168,7 +179,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
                 {
                   (currUser.id != tweet_data.user_id)
                   &&
-                    <MenuItem className="postMenu" >
+                    <MenuItem className="postMenu" onClick={reportPost} >
                       <FlagOutlinedIcon style={{"marginRight": "5px"}}/>
                       Report
                     </MenuItem>}
@@ -197,6 +208,8 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
               <Tooltip title="BookMark"><BookmarkBorderOutlinedIcon onClick={()=>bookMark()} fontSize="small" /></Tooltip>
            }
         </div>
+        <ReportDialog onClose={onReportClose} open={reportDialogOpen} user={user} />
+
       </div>
     </div>
   );
