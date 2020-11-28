@@ -118,22 +118,23 @@ public class PostRepository {
     public List<Comment> getTweetsAndReplies(final int user_id) {
         return this.jdbcTemplate.query(
             "select * from\n" +
-                "    (select *  from (select * from tweet where user_id != " + user_id + " and reply_to_id=0) as t\n" +
-                "    Inner join \n" +
-                "    (select share_post_id id from\n" +
-                "                shares\n" +
-                "                where\n" +
-                "                user_id = " + user_id + "\n" +
-                "                union\n" +
-                "                select\n" +
-                "                like_post_id id\n" +
-                "                from\n" +
-                "                likes\n" +
-                "                where\n" +
-                "                user_id = " + user_id + "\n" +
-                "        ) sl using (id)\n" +
-                ") as selected inner join (select id user_id, username, avatar from users) as u using (user_id)\n" +
-                "order by selected.created_at desc", this.tnrMapper);
+                    "    (select *  from (select * from tweet where user_id != ? and reply_to_id=0) as t\n" +
+                    "                        Inner join\n" +
+                    "                    (select share_post_id id from shares\n" +
+                    "                     where\n" +
+                    "                             user_id = ? \n" +
+                    "                     union\n" +
+                    "                     select\n" +
+                    "                         id\n" +
+                    "                     from\n" +
+                    "                         tweet as tw\n" +
+                    "                     where\n" +
+                    "                             tw.reply_to_id=1 and tw.user_id =? \n" +
+                    "                    ) sl using (id)\n" +
+                    "    ) as selected inner join (select id user_id, username, avatar from users) as u using (user_id)\n" +
+                    "    order by selected.created_at desc",
+                new Object[]{user_id, user_id,user_id},
+                this.tnrMapper);
     }
 
     public List<Comment> getLikes(final int user_id) {
@@ -147,12 +148,32 @@ public class PostRepository {
 
     public List<Comment> getPostsByFollow(final int user_id) {
         return this.jdbcTemplate.query(
-            "select t.*, u.id as userID, u.* from tweet t left join users u on u.id =t.user_id where t.user_id in " +
-                "(select follow_user_id from follow where user_id=?)\n and reply_to_id=0 " +
-                " union \n" +
-                "select t.*, u.id as userID, u.* from tweet t left join users u on u.id =t.user_id where  user_id=? and reply_to_id=0 order by 1 desc"
-            , new Object[]{user_id, user_id},
-            this.mapper);
+            "select * from (\n" +
+                    "    (\n" +
+                    "         select id,\n" +
+                    "                content,\n" +
+                    "                user_id,\n" +
+                    "                created_at,\n" +
+                    "                modified_at,\n" +
+                    "                likes,\n" +
+                    "                shares,\n" +
+                    "                photo,\n" +
+                    "                reply_to_id,\n" +
+                    "                comments\n" +
+                    "         from tweet\n" +
+                    "                  inner join\n" +
+                    "                  (select follow_user_id user_id from follow where user_id = ?) sh using (user_id)\n" +
+                    "     )\n" +
+                    "         union\n" +
+                    "         (select * from tweet where user_id = ?)\n" +
+                    ") as selected\n" +
+                    "    left join (select id user_id, username, email, avatar from users)as u using (user_id)\n" +
+                    "    where selected.id not in (select tweet_id as id from reports where user_id = ?)\n" +
+                    "    and\n" +
+                    "    selected.reply_to_id =0\n" +
+                    "    order by selected.created_at desc"
+            , new Object[]{user_id, user_id,user_id},
+            this.tnrMapper);
     }
 
     public List<Comment> getCommentsByTweetId(final int tweet_id) {

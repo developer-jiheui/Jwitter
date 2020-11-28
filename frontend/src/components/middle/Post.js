@@ -208,7 +208,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
               <Tooltip title="BookMark"><BookmarkBorderOutlinedIcon onClick={()=>bookMark()} fontSize="small" /></Tooltip>
            }
         </div>
-        <ReportDialog onReportClose={onReportClose} open={reportDialogOpen} tweet_id={tweet_data.id} user_id={user.id} />
+        <ReportDialog onReportClose={onReportClose} open={reportDialogOpen} tweet_id={tweet_data.id} user_id={currUser.id} />
 
       </div>
     </div>
