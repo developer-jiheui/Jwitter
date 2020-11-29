@@ -1,6 +1,5 @@
 package com.jwt.jwitter.web.controllers;
 
-import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.dto.in.SignInDto;
 import com.jwt.jwitter.web.dto.in.SignUpDto;
 import com.jwt.jwitter.web.service.AuthService;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,8 +42,7 @@ public final class AuthController {
     public ResponseEntity<?> signIn(@RequestBody SignInDto signInDto) {
         try {
             return ResponseEntity.ok(this.authService.signIn(signInDto));
-        } catch (final Exception exc) {
-            exc.printStackTrace();
+        } catch (final UsernameNotFoundException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
     }
