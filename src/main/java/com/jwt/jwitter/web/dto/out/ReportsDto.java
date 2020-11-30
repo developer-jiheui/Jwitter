@@ -10,4 +10,6 @@ public final class ReportsDto {
     private final int reports;
 
     private final String content;
+
+    private final boolean disabled;
 }

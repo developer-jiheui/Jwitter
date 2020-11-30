@@ -31,10 +31,22 @@ public class AdminRepository {
     }
 
     public List<ReportsDto> reports() {
-        return this.jdbcTemplate.query("SELECT count(*) as cnt,r.tweet_id as postId,t.content as content from reports r inner join tweet t on t.id = r.tweet_id group by r.tweet_id,t.content ", (rs, rowNum) -> new ReportsDto(
+        return this.jdbcTemplate.query("SELECT count(*) as cnt,r.tweet_id as postId,t.content as content,og.id as blocked from reports r inner join tweet t on t.id = r.tweet_id left join original_tweet_content og on og.tweet_id = t.id group by r.tweet_id,t.content,og.id having count(*)>=1", (rs, rowNum) -> new ReportsDto(
             rs.getInt("postId"),
             rs.getInt("cnt"),
-            rs.getString("content")
+            rs.getString("content"),
+            rs.getObject("blocked") != null
         ));
+    }
+
+    public void enableTweet(final int id) {
+        final String originalReport = this.jdbcTemplate.queryForObject("SELECT content from original_tweet_content where tweet_id = ?", String.class, id);
+        this.jdbcTemplate.update("UPDATE tweet set content=? where id = ?", originalReport, id);
+        this.jdbcTemplate.update("DELETE from original_tweet_content where tweet_id = ?", id);
+    }
+
+    public void disableTweet(final int id) {
+        this.jdbcTemplate.update("INSERT INTO original_tweet_content(tweet_id,content) values (?,(select content from tweet where id= ?))", id, id);
+        this.jdbcTemplate.update("UPDATE tweet set content='This block was disabled!!!!' where id = ?", id);
     }
 }

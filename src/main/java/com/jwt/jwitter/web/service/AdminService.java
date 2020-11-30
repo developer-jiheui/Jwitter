@@ -30,4 +30,12 @@ public class AdminService {
     public void disable(final int id) {
         this.adminRepository.disable(id);
     }
+
+    public void enableTweet(final int id) {
+       this.adminRepository.enableTweet(id) ;
+    }
+
+    public void disableTweet(final int id) {
+        this.adminRepository.disableTweet(id) ;
+    }
 }

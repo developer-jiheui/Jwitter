@@ -1,6 +1,7 @@
 package com.jwt.jwitter.web.controllers;
 
 import com.jwt.jwitter.web.dto.out.AdminUsersDto;
+import com.jwt.jwitter.web.dto.out.ReportsDto;
 import com.jwt.jwitter.web.service.AdminService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,26 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
 
-
     @PostMapping("/users/{id}/disable")
     public ResponseEntity<?> disable(@PathVariable final int id) {
         this.adminService.disable(id);
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/reports")
+    public ResponseEntity<List<ReportsDto>> reports() {
+        return ResponseEntity.ok(this.adminService.reports());
+    }
+
+    @PostMapping("/tweets/{id}/enable")
+    public ResponseEntity<?> enableTweet(@PathVariable final int id) {
+        this.adminService.enableTweet(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/tweets/{id}/disable")
+    public ResponseEntity<?> disableTweet(@PathVariable final int id) {
+        this.adminService.disableTweet(id);
+        return ResponseEntity.noContent().build();
+    }
 }
