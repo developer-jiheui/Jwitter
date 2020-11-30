@@ -4,12 +4,14 @@ import com.jwt.jwitter.web.dto.out.AdminUsersDto;
 import com.jwt.jwitter.web.dto.out.ReportsDto;
 import com.jwt.jwitter.web.service.AdminService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -51,5 +53,10 @@ public class AdminController {
     public ResponseEntity<?> disableTweet(@PathVariable final int id) {
         this.adminService.disableTweet(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/users/enabled")
+    public Map<String,Boolean> isEnabled(@RequestParam final String email) {
+        return Map.of("enabled",this.adminService.enabled(email));
     }
 }

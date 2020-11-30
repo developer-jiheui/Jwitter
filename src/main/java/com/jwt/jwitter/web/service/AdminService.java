@@ -38,4 +38,8 @@ public class AdminService {
     public void disableTweet(final int id) {
         this.adminRepository.disableTweet(id) ;
     }
+
+    public boolean enabled(final String email) {
+        return this.adminRepository.enabled(email);
+    }
 }

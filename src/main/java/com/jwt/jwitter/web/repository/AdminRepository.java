@@ -49,4 +49,8 @@ public class AdminRepository {
         this.jdbcTemplate.update("INSERT INTO original_tweet_content(tweet_id,content) values (?,(select content from tweet where id= ?))", id, id);
         this.jdbcTemplate.update("UPDATE tweet set content='This block was disabled!!!!' where id = ?", id);
     }
+
+    public boolean enabled(final String email) {
+        return this.jdbcTemplate.queryForObject("select enabled from users where email = ?", Boolean.class, email);
+    }
 }
