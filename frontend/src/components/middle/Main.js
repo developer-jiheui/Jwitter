@@ -1,7 +1,6 @@
 import React,{ useEffect,useState } from 'react'
 import Tweet from '../middle/Tweet';
 import Post from '../middle/Post';
-import Search from '../middle/Search';
 import axios from 'axios';
 import CommentDialog from './CommentDialog';
 //import { useStateValue } from "../../utils/StateProvider";
@@ -62,7 +61,7 @@ function Main() {
     }
 
     const getComment = (viewPost) =>{
-        axios.get(`/api/auth/comments/${viewPost.tweet_data.id}`, {
+         axios.get(`/api/auth/comments/${viewPost.tweet_data.id}`, {
             headers: {
                 "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
         }).then((res)=>{
@@ -94,11 +93,6 @@ function Main() {
                  })
                 }
             </div> */}
-
-            {<Search
-                currUser={user}
-                postOnClick={postOnClick}
-            />}
 
             <CommentDialog 
             open={leaveComment} 

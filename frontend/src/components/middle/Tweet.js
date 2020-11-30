@@ -3,6 +3,7 @@ import { Avatar, Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import axios from 'axios';
+
 const Tweet= ({user,tweetOnChange, reply}) => {
     const [tweet, setTweet] = useState({
         content:'',

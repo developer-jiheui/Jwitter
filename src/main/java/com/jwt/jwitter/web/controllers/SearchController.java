@@ -35,6 +35,17 @@ public class SearchController {
         }
     }
 
+    @GetMapping("/searchTag/{tag}")
+    public ResponseEntity<?> getPostByTag(@PathVariable(name = "tag") final String tag) {
+        final List<Comment> post = this.postService.getPostByTag(tag);
+        try {
+            return ResponseEntity.ok(post);
+        } catch (final Exception e) {
+            log.error("An error occured", e);
+            return new ResponseEntity<>(Map.of("message", "No user profile found"), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/tweet-search/{searchWord}")
     public ResponseEntity<?> searchTweets(@PathVariable(name = "searchWord") final String name) {
         final List<Comment> tweets = this.postService.searchTweets(name);

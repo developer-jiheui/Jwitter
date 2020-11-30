@@ -23,3 +23,4 @@ weedfs.properties
 *.DS_Store
 
 src/bin/.*
+src/test/java/selenium/.*

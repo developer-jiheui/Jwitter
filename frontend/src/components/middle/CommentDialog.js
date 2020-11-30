@@ -16,7 +16,6 @@ import axios from 'axios';
 
 function CommentDialog(props) {
     const {onClose, open, main_post,main_post_user,comments, comment_user} = props
-    console.log("props",props)
     const handleClose = () => {
         onClose(open);
   };
