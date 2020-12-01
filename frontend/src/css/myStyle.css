@@ -664,3 +664,7 @@ label:focus,
 .like{
   color: red;
 }
+.post_headerDescription span {
+  color: var(--twitter-color);
+  font-weight: 500 ;
+}
