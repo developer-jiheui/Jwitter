@@ -50,7 +50,8 @@ public class UsersRepository {
                 rs.getString("location"),
                 rs.getString("website"),
                 rs.getDate("created_at"),
-                this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto"))
+                this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto")),
+                rs.getBoolean("enabled")
             ));
 
     }
@@ -113,7 +114,8 @@ public class UsersRepository {
                 rs.getString("location"),
                 rs.getString("website"),
                 rs.getDate("created_at"),
-                this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto"))
+                this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto")),
+                rs.getBoolean("enabled")
             ));
     }
 }

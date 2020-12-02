@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import Login from './components/user/Login'
+import Admin from './components/user/Admin';
 import Sidebar from './components/left/Sidebar'
 import Main from './components/middle/Main'
 import Profile from './components/middle/Profile'
@@ -10,7 +11,6 @@ import Notifications from './components/middle/Notifications'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 import { useStateValue } from "./utils/StateProvider";
-import SidebarOption from "./components/left/SidebarOption";
 
 
 function App() {
@@ -54,6 +54,9 @@ function App() {
                         <Sidebar ativeOne="Home"/>
                         <Main/>
                         <Embed/>
+                    </Route>
+                    <Route path="/admin">
+                        <Admin/>
                     </Route>
                     <Route path="/login">
                         <Login />

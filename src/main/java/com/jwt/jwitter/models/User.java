@@ -22,6 +22,7 @@ public final class User {
     private String website;
     private Date joinday;
     private String coverPhoto;
+    private boolean enabled;
 
     public User(final SignUpDto signUpDto, final String encodedPassword) {
         this.id = -1;

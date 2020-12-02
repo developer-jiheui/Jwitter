@@ -12,9 +12,12 @@ public final class UserDetailsImpl implements UserDetails {
 
     private final String email;
 
+    private final boolean enabled;
+
     public UserDetailsImpl(final User user) {
         this.email = user.getEmail();
         this.password = user.getPassword();
+        this.enabled = user.isEnabled();
     }
 
     @Override
@@ -51,6 +54,6 @@ public final class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.enabled;
     }
 }

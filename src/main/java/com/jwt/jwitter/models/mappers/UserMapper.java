@@ -1,7 +1,6 @@
 package com.jwt.jwitter.models.mappers;
 
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
-import com.jwt.jwitter.models.Post;
 import com.jwt.jwitter.models.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,7 +35,8 @@ public final class UserMapper implements RowMapper<User> {
             rs.getString("location"),
             rs.getString("website"),
             rs.getDate("created_at"),
-            this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto"))
+            this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto")),
+            rs.getBoolean("enabled")
         );
     }
 }
