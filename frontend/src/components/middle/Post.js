@@ -146,7 +146,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
   }
 
   return (
-    <div className="post">
+    <div className="preact-hashtagost">
       <div className="post_avatar">
         <Avatar src={user.avatar} />
       </div>
