@@ -3,15 +3,16 @@ package com.jwt.jwitter.web.repository;
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.models.mappers.UserMapper;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.List;
 
 @Repository
 @SuppressWarnings("ALL")
@@ -117,5 +118,29 @@ public class UsersRepository {
                 this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto")),
                 rs.getBoolean("enabled")
             ));
+    }
+
+    public int toggleFollow(int user_id, int follow_user_id, boolean toggle) {
+        if (toggle) {
+            this.jdbcTemplate.update(con -> {
+                PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO follow (user_id,follow_user_id) values (?,?)");
+                preparedStatement.setInt(1, user_id);
+                preparedStatement.setInt(2, follow_user_id);
+                return preparedStatement;
+            });
+            this.jdbcTemplate.update("update follow set follow=(select follower+1 from follow where id=?) where id=?", user_id, follow_user_id);
+        } else {
+            this.jdbcTemplate.update("delete from follow where user_id =? and follow_user_id=?", user_id, follow_user_id);
+            this.jdbcTemplate.update(con -> {
+                PreparedStatement preparedStatement = con.prepareStatement("update follow set likes=(select \n" +
+                        " CASE WHEN likes-1<0 THEN 0" +
+                        " ELSE follow-1" +
+                        " END from tweet where id=?) where id=?");
+                preparedStatement.setInt(1, follow_user_id);
+                preparedStatement.setInt(2, follow_user_id);
+                return preparedStatement;
+            });
+        }
+        return this.jdbcTemplate.queryForObject("Select user from follow where id = ?", new Object[]{follow_user_id}, Integer.class);
     }
 }

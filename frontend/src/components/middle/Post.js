@@ -14,7 +14,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import ReportDialog from "../admin/ReportDialog";
-
+import ReactHashtag from "react-hashtag";
 import EditProfileDialogue from "./EditProfileDialog";
 
 const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
@@ -146,7 +146,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
   }
 
   return (
-    <div className="post">
+    <div className="preact-hashtagost">
       <div className="post_avatar">
         <Avatar src={user.avatar} />
       </div>
@@ -158,9 +158,11 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
               <span className="post_headerSpecial">
                 <VerifiedUserIcon className="post_badge" />
               </span>
+              {(!viewOnly ) &&
               <IconButton className="postOptions"  aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <MoreHorizOutlinedIcon/>
               </IconButton>
+               }
               <Menu
                   id="simple-menu"
                   anchorEl={anchorEl}
@@ -169,7 +171,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
                   onClose={handleClose}
               >
                 {
-                  (currUser.id === tweet_data.user_id)
+                  ( currUser.id === tweet_data.user_id)
                   &&
                   <MenuItem className="postMenu" onClick={deletePost}>
                     <DeleteForeverOutlinedIcon style={{"marginRight": "5px"}}/>
@@ -187,7 +189,7 @@ const Post = ({ tweet_data, user, postOnClick, viewOnly, currUser }) => {
             </h3>
           </div>
           <div className="post_headerDescription">
-            <p>{tweetData.content}</p>
+            <ReactHashtag onHashtagClick={val => alert(val)}>{tweetData.content}</ReactHashtag>
             {tweetData.photo && <img className="tweet_photo" src={tweetData.photo} alt=""/>}
           </div>
         </div>

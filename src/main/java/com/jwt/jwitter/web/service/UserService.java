@@ -2,7 +2,6 @@ package com.jwt.jwitter.web.service;
 
 import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.web.repository.UsersRepository;
-import java.util.List;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,4 +50,9 @@ public class UserService {
 
     @Transactional
     public boolean isSameUserName(final User user) { return this.usersRepository.isSameUserName(user);}
+
+    @Transactional()
+    public int toggleFollow(final int user_id, final int follow_user_id, boolean toggle) {
+        return this.usersRepository.toggleFollow(user_id, follow_user_id, toggle);
+    }
 }
