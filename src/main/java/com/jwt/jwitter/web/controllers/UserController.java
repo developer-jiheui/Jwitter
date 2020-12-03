@@ -1,14 +1,9 @@
 package com.jwt.jwitter.web.controllers;
 
 import com.jwt.jwitter.models.User;
-import com.jwt.jwitter.models.Post;
 import com.jwt.jwitter.web.dto.in.UserDto;
+import com.jwt.jwitter.web.service.AuthService;
 import com.jwt.jwitter.web.service.UserService;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,12 +12,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User Controller
@@ -34,6 +29,8 @@ public final class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthService authService;
 
     @GetMapping("/get-profile")
     public ResponseEntity<?> getUserProfile() {
@@ -110,14 +107,14 @@ public final class UserController {
         }
     }
 
-    @GetMapping("/toggleFollow/{tweet_id}/{toggle}")
-    public ResponseEntity<?> toggleLike(@PathVariable("tweet_id") int tweet_id, @PathVariable("toggle") boolean toggle) {
+    @GetMapping("/toggleFollow/{follow_user_id}/{toggle}")
+    public ResponseEntity<?> toggleFollow(@PathVariable("follow_user_id") int user_id, @PathVariable("toggle") boolean toggle) {
         try {
             final UserDetails auth = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             final String email = auth.getUsername();
             User u = authService.getUserByEmail(email);
             int user_id = u.getId();
-            return ResponseEntity.ok(this.postService.toggleLike(user_id, tweet_id, toggle));
+            return ResponseEntity.ok(this.userService.toggleFollow(user_id, follow_user_id, toggle));
         } catch (final AuthenticationException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }

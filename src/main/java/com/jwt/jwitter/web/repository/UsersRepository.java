@@ -120,27 +120,27 @@ public class UsersRepository {
             ));
     }
 
-    public int toggleFollow(int user_id, int tweet_id, boolean toggle) {
+    public int toggleFollow(int user_id, int follow_user_id, boolean toggle) {
         if (toggle) {
             this.jdbcTemplate.update(con -> {
-                PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO likes (user_id,like_post_id) values (?,?)");
+                PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO follow (user_id,follow_user_id) values (?,?)");
                 preparedStatement.setInt(1, user_id);
-                preparedStatement.setInt(2, tweet_id);
+                preparedStatement.setInt(2, follow_user_id);
                 return preparedStatement;
             });
-            this.jdbcTemplate.update("update tweet set likes=(select likes+1 from tweet where id=?) where id=?", tweet_id, tweet_id);
+            this.jdbcTemplate.update("update follow set follow=(select follower+1 from follow where id=?) where id=?", user_id, follow_user_id);
         } else {
-            this.jdbcTemplate.update("delete from likes where user_id =? and like_post_id=?", user_id, tweet_id);
+            this.jdbcTemplate.update("delete from follow where user_id =? and follow_user_id=?", user_id, follow_user_id);
             this.jdbcTemplate.update(con -> {
-                PreparedStatement preparedStatement = con.prepareStatement("update tweet set likes=(select \n" +
+                PreparedStatement preparedStatement = con.prepareStatement("update follow set likes=(select \n" +
                         " CASE WHEN likes-1<0 THEN 0" +
-                        " ELSE likes-1" +
+                        " ELSE follow-1" +
                         " END from tweet where id=?) where id=?");
-                preparedStatement.setInt(1, tweet_id);
-                preparedStatement.setInt(2, tweet_id);
+                preparedStatement.setInt(1, follow_user_id);
+                preparedStatement.setInt(2, follow_user_id);
                 return preparedStatement;
             });
         }
-        return this.jdbcTemplate.queryForObject("Select likes from tweet where id = ?", new Object[]{tweet_id}, Integer.class);
+        return this.jdbcTemplate.queryForObject("Select user from follow where id = ?", new Object[]{follow_user_id}, Integer.class);
     }
 }
