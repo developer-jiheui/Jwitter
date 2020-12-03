@@ -72,6 +72,12 @@ function Search(props) {
                 break;
         }
     }
+    const handleSearchInputChange =() =>{
+        
+
+        search_tweet();
+        search();
+    }
 
     const postOnClick =() =>{}
 
@@ -84,8 +90,8 @@ function Search(props) {
             <div className="embed_input">
                 <SearchIcon className="embed_search" />
                 {/* <SearchIcon className="embed_search" value={searchWord} onChange={()=>search()}/> */}
-                <input placeholder="Search Jitter" type="text" 
-                onChange={e=>setSearchWord(e.target.value)} 
+                <input placeholder="Search Jitter" type="text"
+                onChange={e=>setSearchWord(e.target.value)}
                 onKeyPress={e =>{if (e.key === 'Enter') {
                     searchTag();
                     search_tweet();
@@ -102,7 +108,7 @@ function Search(props) {
                     <Tab label="Tweets"  />
                     <Tab label="Users"  />
                     <Tab label="Tags"  />
-                   
+
                 </Tabs>
             </div>
             <TabPanel value={value} index={0}>

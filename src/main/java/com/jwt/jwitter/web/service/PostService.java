@@ -35,6 +35,11 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
+    public List<Comment> getPostByTag(final String tag) {
+        return this.repository.getPostByTag(tag);
+    }
+
+    @Transactional(readOnly = true)
     public List<Comment> getPostsByFollow(final int user_id) {
         final List<Comment> posts = this.repository.getPostsByFollow(user_id);
         this.repository.checkBookMarks(posts, user_id);

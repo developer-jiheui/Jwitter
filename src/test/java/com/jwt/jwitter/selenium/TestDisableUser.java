@@ -52,11 +52,11 @@ final class TestDisableUser {
         HttpEntity request = new HttpEntity(headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-            url,
-            HttpMethod.GET,
-            request,
-            String.class,
-            email
+                url,
+                HttpMethod.GET,
+                request,
+                String.class,
+                email
         );
         final Map map = new ObjectMapper().readValue(response.getBody(), Map.class);
         Assertions.assertEquals(map.get("enabled"), enabled);

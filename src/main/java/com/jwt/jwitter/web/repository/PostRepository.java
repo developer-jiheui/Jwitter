@@ -57,6 +57,14 @@ public class PostRepository {
         return rs;
     }
 
+    public List<Comment> getPostByTag(String tag) {
+        return this.jdbcTemplate.query(
+                "select t.*, u.*, u.id as user_id from tweet t "+
+                "left join users u on u.id=t.user_id "+
+                "where content LIKE '%' || '#"+tag+"' || '%'  and reply_to_id=0",
+                this.mapper);
+    }
+
     public int toggleShare(int user_id, int tweet_id, boolean toggle) {
         if (toggle) {
             this.jdbcTemplate.update(con -> {
