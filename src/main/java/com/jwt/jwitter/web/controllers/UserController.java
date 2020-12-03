@@ -13,6 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -104,6 +107,19 @@ public final class UserController {
         } catch (final Exception e) {
             log.error("An error occured", e);
             return new ResponseEntity<>(Map.of("message", "No user profile found"), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/toggleFollow/{tweet_id}/{toggle}")
+    public ResponseEntity<?> toggleLike(@PathVariable("tweet_id") int tweet_id, @PathVariable("toggle") boolean toggle) {
+        try {
+            final UserDetails auth = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            final String email = auth.getUsername();
+            User u = authService.getUserByEmail(email);
+            int user_id = u.getId();
+            return ResponseEntity.ok(this.postService.toggleLike(user_id, tweet_id, toggle));
+        } catch (final AuthenticationException exc) {
+            return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
     }
 }

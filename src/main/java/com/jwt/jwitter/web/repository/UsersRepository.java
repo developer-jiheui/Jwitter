@@ -3,15 +3,16 @@ package com.jwt.jwitter.web.repository;
 import com.jwt.jwitter.avatars.AvatarUrlProvider;
 import com.jwt.jwitter.models.User;
 import com.jwt.jwitter.models.mappers.UserMapper;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.List;
 
 @Repository
 @SuppressWarnings("ALL")
@@ -117,5 +118,29 @@ public class UsersRepository {
                 this.avatarUrlProvider.normalizeUrl(rs.getString("coverPhoto")),
                 rs.getBoolean("enabled")
             ));
+    }
+
+    public int toggleFollow(int user_id, int tweet_id, boolean toggle) {
+        if (toggle) {
+            this.jdbcTemplate.update(con -> {
+                PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO likes (user_id,like_post_id) values (?,?)");
+                preparedStatement.setInt(1, user_id);
+                preparedStatement.setInt(2, tweet_id);
+                return preparedStatement;
+            });
+            this.jdbcTemplate.update("update tweet set likes=(select likes+1 from tweet where id=?) where id=?", tweet_id, tweet_id);
+        } else {
+            this.jdbcTemplate.update("delete from likes where user_id =? and like_post_id=?", user_id, tweet_id);
+            this.jdbcTemplate.update(con -> {
+                PreparedStatement preparedStatement = con.prepareStatement("update tweet set likes=(select \n" +
+                        " CASE WHEN likes-1<0 THEN 0" +
+                        " ELSE likes-1" +
+                        " END from tweet where id=?) where id=?");
+                preparedStatement.setInt(1, tweet_id);
+                preparedStatement.setInt(2, tweet_id);
+                return preparedStatement;
+            });
+        }
+        return this.jdbcTemplate.queryForObject("Select likes from tweet where id = ?", new Object[]{tweet_id}, Integer.class);
     }
 }

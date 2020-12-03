@@ -51,4 +51,10 @@ public class UserService {
 
     @Transactional
     public boolean isSameUserName(final User user) { return this.usersRepository.isSameUserName(user);}
+
+    @Transactional()
+    public int toggleFollow(final int user_id, final int tweet_id, boolean toggle) {
+        return this.repository.toggleFollow(user_id, tweet_id, toggle);
+    }
+    Insert into follow (current userid , followuserid)
 }
