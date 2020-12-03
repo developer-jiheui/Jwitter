@@ -49,6 +49,7 @@ function Search(props) {
 
     const searchTag =async() =>{
         let bearer = 'Bearer ' + JSON.parse(JSON.stringify(localStorage.getItem('jwt')));
+        console.log(searchWord)
         await axios.get(`/api/auth/searchTag/${searchWord}`, {
             headers: {
                 Authorization: bearer
