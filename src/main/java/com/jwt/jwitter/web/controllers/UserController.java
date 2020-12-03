@@ -113,7 +113,7 @@ public final class UserController {
             final UserDetails auth = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             final String email = auth.getUsername();
             User u = authService.getUserByEmail(email);
-            int user_id = u.getId();
+            int users_id = u.getId();
             return ResponseEntity.ok(this.userService.toggleFollow(user_id, follow_user_id, toggle));
         } catch (final AuthenticationException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
