@@ -209,8 +209,10 @@ public class PostRepository {
     }
     public List<Comment> searchTweet(final String tweet) {
         return this.jdbcTemplate.query(
-                "select t.*,u.*,u.id as user_id from tweet t left join users u on u.id =t.user_id where t.content like '%"+tweet+"%'",this.mapper);
+                "select t.*,u.*,u.id as user_id from tweet t left join users u on u.id =t.user_id where content like '%"+tweet+"%'",this.mapper);
 
     }
+
+
 
 }
