@@ -123,25 +123,20 @@ public class PostRepository {
         );
     }
 
+    //get tweets that the current user commented and/or other users tweet that the current user shared
     public List<Comment> getTweetsAndReplies(final int user_id) {
         return this.jdbcTemplate.query(
-            "select * from\n" +
-                    "    (select *  from (select * from tweet where user_id != ? and reply_to_id=0) as t\n" +
-                    "                        Inner join\n" +
-                    "                    (select share_post_id id from shares\n" +
-                    "                     where\n" +
-                    "                             user_id = ? \n" +
-                    "                     union\n" +
-                    "                     select\n" +
-                    "                         id\n" +
-                    "                     from\n" +
-                    "                         tweet as tw\n" +
-                    "                     where\n" +
-                    "                             tw.reply_to_id=1 and tw.user_id =? \n" +
-                    "                    ) sl using (id)\n" +
-                    "    ) as selected inner join (select id user_id, username, avatar from users) as u using (user_id)\n" +
-                    "    where selected.id not in (select tweet_id as id from reports where user_id = ?)\n" +
-                    "    order by selected.created_at desc",
+            "select * from(\n" +
+                    "            select * from tweet where id in\n" +
+                    "                (select share_post_id id from shares\n" +
+                    "                 where user_id = ? and share_post_id not in (select id from tweet where user_id = ?)\n" +
+                    "                 union\n" +
+                    "                 select reply_to_id from tweet as tw\n" +
+                    "                 where tw.reply_to_id!=0 and tw.user_id =?)\n" +
+                    "                ) as selected inner join (select id user_id, username, avatar from users) as u using (user_id)\n" +
+                    "where selected.id not in (select tweet_id as id from reports where user_id =?)\n" +
+                    "\n" +
+                    "order by selected.created_at desc",
                 new Object[]{user_id, user_id,user_id,user_id},
                 this.tnrMapper);
     }
@@ -222,8 +217,10 @@ public class PostRepository {
     }
     public List<Comment> searchTweet(final String tweet) {
         return this.jdbcTemplate.query(
-                "select t.*,u.*,u.id as user_id from tweet t left join users u on u.id =t.user_id where t.content like '%"+tweet+"%'",this.mapper);
+                "select t.*,u.*,u.id as user_id from tweet t left join users u on u.id =t.user_id where content like '%"+tweet+"%'",this.mapper);
 
     }
+
+
 
 }
