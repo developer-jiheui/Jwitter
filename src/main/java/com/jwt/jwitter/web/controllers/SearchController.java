@@ -37,6 +37,7 @@ public class SearchController {
 
     @GetMapping("/searchTag/{tag}")
     public ResponseEntity<?> getPostByTag(@PathVariable(name = "tag") final String tag) {
+        System.out.println(tag);
         final List<Comment> post = this.postService.getPostByTag(tag);
         try {
             return ResponseEntity.ok(post);
