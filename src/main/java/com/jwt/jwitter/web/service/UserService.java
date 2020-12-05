@@ -41,6 +41,11 @@ public class UserService {
     }
 
     @Transactional
+    public boolean addFollowing(final int currUserId, final int userid) {
+        return this.usersRepository.addFollowing(currUserId, userid);
+    }
+
+    @Transactional
     public List<User> getFollowing(final int userid) {
         return this.usersRepository.getFollowing(userid);
     }

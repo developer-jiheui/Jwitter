@@ -61,6 +61,11 @@ public class UsersRepository {
         this.jdbcTemplate.update("UPDATE users set avatar=? where id=?", fileId, userId);
     }
 
+    public boolean addFollowing(int currUserId, int user_id) {
+        return this.jdbcTemplate.update("INSERT INTO follow values (" + currUserId+ "," + user_id+")")==1;
+    }
+
+
     public List<User> getFollowing(final int userId) {
         return this.jdbcTemplate.query("select * from\n" +
             "    (select follow_user_id id from follow where user_id = " + userId + "\n" +

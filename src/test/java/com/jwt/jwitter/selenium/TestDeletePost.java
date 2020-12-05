@@ -75,8 +75,6 @@ public class TestDeletePost {
         driver.navigate().refresh();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-
-
         {
             WebElement element = driver.findElement(By.cssSelector(".post:nth-child(1) .MuiButtonBase-root .MuiSvgIcon-root"));
             Actions builder = new Actions(driver);

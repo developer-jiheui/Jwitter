@@ -87,6 +87,19 @@ public final class UserController {
         }
     }
 
+    @PutMapping("/add-following/{user_id}")
+    public ResponseEntity<?> addFollowing(@PathVariable("user_id") int user_id) {
+        User user = this.userService.getCurrentUser();
+        int currUserid = user.getId();
+        try {
+            return ResponseEntity.ok(this.userService.addFollowing(currUserid, user_id));
+        } catch (final Exception e) {
+            log.error("An error occured", e);
+            return new ResponseEntity<>(Map.of("message", "No user profile found"), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @GetMapping("/get-following/{user_id}")
     public ResponseEntity<?> getFollowing(@PathVariable("user_id") int user_id) {
         try {
@@ -114,7 +127,9 @@ public final class UserController {
             final String email = auth.getUsername();
             User u = authService.getUserByEmail(email);
             int users_id = u.getId();
-            return ResponseEntity.ok(this.userService.toggleFollow(user_id, follow_user_id, toggle));
+            return ResponseEntity.ok(this.userService.getFollower(user_id));
+
+//            return ResponseEntity.ok(this.userService.toggleFollow(user_id, follow_user_id, toggle));
         } catch (final AuthenticationException exc) {
             return new ResponseEntity<>(Map.of("message", "Bad credentials"), HttpStatus.FORBIDDEN);
         }
